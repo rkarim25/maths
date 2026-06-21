@@ -34,6 +34,22 @@
   text-align: center;
 }
 
+/* SVG Map Container */
+.svg-map-container {
+  text-align: center;
+  margin-bottom: var(--spacing-xl);
+  padding: var(--spacing-lg);
+  background: white;
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-light);
+}
+
+.world-map-svg {
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--border-radius-md);
+}
+
 .loading-map .spinner {
   width: 50px;
   height: 50px;
@@ -60,9 +76,26 @@
   margin-bottom: var(--spacing-xs);
 }
 
-.profile-info p {
-  color: var(--text-medium);
-  margin-bottom: 0;
+.year-selector {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  margin-top: var(--spacing-sm);
+}
+
+.year-selector label {
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+.year-selector select {
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--border-radius-sm);
+  border: 2px solid var(--background-medium);
+  background: white;
+  font-family: var(--font-heading);
+  font-weight: 600;
+  color: var(--text-dark);
 }
 
 .profile-actions {
@@ -144,11 +177,45 @@
 .land-icon {
   font-size: 3rem;
   margin-bottom: var(--spacing-md);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.land-icon img {
+  width: 60px;
+  height: 60px;
 }
 
 .land-content p {
   color: var(--text-medium);
-  margin-bottom: 0;
+  margin-bottom: var(--spacing-md);
+}
+
+.land-progress {
+  margin-top: var(--spacing-md);
+}
+
+.progress-bar {
+  width: 100%;
+  height: 12px;
+  background: var(--background-medium);
+  border-radius: 6px;
+  overflow: hidden;
+  margin-bottom: var(--spacing-xs);
+}
+
+.progress-fill {
+  height: 100%;
+  background: var(--secondary);
+  border-radius: 6px;
+  transition: width var(--transition-medium);
+}
+
+.progress-text {
+  font-size: 0.8rem;
+  color: var(--text-medium);
+  text-align: center;
 }
 
 .land-footer {

@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600">
+  <!-- Background -->
+  <rect width="800" height="600" fill="#e0f7fa" />
+  
+  <!-- Mountains -->
+  <polygon points="100,400 150,300 200,400" fill="#9e9e9e" />
+  <polygon points="150,400 200,250 250,400" fill="#757575" />
+  <polygon points="180,400 230,320 280,400" fill="#616161" />
+  
+  <!-- Forest -->
+  <circle cx="350" cy="350" r="80" fill="#4caf50" />
+  <circle cx="320" cy="320" r="60" fill="#388e3c" />
+  <circle cx="380" cy="330" r="70" fill="#2e7d32" />
+  
+  <!-- River -->
+  <path d="M500,100 Q550,200 500,300 Q450,400 500,500" stroke="#2196f3" stroke-width="20" fill="none" />
+  
+  <!-- Desert -->
+  <circle cx="650" cy="200" r="70" fill="#ffcc80" />
+  <circle cx="620" cy="180" r="50" fill="#ffb74d" />
+  
+  <!-- Ocean -->
+  <ellipse cx="200" cy="500" rx="150" ry="80" fill="#1976d2" />
+  
+  <!-- Title -->
+  <text x="400" y="50" font-family="Arial, sans-serif" font-size="36" text-anchor="middle" fill="#006064">The Kingdom of Numberland</text>
+</svg>

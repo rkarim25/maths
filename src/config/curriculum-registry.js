@@ -262,12 +262,56 @@ export const CURRICULUM = {
   },
   // Years 2-4 will be stubbed for now
   2: {
-    [TERMS.AUTUMN]: [],
-    [TERMS.SPRING]: [],
-    [TERMS.SUMMER]: []
+    [TERMS.AUTUMN]: [
+      {
+        id: 'y2-autumn-ep1',
+        title: 'The Royal Shopkeepers',
+        strand: STRANDS.OPERATIONS,
+        skillTag: 'addition-within-100',
+        learningObjective: 'Add two-digit numbers within 100',
+        description: 'Help the royal shopkeepers add up their sales'
+      },
+      {
+        id: 'y2-autumn-ep2',
+        title: 'The Missing Measurements',
+        strand: STRANDS.MEASUREMENT,
+        skillTag: 'measure-length-cm',
+        learningObjective: 'Measure length in centimeters',
+        description: 'Find the missing measurements in the royal palace'
+      }
+    ],
+    [TERMS.SPRING]: [
+      {
+        id: 'y2-spring-ep1',
+        title: 'The Fraction Feast',
+        strand: STRANDS.FRACTIONS,
+        skillTag: 'simple-fractions',
+        learningObjective: 'Recognize and name simple fractions',
+        description: 'Prepare a feast with fractional portions'
+      }
+    ],
+    [TERMS.SUMMER]: [
+      {
+        id: 'y2-summer-ep1',
+        title: 'The Geometry Garden',
+        strand: STRANDS.GEOMETRY,
+        skillTag: '2d-shapes-properties',
+        learningObjective: 'Identify and describe properties of 2D shapes',
+        description: 'Design a garden with different geometric shapes'
+      }
+    ]
   },
   3: {
-    [TERMS.AUTUMN]: [],
+    [TERMS.AUTUMN]: [
+      {
+        id: 'y3-autumn-ep1',
+        title: 'The Times Table Tournament',
+        strand: STRANDS.OPERATIONS,
+        skillTag: 'times-tables-2-5-10',
+        learningObjective: 'Recall multiplication tables for 2, 5, and 10',
+        description: 'Compete in the royal times table tournament'
+      }
+    ],
     [TERMS.SPRING]: [],
     [TERMS.SUMMER]: []
   },

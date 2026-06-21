@@ -1,0 +1,241 @@
+/* Strand Detail View Styles */
+
+.strand-detail {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: var(--spacing-md);
+}
+
+.strand-detail .header {
+  text-align: center;
+  margin-bottom: var(--spacing-xl);
+  position: relative;
+}
+
+.strand-detail .header h1 {
+  color: var(--primary);
+  margin-bottom: var(--spacing-xs);
+}
+
+.strand-detail .header p {
+  color: var(--text-medium);
+  font-size: 1.1rem;
+}
+
+/* Back Button */
+.back-button {
+  position: absolute;
+  left: 0;
+  top: 0;
+  background: var(--background-medium);
+  color: var(--text-dark);
+  font-size: 1rem;
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--border-radius-sm);
+  box-shadow: none;
+}
+
+.back-button:hover {
+  background: #e0d0c0;
+  transform: none;
+  box-shadow: var(--shadow-light);
+}
+
+/* Strand Content */
+.strand-content {
+  min-height: 300px;
+}
+
+.strand-content .loading {
+  min-height: 200px;
+}
+
+/* Episodes Grid */
+.episodes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: var(--spacing-lg);
+  margin-bottom: var(--spacing-xl);
+}
+
+/* Episode Card */
+.episode-card {
+  background: white;
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-light);
+  overflow: hidden;
+  transition: all var(--transition-medium);
+  border: 2px solid transparent;
+}
+
+.episode-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-medium);
+  border-color: var(--secondary);
+}
+
+.episode-header {
+  padding: var(--spacing-md) var(--spacing-lg);
+  border-bottom: 1px solid var(--background-medium);
+  background: linear-gradient(135deg, var(--background-light), white);
+}
+
+.episode-header h3 {
+  margin-bottom: var(--spacing-xs);
+  color: var(--text-dark);
+  font-size: 1.15rem;
+}
+
+.episode-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.skill-tag {
+  display: inline-block;
+  background: var(--secondary);
+  color: white;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-family: var(--font-heading);
+}
+
+.duration {
+  font-size: 0.8rem;
+  color: var(--text-light);
+}
+
+.episode-content {
+  padding: var(--spacing-lg);
+}
+
+.episode-content p {
+  color: var(--text-medium);
+  margin-bottom: var(--spacing-md);
+  font-size: 0.95rem;
+}
+
+.episode-actions {
+  display: flex;
+  gap: var(--spacing-sm);
+  flex-wrap: wrap;
+}
+
+.lesson-btn {
+  flex: 1;
+  min-width: 140px;
+  background: var(--primary);
+  font-size: 0.95rem;
+  padding: var(--spacing-sm) var(--spacing-md);
+}
+
+.practice-btn {
+  flex: 1;
+  min-width: 140px;
+  background: var(--secondary);
+  font-size: 0.95rem;
+  padding: var(--spacing-sm) var(--spacing-md);
+}
+
+.practice-btn:hover {
+  background: #3db9b1;
+}
+
+/* Strand Summary / Progress Overview */
+.strand-summary {
+  background: white;
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-light);
+  padding: var(--spacing-lg);
+  margin-bottom: var(--spacing-xl);
+}
+
+.strand-summary h2 {
+  color: var(--primary);
+  margin-bottom: var(--spacing-md);
+  text-align: center;
+}
+
+.progress-overview {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  gap: var(--spacing-md);
+}
+
+.progress-stat {
+  text-align: center;
+  flex: 1;
+  min-width: 100px;
+}
+
+.stat-value {
+  display: block;
+  font-family: var(--font-heading);
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--secondary);
+}
+
+.stat-label {
+  display: block;
+  font-size: 0.85rem;
+  color: var(--text-medium);
+  margin-top: var(--spacing-xs);
+}
+
+/* No Episodes State */
+.no-episodes {
+  text-align: center;
+  padding: var(--spacing-xxl);
+  background: white;
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-light);
+}
+
+.no-episodes p {
+  font-size: 1.2rem;
+  color: var(--text-medium);
+  margin-bottom: var(--spacing-lg);
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .strand-detail {
+    padding: var(--spacing-sm);
+  }
+
+  .strand-detail .header {
+    padding-top: 50px; /* Space for back button */
+  }
+
+  .back-button {
+    position: relative;
+    display: block;
+    width: 100%;
+    margin-bottom: var(--spacing-md);
+  }
+
+  .episodes-grid {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-md);
+  }
+
+  .episode-actions {
+    flex-direction: column;
+  }
+
+  .lesson-btn,
+  .practice-btn {
+    width: 100%;
+  }
+
+  .progress-overview {
+    flex-direction: column;
+    align-items: center;
+  }
+}

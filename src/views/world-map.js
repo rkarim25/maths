@@ -1,6 +1,6 @@
 // World map view
 import { getAppState } from '../app.js';
-import { getProfile } from '../services/profile-manager.js';
+import { getProfile, updateProfile } from '../services/profile-manager.js';
 import { navigateTo } from '../router.js';
 import { STRANDS, YEARS } from '../config/curriculum-registry.js';
 
@@ -76,9 +76,11 @@ function renderMap(profile) {
   
   // Create land cards for each strand in the current year
   const landsHTML = currentYear.strands.map(strand => {
-    // For now, we'll use a placeholder for progress
     // In a full implementation, this would come from the progress tracking system
+    // For now, we'll simulate some progress data
     const progress = Math.floor(Math.random() * 4); // 0-3 stars for demo
+    const episodesCompleted = Math.floor(Math.random() * 5); // 0-4 episodes
+    const totalEpisodes = 5; // Fixed for demo
     
     return `
       <div class="land-card" data-strand="${strand}">
@@ -90,10 +92,15 @@ function renderMap(profile) {
         </div>
         <div class="land-content">
           <div class="land-icon">
-            <!-- Land icon will be added later -->
-            🌟
+            ${getStrandIcon(strand)}
           </div>
           <p>${getStrandDescription(strand)}</p>
+          <div class="land-progress">
+            <div class="progress-bar">
+              <div class="progress-fill" style="width: ${(episodesCompleted / totalEpisodes) * 100}%"></div>
+            </div>
+            <div class="progress-text">${episodesCompleted}/${totalEpisodes} episodes</div>
+          </div>
         </div>
         <div class="land-footer">
           <button class="explore-btn" data-strand="${strand}">
@@ -104,16 +111,31 @@ function renderMap(profile) {
     `;
   }).join('');
   
+  // Create year selector options
+  const yearOptions = Object.keys(YEARS).map(year => `
+    <option value="${year}" ${year == profile.currentYear ? 'selected' : ''}>${YEARS[year].name} (Year ${year})</option>
+  `).join('');
+
   container.innerHTML = `
     <div class="profile-header">
       <div class="profile-info">
         <h2>Welcome, ${profile.name}!</h2>
-        <p>Year ${profile.currentYear} - ${currentYear.name}</p>
+        <div class="year-selector">
+          <label for="year-select">Learning Year:</label>
+          <select id="year-select">
+            ${yearOptions}
+          </select>
+        </div>
       </div>
       <div class="profile-actions">
         <button id="switch-profile-btn" class="secondary-btn">Switch Player</button>
         <button id="parent-dashboard-btn" class="secondary-btn">Parent Dashboard</button>
       </div>
+    </div>
+    
+    <!-- Interactive SVG Map -->
+    <div class="svg-map-container">
+      <img src="assets/world-map.svg" alt="The Kingdom of Numberland" class="world-map-svg">
     </div>
     
     <div class="lands-grid">
@@ -131,22 +153,38 @@ function renderMap(profile) {
   `;
   
   // Add event listeners
-  setupEventListeners();
+  setupEventListeners(profile);
 }
 
 /**
  * Set up event listeners for the world map
  */
-function setupEventListeners() {
+function setupEventListeners(profile) {
   // Explore buttons for each land
   const exploreButtons = document.querySelectorAll('.explore-btn');
   exploreButtons.forEach(button => {
     button.addEventListener('click', (event) => {
       const strand = button.getAttribute('data-strand');
-      // In a full implementation, this would navigate to the land detail view
-      alert(`Exploring ${strand} land! This will show episodes for this strand.`);
+      // Navigate to strand detail view
+      navigateTo(`/strand/${encodeURIComponent(strand)}`);
     });
   });
+  
+  // Year selector
+  const yearSelect = document.getElementById('year-select');
+  if (yearSelect) {
+    yearSelect.addEventListener('change', async (event) => {
+      const selectedYear = parseInt(event.target.value);
+      // Get fresh profile, update year, and save
+      const freshProfile = await getProfile(profile.profileId);
+      if (freshProfile) {
+        freshProfile.currentYear = selectedYear;
+        await updateProfile(freshProfile);
+        // Re-render the world map with the new year
+        renderWorldMap();
+      }
+    });
+  }
   
   // Switch profile button
   const switchProfileBtn = document.getElementById('switch-profile-btn');
@@ -197,6 +235,31 @@ function renderStars(count) {
     }
   }
   return starsHTML;
+}
+
+/**
+ * Get an icon for a strand
+ * @param {string} strand - The strand name
+ * @returns {string} Icon HTML
+ */
+function getStrandIcon(strand) {
+  // Use relative paths that work with the /maths/ base path
+  // Vite copies public/ to dist root, so assets are at assets/ (not src/assets/)
+  const basePath = (window.location.pathname.includes('/maths/')) ? 'maths/' : '';
+  const icons = {
+    [STRANDS.NUMBER]: `<img src="${basePath}assets/number-icon.svg" alt="Number Icon" width="60" height="60">`,
+    [STRANDS.OPERATIONS]: `<img src="${basePath}assets/operations-icon.svg" alt="Operations Icon" width="60" height="60">`,
+    [STRANDS.FRACTIONS]: `<img src="${basePath}assets/fractions-icon.svg" alt="Fractions Icon" width="60" height="60">`,
+    [STRANDS.GEOMETRY]: `<img src="${basePath}assets/geometry-icon.svg" alt="Geometry Icon" width="60" height="60">`,
+    [STRANDS.MEASUREMENT]: `<img src="${basePath}assets/measurement-icon.svg" alt="Measurement Icon" width="60" height="60">`,
+    [STRANDS.DATA]: `<img src="${basePath}assets/data-icon.svg" alt="Data Icon" width="60" height="60">`,
+    [STRANDS.ALGEBRA]: `<img src="${basePath}assets/number-icon.svg" alt="Algebra Icon" width="60" height="60">`,
+    [STRANDS.RATIO]: '⚖️',
+    [STRANDS.LOGIC]: '🧠',
+    [STRANDS.SPATIAL]: '🗺️'
+  };
+  
+  return icons[strand] || '🌟';
 }
 
 /**
