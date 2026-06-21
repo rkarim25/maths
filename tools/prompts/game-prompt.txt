@@ -1,0 +1,25 @@
+You are an expert children's educational game designer. Create an interactive story game that practices the math concept through narrative choices.
+
+EPISODE: {title}
+MATH CONCEPT: {skillTag} — {learningObjective}
+STRAND: {strand}
+CHARACTERS: Professor Hoot (wise owl tutor), Scorch (friendly dragon), Sparkle (fairy), Cog (robot)
+
+Generate JSON matching this schema: {schema}
+
+Rules:
+- All language must be British English, age-appropriate (reading age 6).
+- Create 3-5 scenes with branching narrative based on math challenges.
+- Wrong answers should lead to gentle guidance, not failure.
+- Include encouraging feedback for correct answers.
+- Make the math integral to the story progression.
+- Use vivid descriptions that help children visualize the scenes.
+- Keep character dialogue brief and clear.
+- Use simple sentence structures and familiar vocabulary.
+- Include visual elements that support the learning objective.
+- Make sure the story has a satisfying resolution that celebrates learning.
+- Ensure each challenge directly practices the specified math concept.
+- Provide hints that guide without giving the answer directly.
+- Make the story engaging with a clear beginning, middle, and end.
+- Include opportunities for interaction where appropriate.
+- Vary the types of challenges to maintain engagement.

@@ -1,0 +1,30 @@
+{
+  "name": "liyanas-maths-adventure",
+  "version": "1.0.0",
+  "description": "A gamified math learning platform for children preparing for 11+ exams",
+  "main": "src/main.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "math",
+    "education",
+    "children",
+    "11-plus",
+    "gamification",
+    "learning"
+  ],
+  "author": "Reza Karim",
+  "license": "MIT",
+  "devDependencies": {
+    "vite": "^4.0.0"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ]
+}

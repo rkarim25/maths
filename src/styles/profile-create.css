@@ -1,0 +1,172 @@
+/* Profile Creation Styles */
+
+.profile-create {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: var(--spacing-md);
+}
+
+.profile-create .header {
+  text-align: center;
+  margin-bottom: var(--spacing-xl);
+}
+
+.profile-create .header h1 {
+  color: var(--primary);
+  margin-bottom: var(--spacing-sm);
+}
+
+.profile-create .header p {
+  color: var(--text-medium);
+  font-size: 1.1rem;
+}
+
+.profile-form {
+  background: white;
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-light);
+  padding: var(--spacing-lg);
+}
+
+.form-group {
+  margin-bottom: var(--spacing-lg);
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: var(--spacing-sm);
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: var(--spacing-md);
+  border: 2px solid var(--background-medium);
+  border-radius: var(--border-radius-md);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  transition: border-color var(--transition-fast);
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+.form-group input:disabled {
+  background: var(--background-medium);
+  cursor: not-allowed;
+}
+
+.char-count {
+  text-align: right;
+  font-size: 0.8rem;
+  color: var(--text-light);
+  margin-top: var(--spacing-xs);
+}
+
+.hint {
+  font-size: 0.9rem;
+  color: var(--text-light);
+  margin-top: var(--spacing-xs);
+  margin-bottom: 0;
+}
+
+/* Avatar Customization */
+.avatar-customization {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+}
+
+.avatar-preview {
+  text-align: center;
+  padding: var(--spacing-lg);
+  background: var(--background-medium);
+  border-radius: var(--border-radius-md);
+}
+
+.avatar-preview .avatar-placeholder {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto var(--spacing-md);
+}
+
+.avatar-preview .avatar-icon {
+  font-size: 3rem;
+}
+
+.avatar-options {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: var(--spacing-md);
+}
+
+.option-group label {
+  display: block;
+  margin-bottom: var(--spacing-xs);
+  font-weight: 500;
+  color: var(--text-medium);
+}
+
+.option-group select {
+  padding: var(--spacing-sm);
+}
+
+/* Form Actions */
+.form-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--spacing-md);
+  margin-top: var(--spacing-xl);
+}
+
+.form-actions button {
+  flex: 1;
+  min-height: 44px;
+}
+
+#cancel-btn {
+  background: var(--text-light);
+}
+
+#cancel-btn:hover {
+  background: var(--text-medium);
+}
+
+/* Error Message */
+.error-message {
+  background: #ffebee;
+  border: 1px solid #f44336;
+  border-radius: var(--border-radius-md);
+  padding: var(--spacing-md);
+  margin: var(--spacing-md) 0;
+  color: #f44336;
+}
+
+/* Responsive Design */
+@media (max-width: 640px) {
+  .profile-create {
+    padding: var(--spacing-sm);
+  }
+  
+  .profile-form {
+    padding: var(--spacing-md);
+  }
+  
+  .avatar-options {
+    grid-template-columns: 1fr;
+  }
+  
+  .form-actions {
+    flex-direction: column;
+  }
+}

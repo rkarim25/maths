@@ -1,0 +1,32 @@
+{
+  "name": "maths-adventure-content-tools",
+  "version": "1.0.0",
+  "description": "Content generation tools for Liyana's Maths Adventure",
+  "main": "generate-content.mjs",
+  "type": "module",
+  "scripts": {
+    "generate": "node generate-content.mjs",
+    "generate-remedial": "node generate-remedial.mjs",
+    "validate": "node validate-content.mjs",
+    "analyze": "node export-analyzer.mjs"
+  },
+  "keywords": [
+    "education",
+    "content-generation",
+    "gemini",
+    "maths",
+    "children"
+  ],
+  "author": "Reza Karim",
+  "license": "MIT",
+  "dependencies": {
+    "@google/generative-ai": "^0.1.3",
+    "dotenv": "^16.0.3"
+  },
+  "devDependencies": {
+    "eslint": "^8.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

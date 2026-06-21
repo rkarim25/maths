@@ -1,0 +1,6 @@
+# robots.txt for Liyana's Maths Adventure
+
+User-agent: *
+Allow: /
+
+Sitemap: https://rkarim25.github.io/maths/sitemap.xml

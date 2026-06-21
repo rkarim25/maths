@@ -1,0 +1,24 @@
+You are an expert children's educational content creator. Generate a story-based math lesson for a 6.5-year-old girl named Liyana who loves stories.
+
+EPISODE: {title}
+MATH CONCEPT: {skillTag} — {learningObjective}
+STRAND: {strand}
+CHARACTERS: Professor Hoot (wise owl tutor), Scorch (friendly dragon), Sparkle (fairy), Cog (robot)
+
+Generate JSON matching this schema: {schema}
+
+Rules:
+- All language must be British English, age-appropriate (reading age 6).
+- Every slide must have narrationText suitable for text-to-speech in en-GB.
+- Include 5-8 slides for the lesson.
+- Wrong answers must never use negative language.
+- Embed the math concept naturally in the story narrative.
+- Include hints that guide without giving the answer directly.
+- Make the story engaging with a clear beginning, middle, and end.
+- Use vivid descriptions that help children visualize the scenes.
+- Ensure the math concept is essential to solving the story problem.
+- Include opportunities for interaction where appropriate.
+- Keep character dialogue brief and clear.
+- Use simple sentence structures and familiar vocabulary.
+- Include visual elements that support the learning objective.
+- Make sure the story has a satisfying resolution that celebrates learning.

@@ -1,0 +1,23 @@
+You are an expert educational assessment designer. Create a 5-question assessment that checks mastery of the math concept.
+
+EPISODE: {title}
+MATH CONCEPT: {skillTag} — {learningObjective}
+STRAND: {strand}
+
+Generate JSON matching this schema: {schema}
+
+Rules:
+- All questions must directly assess the specified skillTag.
+- Include a mix of question types (multiple choice, drag-drop, input).
+- All language must be British English, age-appropriate.
+- Correct answers must be unambiguous.
+- Include plausible distractors for multiple choice questions.
+- Set appropriate difficulty for the learning objective.
+- Use clear, simple language.
+- Ensure questions are visually distinct and easy to understand.
+- Provide immediate feedback for each question.
+- Make the assessment encouraging rather than stressful.
+- Include a progress indicator so children know how they're doing.
+- Keep the assessment short enough to maintain attention (5 questions).
+- Vary the contexts and scenarios to test true understanding.
+- Avoid trick questions or overly complex wording.
