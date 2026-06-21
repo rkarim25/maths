@@ -1,0 +1,145 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 300" width="500" height="300">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFF8F0"/>
+      <stop offset="100%" style="stop-color:#FFE0D0"/>
+    </linearGradient>
+  </defs>
+  <rect width="500" height="300" rx="16" fill="url(#bg)"/>
+  <text x="250" y="30" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="16" font-weight="700" fill="#FF6B9D">100 Chart</text>
+
+  <!-- Grid -->
+  <g transform="translate(30, 45)">
+    <!-- Row headers -->
+    <text x="-15" y="18" text-anchor="end" font-family="Fredoka, sans-serif" font-size="10" font-weight="700" fill="#FF6B9D">1-10</text>
+    <text x="-15" y="42" text-anchor="end" font-family="Fredoka, sans-serif" font-size="10" font-weight="700" fill="#FF6B9D">11-20</text>
+    <text x="-15" y="66" text-anchor="end" font-family="Fredoka, sans-serif" font-size="10" font-weight="700" fill="#FF6B9D">21-30</text>
+    <text x="-15" y="90" text-anchor="end" font-family="Fredoka, sans-serif" font-size="10" font-weight="700" fill="#FF6B9D">31-40</text>
+    <text x="-15" y="114" text-anchor="end" font-family="Fredoka, sans-serif" font-size="10" font-weight="700" fill="#FF6B9D">41-50</text>
+    <text x="-15" y="138" text-anchor="end" font-family="Fredoka, sans-serif" font-size="10" font-weight="700" fill="#FF6B9D">51-60</text>
+    <text x="-15" y="162" text-anchor="end" font-family="Fredoka, sans-serif" font-size="10" font-weight="700" fill="#FF6B9D">61-70</text>
+    <text x="-15" y="186" text-anchor="end" font-family="Fredoka, sans-serif" font-size="10" font-weight="700" fill="#FF6B9D">71-80</text>
+    <text x="-15" y="210" text-anchor="end" font-family="Fredoka, sans-serif" font-size="10" font-weight="700" fill="#FF6B9D">81-90</text>
+    <text x="-15" y="234" text-anchor="end" font-family="Fredoka, sans-serif" font-size="10" font-weight="700" fill="#FF6B9D">91-100</text>
+
+    <!-- Row 1: 1-10 -->
+    <rect x="0" y="0" width="40" height="24" rx="3" fill="#E8F8F5"/><text x="20" y="17" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="12" font-weight="700" fill="#333">1</text>
+    <rect x="42" y="0" width="40" height="24" rx="3" fill="#E8F8F5"/><text x="62" y="17" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="12" font-weight="700" fill="#333">2</text>
+    <rect x="84" y="0" width="40" height="24" rx="3" fill="#E8F8F5"/><text x="104" y="17" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="12" font-weight="700" fill="#333">3</text>
+    <rect x="126" y="0" width="40" height="24" rx="3" fill="#E8F8F5"/><text x="146" y="17" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="12" font-weight="700" fill="#333">4</text>
+    <rect x="168" y="0" width="40" height="24" rx="3" fill="#E8F8F5"/><text x="188" y="17" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="12" font-weight="700" fill="#333">5</text>
+    <rect x="210" y="0" width="40" height="24" rx="3" fill="#E8F8F5"/><text x="230" y="17" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="12" font-weight="700" fill="#333">6</text>
+    <rect x="252" y="0" width="40" height="24" rx="3" fill="#E8F8F5"/><text x="272" y="17" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="12" font-weight="700" fill="#333">7</text>
+    <rect x="294" y="0" width="40" height="24" rx="3" fill="#E8F8F5"/><text x="314" y="17" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="12" font-weight="700" fill="#333">8</text>
+    <rect x="336" y="0" width="40" height="24" rx="3" fill="#E8F8F5"/><text x="356" y="17" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="12" font-weight="700" fill="#333">9</text>
+    <rect x="378" y="0" width="40" height="24" rx="3" fill="#E8F8F5"/><text x="398" y="17" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="12" font-weight="700" fill="#333">10</text>
+
+    <!-- Row 2: 11-20 -->
+    <rect x="0" y="26" width="40" height="24" rx="3" fill="#FFF3E0"/><text x="20" y="43" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="12" font-weight="700" fill="#333">11</text>
+    <rect x="42" y="26" width="40" height="24" rx="3" fill="#FFF3E0"/><text x="62" y="43" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="12" font-weight="700" fill="#333">12</text>
+    <rect x="84" y="26" width="40" height="24" rx="3" fill="#FFF3E0"/><text x="104" y="43" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="12" font-weight="700" fill="#333">13</text>
+    <rect x="126" y="26" width="40" height="24" rx="3" fill="#FFF3E0"/><text x="146" y="43" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="12" font-weight="700" fill="#333">14</text>
+    <rect x="168" y="26" width="40" height="24" rx="3" fill="#FFF3E0"/><text x="188" y="43" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="12" font-weight="700" fill="#333">15</text>
+    <rect x="210" y="26" width="40" height="24" rx="3" fill="#FFF3E0"/><text x="230" y="43" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="12" font-weight="700" fill="#333">16</text>
+    <rect x="252" y="26" width="40" height="24" rx="3" fill="#FFF3E0"/><text x="272" y="43" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="12" font-weight="700" fill="#333">17</text>
+    <rect x="294" y="26" width="40" height="24" rx="3" fill="#FFF3E0"/><text x="314" y="43" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="12" font-weight="700" fill="#333">18</text>
+    <rect x="336" y="26" width="40" height="24" rx="3" fill="#FFF3E0"/><text x="356" y="43" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="12" font-weight="700" fill="#333">19</text>
+    <rect x="378" y="26" width="40" height="24" rx="3" fill="#FFF3E0"/><text x="398" y="43" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="12" font-weight="700" fill="#333">20</text>
+
+    <!-- Row 3: 21-30 -->
+    <rect x="0" y="52" width="40" height="24" rx="3" fill="#E8F8F5"/><text x="20" y="69" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="12" font-weight="700" fill="#333">21</text>
+    <rect x="42" y="52" width="40" height="24" rx="3" fill="#E8F8F5"/><text x="62" y="69" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="12" font-weight="700" fill="#333">22</text>
+    <rect x="84" y="52" width="40" height="24" rx="3" fill="#E8F8F5"/><text x="104" y="69" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="12" font-weight="700" fill="#333">23</text>
+    <rect x="126" y="52" width="40" height="24" rx="3" fill="#E8F8F5"/><text x="146" y="69" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="12" font-weight="700" fill="#333">24</text>
+    <rect x="168" y="52" width="40" height="24" rx="3" fill="#E8F8F5"/><text x="188" y="69" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="12" font-weight="700" fill="#333">25</text>
+    <rect x="210" y="52" width="40" height="24" rx="3" fill="#E8F8F5"/><text x="230" y="69" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="12" font-weight="700" fill="#333">26</text>
+    <rect x="252" y="52" width="40" height="24" rx="3" fill="#E8F8F5"/><text x="272" y="69" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="12" font-weight="700" fill="#333">27</text>
+    <rect x="294" y="52" width="40" height="24" rx="3" fill="#E8F8F5"/><text x="314" y="69" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="12" font-weight="700" fill="#333">28</text>
+    <rect x="336" y="52" width="40" height="24" rx="3" fill="#E8F8F5"/><text x="356" y="69" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="12" font-weight="700" fill="#333">29</text>
+    <rect x="378" y="52" width="40" height="24" rx="3" fill="#E8F8F5"/><text x="398" y="69" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="12" font-weight="700" fill="#333">30</text>
+
+    <!-- Row 4: 31-40 -->
+    <rect x="0" y="78" width="40" height="24" rx="3" fill="#FFF3E0"/><text x="20" y="95" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="12" font-weight="700" fill="#333">31</text>
+    <rect x="42" y="78" width="40" height="24" rx="3" fill="#FFF3E0"/><text x="62" y="95" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="12" font-weight="700" fill="#333">32</text>
+    <rect x="84" y="78" width="40" height="24" rx="3" fill="#FFF3E0"/><text x="104" y="95" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="12" font-weight="700" fill="#333">33</text>
+    <rect x="126" y="78" width="40" height="24" rx="3" fill="#FFF3E0"/><text x="146" y="95" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="12" font-weight="700" fill="#333">34</text>
+    <rect x="168" y="78" width="40" height="24" rx="3" fill="#FFF3E0"/><text x="188" y="95" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="12" font-weight="700" fill="#333">35</text>
+    <rect x="210" y="78" width="40" height="24" rx="3" fill="#FFF3E0"/><text x="230" y="95" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="12" font-weight="700" fill="#333">36</text>
+    <rect x="252" y="78" width="40" height="24" rx="3" fill="#FFF3E0"/><text x="272" y="95" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="12" font-weight="700" fill="#333">37</text>
+    <rect x="294" y="78" width="40" height="24" rx="3" fill="#FFF3E0"/><text x="314" y="95" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="12" font-weight="700" fill="#333">38</text>
+    <rect x="336" y="78" width="40" height="24" rx="3" fill="#FFF3E0"/><text x="356" y="95" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="12" font-weight="700" fill="#333">39</text>
+    <rect x="378" y="78" width="40" height="24" rx="3" fill="#FFF3E0"/><text x="398" y="95" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="12" font-weight="700" fill="#333">40</text>
+
+    <!-- Row 5: 41-50 -->
+    <rect x="0" y="104" width="40" height="24" rx="3" fill="#E8F8F5"/><text x="20" y="121" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="12" font-weight="700" fill="#333">41</text>
+    <rect x="42" y="104" width="40" height="24" rx="3" fill="#E8F8F5"/><text x="62" y="121" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="12" font-weight="700" fill="#333">42</text>
+    <rect x="84" y="104" width="40" height="24" rx="3" fill="#E8F8F5"/><text x="104" y="121" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="12" font-weight="700" fill="#333">43</text>
+    <rect x="126" y="104" width="40" height="24" rx="3" fill="#E8F8F5"/><text x="146" y="121" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="12" font-weight="700" fill="#333">44</text>
+    <rect x="168" y="104" width="40" height="24" rx="3" fill="#E8F8F5"/><text x="188" y="121" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="12" font-weight="700" fill="#333">45</text>
+    <rect x="210" y="104" width="40" height="24" rx="3" fill="#E8F8F5"/><text x="230" y="121" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="12" font-weight="700" fill="#333">46</text>
+    <rect x="252" y="104" width="40" height="24" rx="3" fill="#E8F8F5"/><text x="272" y="121" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="12" font-weight="700" fill="#333">47</text>
+    <rect x="294" y="104" width="40" height="24" rx="3" fill="#E8F8F5"/><text x="314" y="121" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="12" font-weight="700" fill="#333">48</text>
+    <rect x="336" y="104" width="40" height="24" rx="3" fill="#E8F8F5"/><text x="356" y="121" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="12" font-weight="700" fill="#333">49</text>
+    <rect x="378" y="104" width="40" height="24" rx="3" fill="#E8F8F5"/><text x="398" y="121" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="12" font-weight="700" fill="#333">50</text>
+
+    <!-- Row 6: 51-60 -->
+    <rect x="0" y="130" width="40" height="24" rx="3" fill="#FFF3E0"/><text x="20" y="147" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="12" font-weight="700" fill="#333">51</text>
+    <rect x="42" y="130" width="40" height="24" rx="3" fill="#FFF3E0"/><text x="62" y="147" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="12" font-weight="700" fill="#333">52</text>
+    <rect x="84" y="130" width="40" height="24" rx="3" fill="#FFF3E0"/><text x="104" y="147" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="12" font-weight="700" fill="#333">53</text>
+    <rect x="126" y="130" width="40" height="24" rx="3" fill="#FFF3E0"/><text x="146" y="147" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="12" font-weight="700" fill="#333">54</text>
+    <rect x="168" y="130" width="40" height="24" rx="3" fill="#FFF3E0"/><text x="188" y="147" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="12" font-weight="700" fill="#333">55</text>
+    <rect x="210" y="130" width="40" height="24" rx="3" fill="#FFF3E0"/><text x="230" y="147" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="12" font-weight="700" fill="#333">56</text>
+    <rect x="252" y="130" width="40" height="24" rx="3" fill="#FFF3E0"/><text x="272" y="147" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="12" font-weight="700" fill="#333">57</text>
+    <rect x="294" y="130" width="40" height="24" rx="3" fill="#FFF3E0"/><text x="314" y="147" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="12" font-weight="700" fill="#333">58</text>
+    <rect x="336" y="130" width="40" height="24" rx="3" fill="#FFF3E0"/><text x="356" y="147" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="12" font-weight="700" fill="#333">59</text>
+    <rect x="378" y="130" width="40" height="24" rx="3" fill="#FFF3E0"/><text x="398" y="147" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="12" font-weight="700" fill="#333">60</text>
+
+    <!-- Row 7: 61-70 -->
+    <rect x="0" y="156" width="40" height="24" rx="3" fill="#E8F8F5"/><text x="20" y="173" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="12" font-weight="700" fill="#333">61</text>
+    <rect x="42" y="156" width="40" height="24" rx="3" fill="#E8F8F5"/><text x="62" y="173" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="12" font-weight="700" fill="#333">62</text>
+    <rect x="84" y="156" width="40" height="24" rx="3" fill="#E8F8F5"/><text x="104" y="173" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="12" font-weight="700" fill="#333">63</text>
+    <rect x="126" y="156" width="40" height="24" rx="3" fill="#E8F8F5"/><text x="146" y="173" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="12" font-weight="700" fill="#333">64</text>
+    <rect x="168" y="156" width="40" height="24" rx="3" fill="#E8F8F5"/><text x="188" y="173" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="12" font-weight="700" fill="#333">65</text>
+    <rect x="210" y="156" width="40" height="24" rx="3" fill="#E8F8F5"/><text x="230" y="173" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="12" font-weight="700" fill="#333">66</text>
+    <rect x="252" y="156" width="40" height="24" rx="3" fill="#E8F8F5"/><text x="272" y="173" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="12" font-weight="700" fill="#333">67</text>
+    <rect x="294" y="156" width="40" height="24" rx="3" fill="#E8F8F5"/><text x="314" y="173" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="12" font-weight="700" fill="#333">68</text>
+    <rect x="336" y="156" width="40" height="24" rx="3" fill="#E8F8F5"/><text x="356" y="173" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="12" font-weight="700" fill="#333">69</text>
+    <rect x="378" y="156" width="40" height="24" rx="3" fill="#E8F8F5"/><text x="398" y="173" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="12" font-weight="700" fill="#333">70</text>
+
+    <!-- Row 8: 71-80 -->
+    <rect x="0" y="182" width="40" height="24" rx="3" fill="#FFF3E0"/><text x="20" y="199" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="12" font-weight="700" fill="#333">71</text>
+    <rect x="42" y="182" width="40" height="24" rx="3" fill="#FFF3E0"/><text x="62" y="199" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="12" font-weight="700" fill="#333">72</text>
+    <rect x="84" y="182" width="40" height="24" rx="3" fill="#FFF3E0"/><text x="104" y="199" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="12" font-weight="700" fill="#333">73</text>
+    <rect x="126" y="182" width="40" height="24" rx="3" fill="#FFF3E0"/><text x="146" y="199" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="12" font-weight="700" fill="#333">74</text>
+    <rect x="168" y="182" width="40" height="24" rx="3" fill="#FFF3E0"/><text x="188" y="199" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="12" font-weight="700" fill="#333">75</text>
+    <rect x="210" y="182" width="40" height="24" rx="3" fill="#FFF3E0"/><text x="230" y="199" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="12" font-weight="700" fill="#333">76</text>
+    <rect x="252" y="182" width="40" height="24" rx="3" fill="#FFF3E0"/><text x="272" y="199" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="12" font-weight="700" fill="#333">77</text>
+    <rect x="294" y="182" width="40" height="24" rx="3" fill="#FFF3E0"/><text x="314" y="199" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="12" font-weight="700" fill="#333">78</text>
+    <rect x="336" y="182" width="40" height="24" rx="3" fill="#FFF3E0"/><text x="356" y="199" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="12" font-weight="700" fill="#333">79</text>
+    <rect x="378" y="182" width="40" height="24" rx="3" fill="#FFF3E0"/><text x="398" y="199" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="12" font-weight="700" fill="#333">80</text>
+
+    <!-- Row 9: 81-90 -->
+    <rect x="0" y="208" width="40" height="24" rx="3" fill="#E8F8F5"/><text x="20" y="225" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="12" font-weight="700" fill="#333">81</text>
+    <rect x="42" y="208" width="40" height="24" rx="3" fill="#E8F8F5"/><text x="62" y="225" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="12" font-weight="700" fill="#333">82</text>
+    <rect x="84" y="208" width="40" height="24" rx="3" fill="#E8F8F5"/><text x="104" y="225" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="12" font-weight="700" fill="#333">83</text>
+    <rect x="126" y="208" width="40" height="24" rx="3" fill="#E8F8F5"/><text x="146" y="225" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="12" font-weight="700" fill="#333">84</text>
+    <rect x="168" y="208" width="40" height="24" rx="3" fill="#E8F8F5"/><text x="188" y="225" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="12" font-weight="700" fill="#333">85</text>
+    <rect x="210" y="208" width="40" height="24" rx="3" fill="#E8F8F5"/><text x="230" y="225" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="12" font-weight="700" fill="#333">86</text>
+    <rect x="252" y="208" width="40" height="24" rx="3" fill="#E8F8F5"/><text x="272" y="225" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="12" font-weight="700" fill="#333">87</text>
+    <rect x="294" y="208" width="40" height="24" rx="3" fill="#E8F8F5"/><text x="314" y="225" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="12" font-weight="700" fill="#333">88</text>
+    <rect x="336" y="208" width="40" height="24" rx="3" fill="#E8F8F5"/><text x="356" y="225" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="12" font-weight="700" fill="#333">89</text>
+    <rect x="378" y="208" width="40" height="24" rx="3" fill="#E8F8F5"/><text x="398" y="225" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="12" font-weight="700" fill="#333">90</text>
+
+    <!-- Row 10: 91-100 -->
+    <rect x="0" y="234" width="40" height="24" rx="3" fill="#FFF3E0"/><text x="20" y="251" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="12" font-weight="700" fill="#333">91</text>
+    <rect x="42" y="234" width="40" height="24" rx="3" fill="#FFF3E0"/><text x="62" y="251" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="12" font-weight="700" fill="#333">92</text>
+    <rect x="84" y="234" width="40" height="24" rx="3" fill="#FFF3E0"/><text x="104" y="251" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="12" font-weight="700" fill="#333">93</text>
+    <rect x="126" y="234" width="40" height="24" rx="3" fill="#FFF3E0"/><text x="146" y="251" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="12" font-weight="700" fill="#333">94</text>
+    <rect x="168" y="234" width="40" height="24" rx="3" fill="#FFF3E0"/><text x="188" y="251" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="12" font-weight="700" fill="#333">95</text>
+    <rect x="210" y="234" width="40" height="24" rx="3" fill="#FFF3E0"/><text x="230" y="251" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="12" font-weight="700" fill="#333">96</text>
+    <rect x="252" y="234" width="40" height="24" rx="3" fill="#FFF3E0"/><text x="272" y="251" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="12" font-weight="700" fill="#333">97</text>
+    <rect x="294" y="234" width="40" height="24" rx="3" fill="#FFF3E0"/><text x="314" y="251" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="12" font-weight="700" fill="#333">98</text>
+    <rect x="336" y="234" width="40" height="24" rx="3" fill="#FFF3E0"/><text x="356" y="251" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="12" font-weight="700" fill="#333">99</text>
+    <rect x="378" y="234" width="40" height="24" rx="3" fill="#FFE0EC"/><text x="398" y="251" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="12" font-weight="700" fill="#FF6B9D">100</text>
+  </g>
+</svg>

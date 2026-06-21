@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 200" width="400" height="200">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFF8F0"/>
+      <stop offset="100%" style="stop-color:#FFE0D0"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="200" rx="16" fill="url(#bg)"/>
+  <text x="200" y="28" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="16" font-weight="700" fill="#FF6B9D">Count the Eggs! 🥚</text>
+
+  <!-- 5 groups of 5 eggs = 25 -->
+  <!-- Group 1 -->
+  <ellipse cx="50" cy="60" rx="12" ry="15" fill="#FFF8DC" stroke="#FFD93D" stroke-width="2"/>
+  <ellipse cx="80" cy="60" rx="12" ry="15" fill="#FFF8DC" stroke="#FFD93D" stroke-width="2"/>
+  <ellipse cx="110" cy="60" rx="12" ry="15" fill="#FFF8DC" stroke="#FFD93D" stroke-width="2"/>
+  <ellipse cx="140" cy="60" rx="12" ry="15" fill="#FFF8DC" stroke="#FFD93D" stroke-width="2"/>
+  <ellipse cx="170" cy="60" rx="12" ry="15" fill="#FFF8DC" stroke="#FFD93D" stroke-width="2"/>
+  <text x="110" y="95" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="12" font-weight="700" fill="#777">5</text>
+
+  <!-- Group 2 -->
+  <ellipse cx="230" cy="60" rx="12" ry="15" fill="#FFF8DC" stroke="#FFD93D" stroke-width="2"/>
+  <ellipse cx="260" cy="60" rx="12" ry="15" fill="#FFF8DC" stroke="#FFD93D" stroke-width="2"/>
+  <ellipse cx="290" cy="60" rx="12" ry="15" fill="#FFF8DC" stroke="#FFD93D" stroke-width="2"/>
+  <ellipse cx="320" cy="60" rx="12" ry="15" fill="#FFF8DC" stroke="#FFD93D" stroke-width="2"/>
+  <ellipse cx="350" cy="60" rx="12" ry="15" fill="#FFF8DC" stroke="#FFD93D" stroke-width="2"/>
+  <text x="290" y="95" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="12" font-weight="700" fill="#777">5</text>
+
+  <!-- Group 3 -->
+  <ellipse cx="50" cy="120" rx="12" ry="15" fill="#FFF8DC" stroke="#FFD93D" stroke-width="2"/>
+  <ellipse cx="80" cy="120" rx="12" ry="15" fill="#FFF8DC" stroke="#FFD93D" stroke-width="2"/>
+  <ellipse cx="110" cy="120" rx="12" ry="15" fill="#FFF8DC" stroke="#FFD93D" stroke-width="2"/>
+  <ellipse cx="140" cy="120" rx="12" ry="15" fill="#FFF8DC" stroke="#FFD93D" stroke-width="2"/>
+  <ellipse cx="170" cy="120" rx="12" ry="15" fill="#FFF8DC" stroke="#FFD93D" stroke-width="2"/>
+  <text x="110" y="155" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="12" font-weight="700" fill="#777">5</text>
+
+  <!-- Group 4 -->
+  <ellipse cx="230" cy="120" rx="12" ry="15" fill="#FFF8DC" stroke="#FFD93D" stroke-width="2"/>
+  <ellipse cx="260" cy="120" rx="12" ry="15" fill="#FFF8DC" stroke="#FFD93D" stroke-width="2"/>
+  <ellipse cx="290" cy="120" rx="12" ry="15" fill="#FFF8DC" stroke="#FFD93D" stroke-width="2"/>
+  <ellipse cx="320" cy="120" rx="12" ry="15" fill="#FFF8DC" stroke="#FFD93D" stroke-width="2"/>
+  <ellipse cx="350" cy="120" rx="12" ry="15" fill="#FFF8DC" stroke="#FFD93D" stroke-width="2"/>
+  <text x="290" y="155" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="12" font-weight="700" fill="#777">5</text>
+
+  <!-- Group 5 -->
+  <ellipse cx="140" cy="170" rx="12" ry="15" fill="#FFF8DC" stroke="#FFD93D" stroke-width="2"/>
+  <ellipse cx="170" cy="170" rx="12" ry="15" fill="#FFF8DC" stroke="#FFD93D" stroke-width="2"/>
+  <ellipse cx="200" cy="170" rx="12" ry="15" fill="#FFF8DC" stroke="#FFD93D" stroke-width="2"/>
+  <ellipse cx="230" cy="170" rx="12" ry="15" fill="#FFF8DC" stroke="#FFD93D" stroke-width="2"/>
+  <ellipse cx="260" cy="170" rx="12" ry="15" fill="#FFF8DC" stroke="#FFD93D" stroke-width="2"/>
+  <text x="200" y="195" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="12" font-weight="700" fill="#777">5</text>
+
+  <!-- Total label -->
+  <text x="200" y="15" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="14" font-weight="700" fill="#FF6B9D">5 groups of 5 = ?</text>
+</svg>

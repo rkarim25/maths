@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 200" width="400" height="200">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFF8F0"/>
+      <stop offset="100%" style="stop-color:#FFE0D0"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="200" rx="16" fill="url(#bg)"/>
+  <text x="200" y="28" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="16" font-weight="700" fill="#FF6B9D">Finger Addition ✋</text>
+
+  <!-- Left hand: 4 fingers -->
+  <text x="100" y="55" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="14" font-weight="700" fill="#333">Left hand:</text>
+  <g transform="translate(60, 70)">
+    <rect x="0" y="0" width="20" height="50" rx="8" fill="#FFD93D"/>
+    <rect x="22" y="0" width="20" height="50" rx="8" fill="#FFD93D"/>
+    <rect x="44" y="0" width="20" height="50" rx="8" fill="#FFD93D"/>
+    <rect x="66" y="0" width="20" height="50" rx="8" fill="#FFD93D"/>
+    <rect x="88" y="0" width="20" height="50" rx="8" fill="#FFD93D" opacity="0.3"/>
+  </g>
+  <text x="100" y="145" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="18" font-weight="700" fill="#FF6B9D">4 fingers</text>
+
+  <!-- Plus -->
+  <text x="200" y="110" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="28" font-weight="700" fill="#4ECDC4">+</text>
+
+  <!-- Right hand: 3 fingers -->
+  <text x="300" y="55" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="14" font-weight="700" fill="#333">Right hand:</text>
+  <g transform="translate(260, 70)">
+    <rect x="0" y="0" width="20" height="50" rx="8" fill="#4ECDC4"/>
+    <rect x="22" y="0" width="20" height="50" rx="8" fill="#4ECDC4"/>
+    <rect x="44" y="0" width="20" height="50" rx="8" fill="#4ECDC4"/>
+    <rect x="66" y="0" width="20" height="50" rx="8" fill="#4ECDC4" opacity="0.3"/>
+    <rect x="88" y="0" width="20" height="50" rx="8" fill="#4ECDC4" opacity="0.3"/>
+  </g>
+  <text x="300" y="145" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="18" font-weight="700" fill="#FF6B9D">3 fingers</text>
+
+  <!-- Equals -->
+  <text x="200" y="175" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="28" font-weight="700" fill="#FFD93D">=</text>
+  <text x="200" y="195" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="20" font-weight="700" fill="#FF6B9D">7 fingers total!</text>
+</svg>

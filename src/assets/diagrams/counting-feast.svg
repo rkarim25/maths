@@ -1,0 +1,95 @@
+<svg width="300" height="200" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="100%" height="100%" fill="#f0f8ff"/>
+  
+  <!-- Carrots in groups -->
+  <!-- Group 1 (10 carrots) -->
+  <rect x="20" y="30" width="10" height="40" fill="#FF8C00" rx="2"/>
+  <rect x="40" y="30" width="10" height="40" fill="#FF8C00" rx="2"/>
+  <rect x="60" y="30" width="10" height="40" fill="#FF8C00" rx="2"/>
+  <rect x="80" y="30" width="10" height="40" fill="#FF8C00" rx="2"/>
+  <rect x="100" y="30" width="10" height="40" fill="#FF8C00" rx="2"/>
+  <rect x="20" y="80" width="10" height="40" fill="#FF8C00" rx="2"/>
+  <rect x="40" y="80" width="10" height="40" fill="#FF8C00" rx="2"/>
+  <rect x="60" y="80" width="10" height="40" fill="#FF8C00" rx="2"/>
+  <rect x="80" y="80" width="10" height="40" fill="#FF8C00" rx="2"/>
+  <rect x="100" y="80" width="10" height="40" fill="#FF8C00" rx="2"/>
+  
+  <!-- Group 2 (10 carrots) -->
+  <rect x="140" y="30" width="10" height="40" fill="#FF8C00" rx="2"/>
+  <rect x="160" y="30" width="10" height="40" fill="#FF8C00" rx="2"/>
+  <rect x="180" y="30" width="10" height="40" fill="#FF8C00" rx="2"/>
+  <rect x="200" y="30" width="10" height="40" fill="#FF8C00" rx="2"/>
+  <rect x="220" y="30" width="10" height="40" fill="#FF8C00" rx="2"/>
+  <rect x="140" y="80" width="10" height="40" fill="#FF8C00" rx="2"/>
+  <rect x="160" y="80" width="10" height="40" fill="#FF8C00" rx="2"/>
+  <rect x="180" y="80" width="10" height="40" fill="#FF8C00" rx="2"/>
+  <rect x="200" y="80" width="10" height="40" fill="#FF8C00" rx="2"/>
+  <rect x="220" y="80" width="10" height="40" fill="#FF8C00" rx="2"/>
+  
+  <!-- Group 3 (10 carrots) -->
+  <rect x="20" y="130" width="10" height="40" fill="#FF8C00" rx="2"/>
+  <rect x="40" y="130" width="10" height="40" fill="#FF8C00" rx="2"/>
+  <rect x="60" y="130" width="10" height="40" fill="#FF8C00" rx="2"/>
+  <rect x="80" y="130" width="10" height="40" fill="#FF8C00" rx="2"/>
+  <rect x="100" y="130" width="10" height="40" fill="#FF8C00" rx="2"/>
+  <rect x="20" y="180" width="10" height="40" fill="#FF8C00" rx="2"/>
+  <rect x="40" y="180" width="10" height="40" fill="#FF8C00" rx="2"/>
+  <rect x="60" y="180" width="10" height="40" fill="#FF8C00" rx="2"/>
+  <rect x="80" y="180" width="10" height="40" fill="#FF8C00" rx="2"/>
+  <rect x="100" y="180" width="10" height="40" fill="#FF8C00" rx="2"/>
+  
+  <!-- Group 4 (10 carrots) -->
+  <rect x="140" y="130" width="10" height="40" fill="#FF8C00" rx="2"/>
+  <rect x="160" y="130" width="10" height="40" fill="#FF8C00" rx="2"/>
+  <rect x="180" y="130" width="10" height="40" fill="#FF8C00" rx="2"/>
+  <rect x="200" y="130" width="10" height="40" fill="#FF8C00" rx="2"/>
+  <rect x="220" y="130" width="10" height="40" fill="#FF8C00" rx="2"/>
+  <rect x="140" y="180" width="10" height="40" fill="#FF8C00" rx="2"/>
+  <rect x="160" y="180" width="10" height="40" fill="#FF8C00" rx="2"/>
+  <rect x="180" y="180" width="10" height="40" fill="#FF8C00" rx="2"/>
+  <rect x="200" y="180" width="10" height="40" fill="#FF8C00" rx="2"/>
+  <rect x="220" y="180" width="10" height="40" fill="#FF8C00" rx="2"/>
+  
+  <!-- Green tops -->
+  <ellipse cx="25" cy="25" rx="5" ry="10" fill="#228B22"/>
+  <ellipse cx="45" cy="25" rx="5" ry="10" fill="#228B22"/>
+  <ellipse cx="65" cy="25" rx="5" ry="10" fill="#228B22"/>
+  <ellipse cx="85" cy="25" rx="5" ry="10" fill="#228B22"/>
+  <ellipse cx="105" cy="25" rx="5" ry="10" fill="#228B22"/>
+  <ellipse cx="25" cy="75" rx="5" ry="10" fill="#228B22"/>
+  <ellipse cx="45" cy="75" rx="5" ry="10" fill="#228B22"/>
+  <ellipse cx="65" cy="75" rx="5" ry="10" fill="#228B22"/>
+  <ellipse cx="85" cy="75" rx="5" ry="10" fill="#228B22"/>
+  <ellipse cx="105" cy="75" rx="5" ry="10" fill="#228B22"/>
+  <ellipse cx="145" cy="25" rx="5" ry="10" fill="#228B22"/>
+  <ellipse cx="165" cy="25" rx="5" ry="10" fill="#228B22"/>
+  <ellipse cx="185" cy="25" rx="5" ry="10" fill="#228B22"/>
+  <ellipse cx="205" cy="25" rx="5" ry="10" fill="#228B22"/>
+  <ellipse cx="225" cy="25" rx="5" ry="10" fill="#228B22"/>
+  <ellipse cx="145" cy="75" rx="5" ry="10" fill="#228B22"/>
+  <ellipse cx="165" cy="75" rx="5" ry="10" fill="#228B22"/>
+  <ellipse cx="185" cy="75" rx="5" ry="10" fill="#228B22"/>
+  <ellipse cx="205" cy="75" rx="5" ry="10" fill="#228B22"/>
+  <ellipse cx="225" cy="75" rx="5" ry="10" fill="#228B22"/>
+  <ellipse cx="25" cy="125" rx="5" ry="10" fill="#228B22"/>
+  <ellipse cx="45" cy="125" rx="5" ry="10" fill="#228B22"/>
+  <ellipse cx="65" cy="125" rx="5" ry="10" fill="#228B22"/>
+  <ellipse cx="85" cy="125" rx="5" ry="10" fill="#228B22"/>
+  <ellipse cx="105" cy="125" rx="5" ry="10" fill="#228B22"/>
+  <ellipse cx="25" cy="175" rx="5" ry="10" fill="#228B22"/>
+  <ellipse cx="45" cy="175" rx="5" ry="10" fill="#228B22"/>
+  <ellipse cx="65" cy="175" rx="5" ry="10" fill="#228B22"/>
+  <ellipse cx="85" cy="175" rx="5" ry="10" fill="#228B22"/>
+  <ellipse cx="105" cy="175" rx="5" ry="10" fill="#228B22"/>
+  <ellipse cx="145" cy="125" rx="5" ry="10" fill="#228B22"/>
+  <ellipse cx="165" cy="125" rx="5" ry="10" fill="#228B22"/>
+  <ellipse cx="185" cy="125" rx="5" ry="10" fill="#228B22"/>
+  <ellipse cx="205" cy="125" rx="5" ry="10" fill="#228B22"/>
+  <ellipse cx="225" cy="125" rx="5" ry="10" fill="#228B22"/>
+  <ellipse cx="145" cy="175" rx="5" ry="10" fill="#228B22"/>
+  <ellipse cx="165" cy="175" rx="5" ry="10" fill="#228B22"/>
+  <ellipse cx="185" cy="175" rx="5" ry="10" fill="#228B22"/>
+  <ellipse cx="205" cy="175" rx="5" ry="10" fill="#228B22"/>
+  <ellipse cx="225" cy="175" rx="5" ry="10" fill="#228B22"/>
+</svg>

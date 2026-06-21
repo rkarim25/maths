@@ -1,0 +1,55 @@
+<svg width="300" height="200" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="100%" height="100%" fill="#f0f8ff"/>
+  
+  <!-- Eggs in groups -->
+  <!-- Group 1 (10 eggs) -->
+  <ellipse cx="40" cy="50" rx="15" ry="20" fill="#fff" stroke="#ddd" stroke-width="1"/>
+  <ellipse cx="70" cy="50" rx="15" ry="20" fill="#fff" stroke="#ddd" stroke-width="1"/>
+  <ellipse cx="100" cy="50" rx="15" ry="20" fill="#fff" stroke="#ddd" stroke-width="1"/>
+  <ellipse cx="130" cy="50" rx="15" ry="20" fill="#fff" stroke="#ddd" stroke-width="1"/>
+  <ellipse cx="160" cy="50" rx="15" ry="20" fill="#fff" stroke="#ddd" stroke-width="1"/>
+  <ellipse cx="40" cy="90" rx="15" ry="20" fill="#fff" stroke="#ddd" stroke-width="1"/>
+  <ellipse cx="70" cy="90" rx="15" ry="20" fill="#fff" stroke="#ddd" stroke-width="1"/>
+  <ellipse cx="100" cy="90" rx="15" ry="20" fill="#fff" stroke="#ddd" stroke-width="1"/>
+  <ellipse cx="130" cy="90" rx="15" ry="20" fill="#fff" stroke="#ddd" stroke-width="1"/>
+  <ellipse cx="160" cy="90" rx="15" ry="20" fill="#fff" stroke="#ddd" stroke-width="1"/>
+  
+  <!-- Group 2 (10 eggs) -->
+  <ellipse cx="220" cy="50" rx="15" ry="20" fill="#fff" stroke="#ddd" stroke-width="1"/>
+  <ellipse cx="250" cy="50" rx="15" ry="20" fill="#fff" stroke="#ddd" stroke-width="1"/>
+  <ellipse cx="280" cy="50" rx="15" ry="20" fill="#fff" stroke="#ddd" stroke-width="1"/>
+  <ellipse cx="220" cy="90" rx="15" ry="20" fill="#fff" stroke="#ddd" stroke-width="1"/>
+  <ellipse cx="250" cy="90" rx="15" ry="20" fill="#fff" stroke="#ddd" stroke-width="1"/>
+  <ellipse cx="280" cy="90" rx="15" ry="20" fill="#fff" stroke="#ddd" stroke-width="1"/>
+  
+  <!-- Group 3 (5 eggs) -->
+  <ellipse cx="220" cy="140" rx="15" ry="20" fill="#fff" stroke="#ddd" stroke-width="1"/>
+  <ellipse cx="250" cy="140" rx="15" ry="20" fill="#fff" stroke="#ddd" stroke-width="1"/>
+  <ellipse cx="280" cy="140" rx="15" ry="20" fill="#fff" stroke="#ddd" stroke-width="1"/>
+  <ellipse cx="235" cy="170" rx="15" ry="20" fill="#fff" stroke="#ddd" stroke-width="1"/>
+  <ellipse cx="265" cy="170" rx="15" ry="20" fill="#fff" stroke="#ddd" stroke-width="1"/>
+  
+  <!-- Egg highlights -->
+  <ellipse cx="35" cy="45" rx="3" ry="5" fill="#fff" opacity="0.7"/>
+  <ellipse cx="65" cy="45" rx="3" ry="5" fill="#fff" opacity="0.7"/>
+  <ellipse cx="95" cy="45" rx="3" ry="5" fill="#fff" opacity="0.7"/>
+  <ellipse cx="125" cy="45" rx="3" ry="5" fill="#fff" opacity="0.7"/>
+  <ellipse cx="155" cy="45" rx="3" ry="5" fill="#fff" opacity="0.7"/>
+  <ellipse cx="35" cy="85" rx="3" ry="5" fill="#fff" opacity="0.7"/>
+  <ellipse cx="65" cy="85" rx="3" ry="5" fill="#fff" opacity="0.7"/>
+  <ellipse cx="95" cy="85" rx="3" ry="5" fill="#fff" opacity="0.7"/>
+  <ellipse cx="125" cy="85" rx="3" ry="5" fill="#fff" opacity="0.7"/>
+  <ellipse cx="155" cy="85" rx="3" ry="5" fill="#fff" opacity="0.7"/>
+  <ellipse cx="215" cy="45" rx="3" ry="5" fill="#fff" opacity="0.7"/>
+  <ellipse cx="245" cy="45" rx="3" ry="5" fill="#fff" opacity="0.7"/>
+  <ellipse cx="275" cy="45" rx="3" ry="5" fill="#fff" opacity="0.7"/>
+  <ellipse cx="215" cy="85" rx="3" ry="5" fill="#fff" opacity="0.7"/>
+  <ellipse cx="245" cy="85" rx="3" ry="5" fill="#fff" opacity="0.7"/>
+  <ellipse cx="275" cy="85" rx="3" ry="5" fill="#fff" opacity="0.7"/>
+  <ellipse cx="215" cy="135" rx="3" ry="5" fill="#fff" opacity="0.7"/>
+  <ellipse cx="245" cy="135" rx="3" ry="5" fill="#fff" opacity="0.7"/>
+  <ellipse cx="275" cy="135" rx="3" ry="5" fill="#fff" opacity="0.7"/>
+  <ellipse cx="230" cy="165" rx="3" ry="5" fill="#fff" opacity="0.7"/>
+  <ellipse cx="260" cy="165" rx="3" ry="5" fill="#fff" opacity="0.7"/>
+</svg>

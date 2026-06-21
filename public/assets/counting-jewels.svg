@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 200" width="400" height="200">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFF8F0"/>
+      <stop offset="100%" style="stop-color:#FFE0D0"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="200" rx="16" fill="url(#bg)"/>
+  <text x="200" y="28" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="16" font-weight="700" fill="#FF6B9D">Count the Jewels! 💎</text>
+
+  <!-- 12 jewels arranged in 3 rows of 4 -->
+  <!-- Row 1 -->
+  <polygon points="60,50 70,40 80,50 70,60" fill="#4ECDC4"/>
+  <polygon points="100,50 110,40 120,50 110,60" fill="#FF6B9D"/>
+  <polygon points="140,50 150,40 160,50 150,60" fill="#FFD93D"/>
+  <polygon points="180,50 190,40 200,50 190,60" fill="#4ECDC4"/>
+
+  <!-- Row 2 -->
+  <polygon points="60,80 70,70 80,80 70,90" fill="#FFD93D"/>
+  <polygon points="100,80 110,70 120,80 110,90" fill="#4ECDC4"/>
+  <polygon points="140,80 150,70 160,80 150,90" fill="#FF6B9D"/>
+  <polygon points="180,80 190,70 200,80 190,90" fill="#FFD93D"/>
+
+  <!-- Row 3 -->
+  <polygon points="60,110 70,100 80,110 70,120" fill="#FF6B9D"/>
+  <polygon points="100,110 110,100 120,110 110,120" fill="#FFD93D"/>
+  <polygon points="140,110 150,100 160,110 150,120" fill="#4ECDC4"/>
+  <polygon points="180,110 190,100 200,110 190,120" fill="#FF6B9D"/>
+
+  <!-- Question -->
+  <text x="200" y="155" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="16" font-weight="700" fill="#333">How many jewels? Count them!</text>
+
+  <!-- Answer options -->
+  <rect x="60" y="170" width="60" height="24" rx="6" fill="#E8F8F5"/><text x="90" y="187" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="14" font-weight="700" fill="#333">8</text>
+  <rect x="130" y="170" width="60" height="24" rx="6" fill="#E8F8F5"/><text x="160" y="187" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="14" font-weight="700" fill="#333">10</text>
+  <rect x="200" y="170" width="60" height="24" rx="6" fill="#FFE0EC"/><text x="230" y="187" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="14" font-weight="700" fill="#FF6B9D">12</text>
+  <rect x="270" y="170" width="60" height="24" rx="6" fill="#E8F8F5"/><text x="300" y="187" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="14" font-weight="700" fill="#333">15</text>
+</svg>

@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 200" width="400" height="200">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFF8F0"/>
+      <stop offset="100%" style="stop-color:#FFE0D0"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="200" rx="16" fill="url(#bg)"/>
+  <text x="200" y="30" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="16" font-weight="700" fill="#FF6B9D">Ten Frame — Groups of 10</text>
+
+  <!-- Ten frame grid -->
+  <rect x="60" y="50" width="280" height="110" rx="8" fill="none" stroke="#FF6B9D" stroke-width="2"/>
+  <line x1="200" y1="50" x2="200" y2="160" stroke="#FF6B9D" stroke-width="1.5" stroke-dasharray="4,4"/>
+  <line x1="60" y1="105" x2="340" y2="105" stroke="#FF6B9D" stroke-width="1.5" stroke-dasharray="4,4"/>
+
+  <!-- 10 circles in the ten frame -->
+  <circle cx="95" cy="77" r="12" fill="#4ECDC4"/>
+  <circle cx="135" cy="77" r="12" fill="#4ECDC4"/>
+  <circle cx="175" cy="77" r="12" fill="#4ECDC4"/>
+  <circle cx="215" cy="77" r="12" fill="#4ECDC4"/>
+  <circle cx="255" cy="77" r="12" fill="#4ECDC4"/>
+  <circle cx="95" cy="132" r="12" fill="#4ECDC4"/>
+  <circle cx="135" cy="132" r="12" fill="#4ECDC4"/>
+  <circle cx="175" cy="132" r="12" fill="#4ECDC4"/>
+  <circle cx="215" cy="132" r="12" fill="#4ECDC4"/>
+  <circle cx="255" cy="132" r="12" fill="#4ECDC4"/>
+
+  <text x="200" y="190" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="14" font-weight="700" fill="#333">1 full ten frame = 10</text>
+</svg>

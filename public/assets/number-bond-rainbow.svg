@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 250" width="500" height="250">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFF8F0"/>
+      <stop offset="100%" style="stop-color:#FFE0D0"/>
+    </linearGradient>
+  </defs>
+  <rect width="500" height="250" rx="16" fill="url(#bg)"/>
+  <text x="250" y="30" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="16" font-weight="700" fill="#FF6B9D">Number Bond Rainbow 🌈</text>
+
+  <!-- Rainbow arcs -->
+  <path d="M 30,220 Q 250,20 470,220" fill="none" stroke="#FF6B9D" stroke-width="4"/>
+  <path d="M 50,220 Q 250,40 450,220" fill="none" stroke="#FF9800" stroke-width="4"/>
+  <path d="M 70,220 Q 250,60 430,220" fill="none" stroke="#FFD93D" stroke-width="4"/>
+  <path d="M 90,220 Q 250,80 410,220" fill="none" stroke="#4CAF50" stroke-width="4"/>
+  <path d="M 110,220 Q 250,100 390,220" fill="none" stroke="#2196F3" stroke-width="4"/>
+  <path d="M 130,220 Q 250,120 370,220" fill="none" stroke="#4ECDC4" stroke-width="4"/>
+  <path d="M 150,220 Q 250,140 350,220" fill="none" stroke="#9C27B0" stroke-width="4"/>
+  <path d="M 170,220 Q 250,160 330,220" fill="none" stroke="#E91E63" stroke-width="4"/>
+  <path d="M 190,220 Q 250,180 310,220" fill="none" stroke="#795548" stroke-width="4"/>
+  <path d="M 210,220 Q 250,200 290,220" fill="none" stroke="#607D8B" stroke-width="4"/>
+
+  <!-- Number pairs at ends -->
+  <text x="30" y="240" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="14" font-weight="700" fill="#FF6B9D">0</text>
+  <text x="470" y="240" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="14" font-weight="700" fill="#FF6B9D">10</text>
+
+  <text x="50" y="240" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="14" font-weight="700" fill="#FF9800">1</text>
+  <text x="450" y="240" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="14" font-weight="700" fill="#FF9800">9</text>
+
+  <text x="70" y="240" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="14" font-weight="700" fill="#FFD93D">2</text>
+  <text x="430" y="240" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="14" font-weight="700" fill="#FFD93D">8</text>
+
+  <text x="90" y="240" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="14" font-weight="700" fill="#4CAF50">3</text>
+  <text x="410" y="240" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="14" font-weight="700" fill="#4CAF50">7</text>
+
+  <text x="110" y="240" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="14" font-weight="700" fill="#2196F3">4</text>
+  <text x="390" y="240" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="14" font-weight="700" fill="#2196F3">6</text>
+
+  <text x="130" y="240" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="14" font-weight="700" fill="#4ECDC4">5</text>
+  <text x="370" y="240" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="14" font-weight="700" fill="#4ECDC4">5</text>
+
+  <text x="150" y="240" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="14" font-weight="700" fill="#9C27B0">6</text>
+  <text x="350" y="240" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="14" font-weight="700" fill="#9C27B0">4</text>
+
+  <text x="170" y="240" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="14" font-weight="700" fill="#E91E63">7</text>
+  <text x="330" y="240" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="14" font-weight="700" fill="#E91E63">3</text>
+
+  <text x="190" y="240" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="14" font-weight="700" fill="#795548">8</text>
+  <text x="310" y="240" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="14" font-weight="700" fill="#795548">2</text>
+
+  <text x="210" y="240" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="14" font-weight="700" fill="#607D8B">9</text>
+  <text x="290" y="240" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="14" font-weight="700" fill="#607D8B">1</text>
+
+  <text x="250" y="240" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="14" font-weight="700" fill="#FF6B9D">10</text>
+  <text x="250" y="15" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="14" font-weight="700" fill="#FF6B9D">0</text>
+</svg>

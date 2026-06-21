@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 250" width="500" height="250">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFF8F0"/>
+      <stop offset="100%" style="stop-color:#FFE0D0"/>
+    </linearGradient>
+  </defs>
+  <rect width="500" height="250" rx="16" fill="url(#bg)"/>
+  <text x="250" y="30" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="16" font-weight="700" fill="#FF6B9D">Number Bonds to 10 — Best Friends!</text>
+
+  <!-- Rainbow arcs connecting number pairs -->
+  <!-- 0+10 -->
+  <path d="M 60,200 Q 60,80 120,200" fill="none" stroke="#FF6B9D" stroke-width="3"/>
+  <text x="60" y="220" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="16" font-weight="700" fill="#333">0</text>
+  <text x="120" y="220" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="16" font-weight="700" fill="#333">10</text>
+
+  <!-- 1+9 -->
+  <path d="M 140,200 Q 140,70 200,200" fill="none" stroke="#FF9800" stroke-width="3"/>
+  <text x="140" y="220" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="16" font-weight="700" fill="#333">1</text>
+  <text x="200" y="220" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="16" font-weight="700" fill="#333">9</text>
+
+  <!-- 2+8 -->
+  <path d="M 220,200 Q 220,60 280,200" fill="none" stroke="#FFD93D" stroke-width="3"/>
+  <text x="220" y="220" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="16" font-weight="700" fill="#333">2</text>
+  <text x="280" y="220" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="16" font-weight="700" fill="#333">8</text>
+
+  <!-- 3+7 -->
+  <path d="M 300,200 Q 300,50 360,200" fill="none" stroke="#4CAF50" stroke-width="3"/>
+  <text x="300" y="220" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="16" font-weight="700" fill="#333">3</text>
+  <text x="360" y="220" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="16" font-weight="700" fill="#333">7</text>
+
+  <!-- 4+6 -->
+  <path d="M 380,200 Q 380,40 440,200" fill="none" stroke="#2196F3" stroke-width="3"/>
+  <text x="380" y="220" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="16" font-weight="700" fill="#333">4</text>
+  <text x="440" y="220" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="16" font-weight="700" fill="#333">6</text>
+
+  <!-- 5+5 (center, straight up) -->
+  <line x1="250" y1="200" x2="250" y2="50" stroke="#9C27B0" stroke-width="3"/>
+  <text x="250" y="220" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="16" font-weight="700" fill="#333">5</text>
+  <text x="250" y="40" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="16" font-weight="700" fill="#333">5</text>
+
+  <!-- Plus signs between pairs -->
+  <text x="90" y="200" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="14" font-weight="700" fill="#FF6B9D">+</text>
+  <text x="170" y="200" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="14" font-weight="700" fill="#FF9800">+</text>
+  <text x="250" y="200" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="14" font-weight="700" fill="#FFD93D">+</text>
+  <text x="330" y="200" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="14" font-weight="700" fill="#4CAF50">+</text>
+  <text x="410" y="200" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="14" font-weight="700" fill="#2196F3">+</text>
+
+  <!-- Equals 10 labels -->
+  <text x="90" y="240" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="12" fill="#777">= 10</text>
+  <text x="170" y="240" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="12" fill="#777">= 10</text>
+  <text x="250" y="240" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="12" fill="#777">= 10</text>
+  <text x="330" y="240" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="12" fill="#777">= 10</text>
+  <text x="410" y="240" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="12" fill="#777">= 10</text>
+</svg>

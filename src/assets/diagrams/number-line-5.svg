@@ -1,0 +1,15 @@
+<svg width="300" height="100" xmlns="http://www.w3.org/2000/svg">
+  <line x1="10" y1="50" x2="290" y2="50" stroke="black" stroke-width="2"/>
+  <circle cx="10" cy="50" r="5" fill="#4CAF50"/>
+  <circle cx="60" cy="50" r="5" fill="#4CAF50"/>
+  <circle cx="110" cy="50" r="5" fill="#4CAF50"/>
+  <circle cx="160" cy="50" r="5" fill="#4CAF50"/>
+  <circle cx="210" cy="50" r="5" fill="#4CAF50"/>
+  <circle cx="260" cy="50" r="5" fill="#4CAF50"/>
+  <text x="10" y="35" font-family="Fredoka" font-size="16" text-anchor="middle">1</text>
+  <text x="60" y="35" font-family="Fredoka" font-size="16" text-anchor="middle">2</text>
+  <text x="110" y="35" font-family="Fredoka" font-size="16" text-anchor="middle">3</text>
+  <text x="160" y="35" font-family="Fredoka" font-size="16" text-anchor="middle">4</text>
+  <text x="210" y="35" font-family="Fredoka" font-size="16" text-anchor="middle">5</text>
+  <text x="260" y="35" font-family="Fredoka" font-size="16" text-anchor="middle">6</text>
+</svg>

@@ -1,7 +1,7 @@
-/* Strand Detail View Styles */
+/* Strand Detail Styles */
 
 .strand-detail {
-  max-width: 1000px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: var(--spacing-md);
 }
@@ -14,15 +14,17 @@
 
 .strand-detail .header h1 {
   color: var(--primary);
-  margin-bottom: var(--spacing-xs);
+  margin-bottom: var(--spacing-sm);
+  font-size: 2.5rem;
 }
 
 .strand-detail .header p {
   color: var(--text-medium);
   font-size: 1.1rem;
+  max-width: 600px;
+  margin: 0 auto var(--spacing-md);
 }
 
-/* Back Button */
 .back-button {
   position: absolute;
   left: 0;
@@ -31,34 +33,26 @@
   color: var(--text-dark);
   font-size: 1rem;
   padding: var(--spacing-sm) var(--spacing-md);
-  border-radius: var(--border-radius-sm);
-  box-shadow: none;
+  border-radius: var(--border-radius-md);
 }
 
 .back-button:hover {
   background: #e0d0c0;
-  transform: none;
-  box-shadow: var(--shadow-light);
+  transform: translateY(-2px);
 }
 
-/* Strand Content */
 .strand-content {
   min-height: 300px;
-}
-
-.strand-content .loading {
-  min-height: 200px;
 }
 
 /* Episodes Grid */
 .episodes-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
   gap: var(--spacing-lg);
   margin-bottom: var(--spacing-xl);
 }
 
-/* Episode Card */
 .episode-card {
   background: white;
   border-radius: var(--border-radius-lg);
@@ -69,44 +63,40 @@
 }
 
 .episode-card:hover {
-  transform: translateY(-3px);
+  transform: translateY(-5px);
   box-shadow: var(--shadow-medium);
-  border-color: var(--secondary);
+  border-color: var(--primary);
 }
 
 .episode-header {
   padding: var(--spacing-md) var(--spacing-lg);
   border-bottom: 1px solid var(--background-medium);
-  background: linear-gradient(135deg, var(--background-light), white);
 }
 
 .episode-header h3 {
   margin-bottom: var(--spacing-xs);
   color: var(--text-dark);
-  font-size: 1.15rem;
+  font-size: 1.3rem;
 }
 
 .episode-meta {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: var(--spacing-sm);
+  gap: var(--spacing-md);
+  flex-wrap: wrap;
 }
 
 .skill-tag {
-  display: inline-block;
   background: var(--secondary);
   color: white;
-  font-size: 0.75rem;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--border-radius-sm);
+  font-size: 0.8rem;
   font-weight: 600;
-  padding: 2px 8px;
-  border-radius: 12px;
-  font-family: var(--font-heading);
 }
 
 .duration {
-  font-size: 0.8rem;
-  color: var(--text-light);
+  color: var(--text-medium);
+  font-size: 0.9rem;
 }
 
 .episode-content {
@@ -115,127 +105,106 @@
 
 .episode-content p {
   color: var(--text-medium);
-  margin-bottom: var(--spacing-md);
-  font-size: 0.95rem;
+  margin-bottom: var(--spacing-lg);
 }
 
 .episode-actions {
   display: flex;
-  gap: var(--spacing-sm);
+  gap: var(--spacing-md);
   flex-wrap: wrap;
 }
 
-.lesson-btn {
+.lesson-btn, .practice-btn {
   flex: 1;
-  min-width: 140px;
+  min-width: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-sm);
+}
+
+.lesson-btn {
   background: var(--primary);
-  font-size: 0.95rem;
-  padding: var(--spacing-sm) var(--spacing-md);
 }
 
 .practice-btn {
-  flex: 1;
-  min-width: 140px;
   background: var(--secondary);
-  font-size: 0.95rem;
-  padding: var(--spacing-sm) var(--spacing-md);
+}
+
+.lesson-btn:hover {
+  background: var(--primary-dark);
 }
 
 .practice-btn:hover {
   background: #3db9b1;
 }
 
-/* Strand Summary / Progress Overview */
+/* Strand Summary */
 .strand-summary {
   background: white;
   border-radius: var(--border-radius-lg);
   box-shadow: var(--shadow-light);
   padding: var(--spacing-lg);
-  margin-bottom: var(--spacing-xl);
+  margin-top: var(--spacing-xl);
 }
 
 .strand-summary h2 {
   color: var(--primary);
-  margin-bottom: var(--spacing-md);
+  margin-bottom: var(--spacing-lg);
   text-align: center;
 }
 
 .progress-overview {
-  display: flex;
-  justify-content: space-around;
-  flex-wrap: wrap;
-  gap: var(--spacing-md);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: var(--spacing-lg);
+  text-align: center;
 }
 
 .progress-stat {
-  text-align: center;
-  flex: 1;
-  min-width: 100px;
+  padding: var(--spacing-md);
+  border-radius: var(--border-radius-md);
+  background: var(--background-light);
 }
 
 .stat-value {
   display: block;
-  font-family: var(--font-heading);
   font-size: 2rem;
   font-weight: 700;
-  color: var(--secondary);
+  color: var(--primary);
+  margin-bottom: var(--spacing-xs);
 }
 
 .stat-label {
-  display: block;
-  font-size: 0.85rem;
   color: var(--text-medium);
-  margin-top: var(--spacing-xs);
+  font-size: 0.9rem;
 }
 
-/* No Episodes State */
-.no-episodes {
-  text-align: center;
-  padding: var(--spacing-xxl);
-  background: white;
-  border-radius: var(--border-radius-lg);
-  box-shadow: var(--shadow-light);
-}
-
-.no-episodes p {
-  font-size: 1.2rem;
-  color: var(--text-medium);
-  margin-bottom: var(--spacing-lg);
-}
-
-/* Responsive */
+/* Responsive Design */
 @media (max-width: 640px) {
   .strand-detail {
     padding: var(--spacing-sm);
   }
-
-  .strand-detail .header {
-    padding-top: 50px; /* Space for back button */
+  
+  .strand-detail .header h1 {
+    font-size: 2rem;
   }
-
+  
   .back-button {
-    position: relative;
-    display: block;
-    width: 100%;
+    position: static;
     margin-bottom: var(--spacing-md);
   }
-
+  
   .episodes-grid {
     grid-template-columns: 1fr;
     gap: var(--spacing-md);
   }
-
+  
   .episode-actions {
     flex-direction: column;
   }
-
-  .lesson-btn,
-  .practice-btn {
-    width: 100%;
-  }
-
+  
   .progress-overview {
-    flex-direction: column;
-    align-items: center;
+    grid-template-columns: 1fr;
   }
 }

@@ -1,27 +1,58 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600">
   <!-- Background -->
-  <rect width="800" height="600" fill="#e0f7fa" />
-  
-  <!-- Mountains -->
-  <polygon points="100,400 150,300 200,400" fill="#9e9e9e" />
-  <polygon points="150,400 200,250 250,400" fill="#757575" />
-  <polygon points="180,400 230,320 280,400" fill="#616161" />
-  
-  <!-- Forest -->
-  <circle cx="350" cy="350" r="80" fill="#4caf50" />
-  <circle cx="320" cy="320" r="60" fill="#388e3c" />
-  <circle cx="380" cy="330" r="70" fill="#2e7d32" />
-  
-  <!-- River -->
-  <path d="M500,100 Q550,200 500,300 Q450,400 500,500" stroke="#2196f3" stroke-width="20" fill="none" />
-  
-  <!-- Desert -->
-  <circle cx="650" cy="200" r="70" fill="#ffcc80" />
-  <circle cx="620" cy="180" r="50" fill="#ffb74d" />
-  
-  <!-- Ocean -->
-  <ellipse cx="200" cy="500" rx="150" ry="80" fill="#1976d2" />
+  <rect width="800" height="600" fill="#FFF8F0"/>
   
   <!-- Title -->
-  <text x="400" y="50" font-family="Arial, sans-serif" font-size="36" text-anchor="middle" fill="#006064">The Kingdom of Numberland</text>
+  <text x="400" y="50" font-family="Fredoka" font-size="36" text-anchor="middle" fill="#FF6B9D">The Kingdom of Numberland</text>
+  
+  <!-- Number Land -->
+  <g id="number-land">
+    <circle cx="150" cy="150" r="80" fill="#FF6B9D" stroke="#E05A8A" stroke-width="3"/>
+    <text x="150" y="155" font-family="Fredoka" font-size="20" text-anchor="middle" fill="white">Number Land</text>
+    <image x="120" y="90" href="number-icon.svg" width="60" height="60"/>
+  </g>
+  
+  <!-- Operations Land -->
+  <g id="operations-land">
+    <circle cx="350" cy="150" r="80" fill="#4ECDC4" stroke="#3db9b1" stroke-width="3"/>
+    <text x="350" y="155" font-family="Fredoka" font-size="20" text-anchor="middle" fill="white">Operations Land</text>
+    <image x="320" y="90" href="operations-icon.svg" width="60" height="60"/>
+  </g>
+  
+  <!-- Fractions Land -->
+  <g id="fractions-land">
+    <circle cx="550" cy="150" r="80" fill="#FFD93D" stroke="#e6c32a" stroke-width="3"/>
+    <text x="550" y="155" font-family="Fredoka" font-size="20" text-anchor="middle" fill="#333">Fractions Land</text>
+    <image x="520" y="90" href="fractions-icon.svg" width="60" height="60"/>
+  </g>
+  
+  <!-- Geometry Land -->
+  <g id="geometry-land">
+    <circle cx="200" cy="350" r="80" fill="#9B59B6" stroke="#8a4aa3" stroke-width="3"/>
+    <text x="200" y="355" font-family="Fredoka" font-size="20" text-anchor="middle" fill="white">Geometry Land</text>
+    <image x="170" y="290" href="geometry-icon.svg" width="60" height="60"/>
+  </g>
+  
+  <!-- Measurement Land -->
+  <g id="measurement-land">
+    <circle cx="400" cy="350" r="80" fill="#E67E22" stroke="#d16d1b" stroke-width="3"/>
+    <text x="400" y="355" font-family="Fredoka" font-size="20" text-anchor="middle" fill="white">Measurement Land</text>
+    <image x="370" y="290" href="measurement-icon.svg" width="60" height="60"/>
+  </g>
+  
+  <!-- Data Land -->
+  <g id="data-land">
+    <circle cx="600" cy="350" r="80" fill="#3498DB" stroke="#258cd1" stroke-width="3"/>
+    <text x="600" y="355" font-family="Fredoka" font-size="20" text-anchor="middle" fill="white">Data Land</text>
+    <image x="570" y="290" href="data-icon.svg" width="60" height="60"/>
+  </g>
+  
+  <!-- Paths connecting lands -->
+  <line x1="230" y1="150" x2="270" y2="150" stroke="#F5E6D9" stroke-width="3"/>
+  <line x1="430" y1="150" x2="470" y2="150" stroke="#F5E6D9" stroke-width="3"/>
+  <line x1="150" y1="230" x2="150" y2="270" stroke="#F5E6D9" stroke-width="3"/>
+  <line x1="350" y1="230" x2="350" y2="270" stroke="#F5E6D9" stroke-width="3"/>
+  <line x1="550" y1="230" x2="550" y2="270" stroke="#F5E6D9" stroke-width="3"/>
+  <line x1="280" y1="350" x2="320" y2="350" stroke="#F5E6D9" stroke-width="3"/>
+  <line x1="480" y1="350" x2="520" y2="350" stroke="#F5E6D9" stroke-width="3"/>
 </svg>

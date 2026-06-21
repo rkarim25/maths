@@ -15,12 +15,16 @@ let currentRoute = '';
 
 /**
  * Initialize the router
- * Only sets up the hashchange listener — does NOT render immediately.
- * initApp() will call navigateTo() after DB is ready, which triggers rendering.
  */
 export function initRouter() {
+  // Handle initial load
+  handleRouteChange();
+  
   // Listen for hash changes
   window.addEventListener('hashchange', handleRouteChange);
+  
+  // Also listen for direct navigation
+  window.addEventListener('load', handleRouteChange);
 }
 
 /**
@@ -40,6 +44,20 @@ function handleRouteChange() {
     // Handle strand detail route
     const strand = decodeURIComponent(hash.substring(8)); // Remove '/strand/' prefix
     renderStrandDetail(strand);
+    return;
+  }
+  
+  // Handle lesson route
+  if (hash.startsWith('/lesson/')) {
+    const episodeId = decodeURIComponent(hash.substring(8)); // Remove '/lesson/' prefix
+    renderLesson(episodeId);
+    return;
+  }
+  
+  // Handle practice route
+  if (hash.startsWith('/practice/')) {
+    const episodeId = decodeURIComponent(hash.substring(10)); // Remove '/practice/' prefix
+    renderPractice(episodeId);
     return;
   }
   
@@ -223,7 +241,7 @@ function renderStrandContent(strand, episodes) {
   lessonButtons.forEach(button => {
     button.addEventListener('click', (event) => {
       const episodeId = button.getAttribute('data-episode-id');
-      alert(`Story lesson for ${episodeId} would start here`);
+      navigateTo(`/lesson/${encodeURIComponent(episodeId)}`);
     });
   });
   
@@ -231,7 +249,398 @@ function renderStrandContent(strand, episodes) {
   practiceButtons.forEach(button => {
     button.addEventListener('click', (event) => {
       const episodeId = button.getAttribute('data-episode-id');
-      alert(`Practice game for ${episodeId} would start here`);
+      navigateTo(`/practice/${encodeURIComponent(episodeId)}`);
     });
+  });
+}
+
+/**
+ * Render lesson view
+ * @param {string} episodeId - The episode ID
+ */
+function renderLesson(episodeId) {
+  const appElement = document.getElementById('app');
+  if (!appElement) return;
+  
+  // Show loading state while we fetch the lesson content
+  appElement.innerHTML = `
+    <div class="lesson-player">
+      <div class="header">
+        <button id="back-btn" class="back-button">← Back to Strand</button>
+        <h1>Loading Lesson...</h1>
+      </div>
+      <div class="lesson-content">
+        <div class="loading">
+          <div class="spinner"></div>
+          <p>Loading your adventure...</p>
+        </div>
+      </div>
+    </div>
+  `;
+  
+  // Add back button event listener
+  const backBtn = document.getElementById('back-btn');
+  if (backBtn) {
+    backBtn.addEventListener('click', () => {
+      // Go back to the strand view
+      const strand = getStrandForEpisode(episodeId);
+      if (strand) {
+        navigateTo(`/strand/${encodeURIComponent(strand)}`);
+      } else {
+        navigateTo('/world-map');
+      }
+    });
+  }
+  
+  // Load lesson content
+  loadLessonContent(episodeId);
+}
+
+/**
+ * Render practice view
+ * @param {string} episodeId - The episode ID
+ */
+function renderPractice(episodeId) {
+  const appElement = document.getElementById('app');
+  if (!appElement) return;
+  
+  // Show loading state while we fetch the practice content
+  appElement.innerHTML = `
+    <div class="practice-player">
+      <div class="header">
+        <button id="back-btn" class="back-button">← Back to Strand</button>
+        <h1>Loading Practice...</h1>
+      </div>
+      <div class="practice-content">
+        <div class="loading">
+          <div class="spinner"></div>
+          <p>Loading your practice game...</p>
+        </div>
+      </div>
+    </div>
+  `;
+  
+  // Add back button event listener
+  const backBtn = document.getElementById('back-btn');
+  if (backBtn) {
+    backBtn.addEventListener('click', () => {
+      // Go back to the strand view
+      const strand = getStrandForEpisode(episodeId);
+      if (strand) {
+        navigateTo(`/strand/${encodeURIComponent(strand)}`);
+      } else {
+        navigateTo('/world-map');
+      }
+    });
+  }
+  
+  // Load practice content
+  loadPracticeContent(episodeId);
+}
+
+/**
+ * Get strand for an episode ID
+ * @param {string} episodeId - The episode ID
+ * @returns {string|null} The strand name or null if not found
+ */
+function getStrandForEpisode(episodeId) {
+  // This function should be synchronous for the router to work properly
+  // In a real implementation, you would need to pass the strand information
+  // when navigating or have a synchronous way to get it
+  return null;
+}
+
+/**
+ * Load lesson content and render
+ * @param {string} episodeId - The episode ID
+ */
+function loadLessonContent(episodeId) {
+  // Import the lesson content
+  Promise.all([
+    import('./config/curriculum-registry.js'),
+    import('./data/lesson-content.js')
+  ]).then(([{ getEpisodeById }, { getLessonContent }]) => {
+    const episode = getEpisodeById(episodeId);
+    const lessonContent = getLessonContent(episodeId);
+    
+    if (!episode || !lessonContent) {
+      // Show error if episode not found
+      const appElement = document.getElementById('app');
+      if (appElement) {
+        appElement.innerHTML = `
+          <div class="lesson-player">
+            <div class="header">
+              <button id="back-btn" class="back-button">← Back to Strand</button>
+              <h1>Lesson Not Found</h1>
+            </div>
+            <div class="lesson-content">
+              <div class="error-message">
+                <p>Sorry, this lesson is not available yet.</p>
+                <button id="retry-btn">Try Again</button>
+              </div>
+            </div>
+          </div>
+        `;
+        
+        // Add event listeners
+        const backBtn = document.getElementById('back-btn');
+        if (backBtn) {
+          backBtn.addEventListener('click', () => {
+            const strand = getStrandForEpisode(episodeId);
+            if (strand) {
+              navigateTo(`/strand/${encodeURIComponent(strand)}`);
+            } else {
+              navigateTo('/world-map');
+            }
+          });
+        }
+        
+        const retryBtn = document.getElementById('retry-btn');
+        if (retryBtn) {
+          retryBtn.addEventListener('click', () => {
+            loadLessonContent(episodeId);
+          });
+        }
+      }
+      return;
+    }
+    
+    // Render the lesson content
+    renderLessonContent(episode, lessonContent);
+  }).catch(error => {
+    console.error('Failed to load lesson content:', error);
+    const appElement = document.getElementById('app');
+    if (appElement) {
+      appElement.innerHTML = `
+        <div class="lesson-player">
+          <div class="header">
+            <button id="back-btn" class="back-button">← Back to Strand</button>
+            <h1>Lesson Error</h1>
+          </div>
+          <div class="lesson-content">
+            <div class="error-message">
+              <p>Failed to load lesson. Please try again.</p>
+              <button id="retry-btn">Retry</button>
+            </div>
+          </div>
+        </div>
+      `;
+      
+      // Add event listeners
+      const backBtn = document.getElementById('back-btn');
+      if (backBtn) {
+        backBtn.addEventListener('click', () => {
+          const strand = getStrandForEpisode(episodeId);
+          if (strand) {
+            navigateTo(`/strand/${encodeURIComponent(strand)}`);
+          } else {
+            navigateTo('/world-map');
+          }
+        });
+      }
+      
+      const retryBtn = document.getElementById('retry-btn');
+      if (retryBtn) {
+        retryBtn.addEventListener('click', () => {
+          loadLessonContent(episodeId);
+        });
+      }
+    }
+  });
+}
+
+/**
+ * Load practice content and render
+ * @param {string} episodeId - The episode ID
+ */
+function loadPracticeContent(episodeId) {
+  // Import the practice game view
+  Promise.all([
+    import('./config/curriculum-registry.js'),
+    import('./data/lesson-content.js')
+  ]).then(([{ getEpisodeById }, { getLessonContent }]) => {
+    const episode = getEpisodeById(episodeId);
+    const lessonContent = getLessonContent(episodeId);
+    
+    if (!episode || !lessonContent) {
+      // Show error if episode not found
+      const appElement = document.getElementById('app');
+      if (appElement) {
+        appElement.innerHTML = `
+          <div class="practice-player">
+            <div class="header">
+              <button id="back-btn" class="back-button">← Back to Strand</button>
+              <h1>Practice Not Found</h1>
+            </div>
+            <div class="practice-content">
+              <div class="error-message">
+                <p>Sorry, this practice game is not available yet.</p>
+                <button id="retry-btn">Try Again</button>
+              </div>
+            </div>
+          </div>
+        `;
+        
+        // Add event listeners
+        const backBtn = document.getElementById('back-btn');
+        if (backBtn) {
+          backBtn.addEventListener('click', () => {
+            const strand = getStrandForEpisode(episodeId);
+            if (strand) {
+              navigateTo(`/strand/${encodeURIComponent(strand)}`);
+            } else {
+              navigateTo('/world-map');
+            }
+          });
+        }
+        
+        const retryBtn = document.getElementById('retry-btn');
+        if (retryBtn) {
+          retryBtn.addEventListener('click', () => {
+            loadPracticeContent(episodeId);
+          });
+        }
+      }
+      return;
+    }
+    
+    // Import and render the practice game view
+    import('./views/practice-game.js').then(({ renderPracticeGame }) => {
+      renderPracticeGame(episode, lessonContent);
+    }).catch(error => {
+      console.error('Failed to load practice game:', error);
+      // Fallback to simple view
+      const appElement = document.getElementById('app');
+      if (appElement) {
+        appElement.innerHTML = `
+          <div class="practice-player">
+            <div class="header">
+              <button id="back-btn" class="back-button">← Back to Strand</button>
+              <h1>${lessonContent.title} - Practice</h1>
+            </div>
+            <div class="practice-content">
+              <div class="coming-soon">
+                <h2>Practice Game Coming Soon!</h2>
+                <p>This practice game is still being developed. Check back soon for interactive math challenges!</p>
+                <div class="practice-preview">
+                  <img src="./assets/fractions-icon.svg" alt="Practice Preview" />
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+        
+        // Add back button event listener
+        const backBtn = document.getElementById('back-btn');
+        if (backBtn) {
+          backBtn.addEventListener('click', () => {
+            const strand = getStrandForEpisode(episodeId);
+            if (strand) {
+              navigateTo(`/strand/${encodeURIComponent(strand)}`);
+            } else {
+              navigateTo('/world-map');
+            }
+          });
+        }
+      }
+    });
+  }).catch(error => {
+    console.error('Failed to load practice content:', error);
+    const appElement = document.getElementById('app');
+    if (appElement) {
+      appElement.innerHTML = `
+        <div class="practice-player">
+          <div class="header">
+            <button id="back-btn" class="back-button">← Back to Strand</button>
+            <h1>Practice Error</h1>
+          </div>
+          <div class="practice-content">
+            <div class="error-message">
+              <p>Failed to load practice game. Please try again.</p>
+              <button id="retry-btn">Retry</button>
+            </div>
+          </div>
+        </div>
+      `;
+      
+      // Add event listeners
+      const backBtn = document.getElementById('back-btn');
+      if (backBtn) {
+        backBtn.addEventListener('click', () => {
+          const strand = getStrandForEpisode(episodeId);
+          if (strand) {
+            navigateTo(`/strand/${encodeURIComponent(strand)}`);
+          } else {
+            navigateTo('/world-map');
+          }
+        });
+      }
+      
+      const retryBtn = document.getElementById('retry-btn');
+      if (retryBtn) {
+        retryBtn.addEventListener('click', () => {
+          loadPracticeContent(episodeId);
+        });
+      }
+    }
+  });
+}
+
+/**
+ * Render lesson content
+ * @param {Object} episode - The episode data
+ * @param {Object} lessonContent - The lesson content
+ */
+function renderLessonContent(episode, lessonContent) {
+  // Import and render the lesson player view
+  import('./views/lesson-player.js').then(({ renderLessonPlayer }) => {
+    renderLessonPlayer(episode, lessonContent);
+  }).catch(error => {
+    console.error('Failed to load lesson player:', error);
+    // Fallback to simple view
+    const appElement = document.getElementById('app');
+    if (appElement) {
+      appElement.innerHTML = `
+        <div class="lesson-player">
+          <div class="header">
+            <button id="back-btn" class="back-button">← Back to Strand</button>
+            <h1>${lessonContent.title}</h1>
+            <p>${episode.description}</p>
+          </div>
+          <div class="lesson-content">
+            <div class="lesson-intro">
+              <h2>Story Lesson</h2>
+              <p>Welcome to your math adventure! This lesson will help you learn ${lessonContent.learningObjective}.</p>
+              <div class="lesson-preview">
+                <img src="./assets/number-icon.svg" alt="Lesson Preview" />
+              </div>
+              <button id="start-lesson-btn" class="primary-btn">Start Lesson</button>
+            </div>
+          </div>
+        </div>
+      `;
+      
+      // Add event listeners
+      const backBtn = document.getElementById('back-btn');
+      if (backBtn) {
+        backBtn.addEventListener('click', () => {
+          const strand = episode.strand;
+          if (strand) {
+            navigateTo(`/strand/${encodeURIComponent(strand)}`);
+          } else {
+            navigateTo('/world-map');
+          }
+        });
+      }
+      
+      const startBtn = document.getElementById('start-lesson-btn');
+      if (startBtn) {
+        startBtn.addEventListener('click', () => {
+          // For now, just show an alert
+          // In a full implementation, this would start the slide-based lesson player
+          alert('Lesson would start here with interactive slides, narration, and diagrams!');
+        });
+      }
+    }
   });
 }

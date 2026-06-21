@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 200" width="400" height="200">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFF8F0"/>
+      <stop offset="100%" style="stop-color:#FFE0D0"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="200" rx="16" fill="url(#bg)"/>
+  <text x="200" y="28" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="16" font-weight="700" fill="#FF6B9D">Addition with Planks 🔨</text>
+
+  <!-- Left group: 3 planks -->
+  <text x="100" y="55" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="14" font-weight="700" fill="#333">Builder Bear has:</text>
+  <rect x="50" y="65" width="100" height="18" rx="3" fill="#8B4513"/>
+  <rect x="50" y="88" width="100" height="18" rx="3" fill="#A0522D"/>
+  <rect x="50" y="111" width="100" height="18" rx="3" fill="#8B4513"/>
+  <text x="100" y="145" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="18" font-weight="700" fill="#FF6B9D">3 planks</text>
+
+  <!-- Plus sign -->
+  <text x="200" y="110" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="28" font-weight="700" fill="#4ECDC4">+</text>
+
+  <!-- Right group: 2 planks -->
+  <text x="300" y="55" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="14" font-weight="700" fill="#333">You bring:</text>
+  <rect x="250" y="65" width="100" height="18" rx="3" fill="#DEB887"/>
+  <rect x="250" y="88" width="100" height="18" rx="3" fill="#DEB887"/>
+  <text x="300" y="145" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="18" font-weight="700" fill="#FF6B9D">2 planks</text>
+
+  <!-- Equals -->
+  <text x="200" y="175" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="28" font-weight="700" fill="#FFD93D">=</text>
+
+  <!-- Total -->
+  <text x="200" y="195" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="20" font-weight="700" fill="#FF6B9D">5 planks total!</text>
+</svg>
