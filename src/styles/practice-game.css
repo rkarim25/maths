@@ -109,6 +109,16 @@
 .puz-answer-text { font-family: var(--font-heading); font-size: 1.3rem; color: var(--text-dark); margin: 0 0 0.5rem; }
 .puz-explain { color: var(--text-medium); margin: 0; line-height: 1.6; }
 
+/* Real-world applications + mental-maths methods */
+.app-tag { background: var(--background-medium); color: var(--text-dark); font-size: 0.75rem; font-weight: 700; padding: 0.15rem 0.6rem; border-radius: var(--border-radius-lg); white-space: nowrap; }
+.app-context { font-size: 1.15rem; line-height: 1.6; color: var(--text-medium); margin-bottom: var(--spacing-md); }
+.app-task { background: var(--background-light); border-radius: var(--border-radius-md); padding: var(--spacing-md); margin-bottom: var(--spacing-md); }
+.app-task-label { font-family: var(--font-heading); font-weight: 700; color: var(--primary); margin: 0 0 0.25rem; }
+.mm-steps { padding-left: 1.4rem; }
+.mm-steps li { margin-bottom: 0.4rem; font-size: 1.05rem; line-height: 1.5; }
+.mm-examples { list-style: none; padding-left: 0; margin-top: 0.25rem; }
+.mm-examples li { background: var(--background-light); border-radius: var(--border-radius-sm); padding: 0.45rem 0.75rem; margin-bottom: 0.4rem; font-weight: 600; }
+
 /* Learn the times tables */
 .tt-learn-label { font-size: 0.8rem; font-weight: 700; color: var(--text-medium); }
 .tl-card { background: #fff; border-radius: var(--border-radius-lg); padding: var(--spacing-lg); box-shadow: var(--shadow-light); }

@@ -58,6 +58,8 @@ export async function renderLessonsTable() {
         <button class="chip" id="ql-tt">🧮 Tables drill</button>
         <button class="chip" id="ql-fun">✨ Maths fun</button>
         <button class="chip" id="ql-puzzles">🧩 Puzzles</button>
+        <button class="chip" id="ql-realworld">🌍 Real-world</button>
+        <button class="chip" id="ql-mental">🧠 Mental maths</button>
         <button class="chip" id="ql-mocks">📝 Mock exams</button>
         <button class="chip" id="ql-book">📚 Print book</button>
       </div>
@@ -74,6 +76,8 @@ export async function renderLessonsTable() {
   document.getElementById('ql-tt').addEventListener('click', () => navigateTo('/times-tables'));
   document.getElementById('ql-learn').addEventListener('click', () => navigateTo('/learn-tables'));
   document.getElementById('ql-puzzles').addEventListener('click', () => navigateTo('/puzzles'));
+  document.getElementById('ql-realworld').addEventListener('click', () => navigateTo(`/real-world/${currentStage}`));
+  document.getElementById('ql-mental').addEventListener('click', () => navigateTo('/mental-maths'));
   document.getElementById('ql-fun').addEventListener('click', () => navigateTo(`/fun/${currentStage}`));
   document.getElementById('ql-mocks').addEventListener('click', () => navigateTo('/mocks'));
   document.getElementById('ql-book').addEventListener('click', () => navigateTo(`/book/${currentStage}`));
