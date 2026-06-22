@@ -30,8 +30,10 @@ export async function analyzeProfile(profileId) {
   const overallAccuracy = totalAnswers ? Math.round((totalCorrect / totalAnswers) * 100) : 0;
 
   const lessons = getAllLessons();
-  const lessonsStarted = Object.keys(progressMap).length;
-  const lessonsMastered = Object.values(progressMap).filter((p) => p.status === 'completed').length;
+  // Count only real lessons (exclude assessment/mock paper progress rows).
+  const lessonProgress = Object.entries(progressMap).filter(([id]) => getLesson(id));
+  const lessonsStarted = lessonProgress.length;
+  const lessonsMastered = lessonProgress.filter(([, p]) => p.status === 'completed').length;
 
   const skills = weakStats
     .map((w) => ({

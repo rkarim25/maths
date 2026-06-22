@@ -3,15 +3,12 @@
 // effectively unlimited mocks. Results show time, topic breakdown and gaps.
 import { navigateTo } from '../router.js';
 import { getAllLessons } from '../data/curriculum.js';
+import { getMockPapers } from '../data/papers.js';
 import { generateSet } from '../services/question-bank.js';
 import { recordAnswer, recordAttempt, recomputeWeakAreas, logEvent } from '../services/tracking.js';
 import { getCurrentProfileId } from '../services/profile-manager.js';
 
-const PAPERS = [
-  { key: 'quick', label: 'Quick mock', count: 15, mins: 12, icon: '⚡', desc: 'A short warm-up paper' },
-  { key: 'half', label: 'Half paper', count: 25, mins: 20, icon: '📄', desc: 'Half-length practice' },
-  { key: 'full', label: 'Full 11+ mock', count: 45, mins: 35, icon: '🎓', desc: 'A full timed exam' }
-];
+const PAPERS = getMockPapers().map((p) => ({ ...p, count: 40, mins: 35, icon: '🎓' }));
 
 let s = null;
 let timerId = null;
@@ -28,13 +25,13 @@ export function renderMockExams() {
       <header class="lp-header">
         <button class="back-button" id="back-btn">← Back to lessons</button>
         <h1>🎓 Mock 11+ exams</h1>
-        <p class="lp-objective">Timed papers with a mix of questions from every topic. Each one is brand new, so you can sit as many as you like — perfect 11+ practice. Aim for 80%+!</p>
+        <p class="lp-objective">Five full timed mock papers with a mix of questions from every topic. Each one is freshly generated, so you can re-sit them as often as you like — perfect 11+ practice. Aim for 80%+!</p>
       </header>
       <div class="set-grid">
         ${PAPERS.map((p) => `
-          <button class="set-card" data-paper="${p.key}">
+          <button class="set-card" data-paper="${p.id}">
             <span class="set-icon">${p.icon}</span>
-            <span class="set-label">${p.label}</span>
+            <span class="set-label">${p.title}</span>
             <span class="set-count">${p.count} questions · ~${p.mins} min</span>
           </button>`).join('')}
       </div>
@@ -55,11 +52,11 @@ function buildPaper(count) {
   return picked.map((l) => ({ lesson: l, q: generateSet(l, 1)[0] })).filter((x) => x.q);
 }
 
-function start(paperKey) {
-  const paper = PAPERS.find((p) => p.key === paperKey) || PAPERS[0];
+function start(paperId) {
+  const paper = PAPERS.find((p) => p.id === paperId) || PAPERS[0];
   s = { paper, items: buildPaper(paper.count), index: 0, score: 0, answers: [], startMs: Date.now() };
   const pid = getCurrentProfileId();
-  if (pid) logEvent(pid, 'mock-start', { paper: paper.key }).catch(() => {});
+  if (pid) logEvent(pid, 'mock-start', { paper: paper.id }).catch(() => {});
   paintShell();
   paintQuestion();
   startTimer();
@@ -145,9 +142,9 @@ async function finish() {
   const pid = getCurrentProfileId();
   if (pid) {
     try {
-      await recordAttempt(pid, `mock-${s.paper.key}`, { score: s.score, total, setName: 'mock' });
+      await recordAttempt(pid, s.paper.id, { score: s.score, total, setName: 'mock' });
       await recomputeWeakAreas(pid);
-      await logEvent(pid, 'mock-complete', { paper: s.paper.key, score: s.score, total, percent, seconds: sec });
+      await logEvent(pid, 'mock-complete', { paper: s.paper.id, score: s.score, total, percent, seconds: sec });
     } catch (e) { /* noop */ }
   }
 

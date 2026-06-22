@@ -1,9 +1,11 @@
-// End-of-stage assessment — samples the stage's skills, scores against a pass
-// mark, records answers (so weak areas + recommendations update) and shows gaps.
+// End-of-stage assessments — 5 per stage, each a mix of that stage's skills,
+// each tracking its own score. Records answers (so weak areas update) + an
+// attempt under `assessment-s<stage>-<n>`.
 import { navigateTo } from '../router.js';
 import { STAGES, getLessonsByStage } from '../data/curriculum.js';
+import { getStageAssessments } from '../data/papers.js';
 import { generateSet } from '../services/question-bank.js';
-import { recordAnswer, recordAttempt, recomputeWeakAreas, logEvent } from '../services/tracking.js';
+import { recordAnswer, recordAttempt, recomputeWeakAreas, logEvent, getProgressMap } from '../services/tracking.js';
 import { getCurrentProfileId } from '../services/profile-manager.js';
 
 const PASS = 80;
@@ -14,39 +16,45 @@ function parseStage(arg) {
   return STAGES[n] ? n : 1;
 }
 
-function sampleLessons(stage, max = 12) {
+function sampleLessons(stage, max, offset = 0) {
   const ls = getLessonsByStage(stage);
   if (ls.length <= max) return ls;
   const step = ls.length / max, out = [];
-  for (let i = 0; i < max; i++) out.push(ls[Math.floor(i * step)]);
+  for (let i = 0; i < max; i++) out.push(ls[(Math.floor(i * step) + offset) % ls.length]);
   return out;
 }
 
-export function renderAssessment(arg) {
+export async function renderAssessment(arg) {
   const stage = parseStage(arg);
   const app = document.getElementById('app');
   if (!app) return;
+  const pid = getCurrentProfileId();
+  const progress = pid ? await getProgressMap(pid) : {};
+  const cards = getStageAssessments(stage).map((a) => {
+    const p = progress[a.id];
+    const badge = p && p.attempts
+      ? `<span class="set-count">Best ${p.bestScore}%${p.bestScore >= PASS ? ' ⭐' : ''}</span>`
+      : '<span class="set-count">Not tried yet</span>';
+    return `<button class="set-card" data-n="${a.n}"><span class="set-icon">📋</span><span class="set-label">${esc(a.title)}</span>${badge}</button>`;
+  }).join('');
   app.innerHTML = `
     <div class="practice">
       <header class="lp-header">
         <button class="back-button" id="back-btn">← Back to lessons</button>
-        <h1>📋 Stage ${stage} assessment</h1>
-        <p class="lp-objective">A mix of questions from across <strong>${esc(STAGES[stage].name)}</strong> to check what's mastered and what to revisit. Try your best!</p>
+        <h1>📋 Stage ${stage} assessments</h1>
+        <p class="lp-objective">Five assessments covering <strong>${esc(STAGES[stage].name)}</strong>. Each checks a mix of the stage's skills — aim for ${PASS}%!</p>
       </header>
-      <div class="q-card" style="text-align:center">
-        <p class="q-prompt">Ready to show what you know?</p>
-        <button class="primary-btn" id="start-btn">Start the assessment →</button>
-      </div>
+      <div class="set-grid">${cards}</div>
     </div>`;
   document.getElementById('back-btn').addEventListener('click', () => navigateTo('/lessons'));
-  document.getElementById('start-btn').addEventListener('click', () => start(stage));
+  app.querySelectorAll('.set-card').forEach((b) => b.addEventListener('click', () => start(stage, Number(b.dataset.n))));
 }
 
-function start(stage) {
-  const items = sampleLessons(stage).map((lesson) => ({ lesson, q: generateSet(lesson, 1)[0] })).filter((it) => it.q);
-  s = { stage, items, index: 0, score: 0, answers: [] };
+function start(stage, n) {
+  const items = sampleLessons(stage, 12, (n - 1) * 2).map((lesson) => ({ lesson, q: generateSet(lesson, 1)[0] })).filter((x) => x.q);
+  s = { stage, n, id: `assessment-s${stage}-${n}`, items, index: 0, score: 0, answers: [] };
   const pid = getCurrentProfileId();
-  if (pid) logEvent(pid, 'assessment-start', { stage }).catch(() => {});
+  if (pid) logEvent(pid, 'assessment-start', { stage, n }).catch(() => {});
   paintShell();
   paintQuestion();
 }
@@ -56,12 +64,12 @@ function paintShell() {
     <div class="practice">
       <header class="practice-bar">
         <button class="back-button" id="quit-btn">← Quit</button>
-        <div class="score-pill">Stage ${s.stage} · <span id="qnum">1</span>/${s.items.length}</div>
+        <div class="score-pill">Stage ${s.stage} · A${s.n} · <span id="qnum">1</span>/${s.items.length}</div>
       </header>
       <div class="progress-track"><div class="progress-fill" id="pfill" style="width:0%"></div></div>
       <div id="qarea" class="qarea"></div>
     </div>`;
-  document.getElementById('quit-btn').addEventListener('click', () => navigateTo('/lessons'));
+  document.getElementById('quit-btn').addEventListener('click', () => navigateTo(`/assessment/${s.stage}`));
 }
 
 function paintQuestion() {
@@ -106,45 +114,36 @@ async function handleAnswer(raw) {
 
 async function finish() {
   document.getElementById('pfill').style.width = '100%';
-  const total = s.items.length;
-  const percent = Math.round((s.score / total) * 100);
-  const passed = percent >= PASS;
+  const total = s.items.length, percent = Math.round((s.score / total) * 100), passed = percent >= PASS;
   const pid = getCurrentProfileId();
   if (pid) {
     try {
-      await recordAttempt(pid, `assessment-stage-${s.stage}`, { score: s.score, total, setName: 'assessment' });
+      await recordAttempt(pid, s.id, { score: s.score, total, setName: 'assessment' });
       await recomputeWeakAreas(pid);
-      await logEvent(pid, 'assessment-complete', { stage: s.stage, score: s.score, total, percent });
-    } catch (e) { /* non-fatal */ }
+      await logEvent(pid, 'assessment-complete', { stage: s.stage, n: s.n, score: s.score, total, percent });
+    } catch (e) { /* noop */ }
   }
-
-  // unique missed lessons → things to revisit
-  const missed = [];
-  const seen = new Set();
+  const missed = [], seen = new Set();
   for (const a of s.answers) if (!a.correct && !seen.has(a.lesson.id)) { seen.add(a.lesson.id); missed.push(a.lesson); }
-
-  const msg = passed
-    ? `🎉 Passed! ${percent}% — great mastery of Stage ${s.stage}.`
-    : `Good effort — ${percent}%. A little more practice on these and you'll have it.`;
-
+  const msg = passed ? `🎉 Passed! ${percent}% — great mastery of Stage ${s.stage}.` : `Good effort — ${percent}%. A little more practice on these and you'll have it.`;
   const revisit = missed.length
-    ? `<div class="assess-gaps"><h3>Worth revisiting</h3>${missed.slice(0, 8).map((l) =>
-        `<button class="mini-btn primary" data-go="/lesson/${encodeURIComponent(l.id)}">${esc(l.title)}</button>`).join('')}</div>`
-    : `<p class="result-msg">Nothing to revisit — fantastic!</p>`;
-
+    ? `<div class="assess-gaps"><h3>Worth revisiting</h3>${missed.slice(0, 8).map((l) => `<button class="mini-btn primary" data-go="/lesson/${encodeURIComponent(l.id)}">${esc(l.title)}</button>`).join('')}</div>`
+    : '<p class="result-msg">Nothing to revisit — fantastic!</p>';
   document.getElementById('qarea').innerHTML = `
     <div class="complete-card">
-      <h2>${passed ? '🏆' : '📋'} Assessment done!</h2>
+      <h2>${passed ? '🏆' : '📋'} Assessment ${s.n} done!</h2>
       <div class="result-score">${s.score} / ${total} <span class="result-pct">(${percent}%)</span></div>
       <p class="result-msg">${msg}</p>
       ${revisit}
       <div class="complete-actions">
         <button class="primary-btn" id="retake-btn">Try again</button>
+        <button class="secondary-btn" id="more-btn">Other assessments</button>
         <button class="secondary-btn" id="done-btn">Back to lessons</button>
       </div>
     </div>`;
   document.querySelectorAll('[data-go]').forEach((b) => b.addEventListener('click', () => navigateTo(b.dataset.go)));
-  document.getElementById('retake-btn').addEventListener('click', () => start(s.stage));
+  document.getElementById('retake-btn').addEventListener('click', () => start(s.stage, s.n));
+  document.getElementById('more-btn').addEventListener('click', () => navigateTo(`/assessment/${s.stage}`));
   document.getElementById('done-btn').addEventListener('click', () => navigateTo('/lessons'));
 }
 

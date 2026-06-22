@@ -109,14 +109,19 @@ export async function recordAttempt(profileId, lessonId, { score, total, setName
  */
 export async function recordManualScore(profileId, lessonId, score, total) {
   const lesson = getLesson(lessonId);
-  const skill = lesson ? lesson.skillTags[0] : 'unknown';
-  for (let i = 0; i < total; i++) {
-    const correct = i < score;
-    await recordAnswer({
-      profileId, lessonId, skillTag: skill, questionType: 'paper',
-      questionText: 'Paper exercise', userAnswer: correct ? 'correct' : 'incorrect',
-      correctAnswer: 'correct', correct, timeSpentMs: 0
-    });
+  // For a real lesson, write synthetic per-skill answers so the skills breakdown
+  // and weak-area recommendations update. For mixed papers (assessments / mocks,
+  // which aren't lessons) just record the attempt — no skill to attribute to.
+  if (lesson) {
+    const skill = lesson.skillTags[0];
+    for (let i = 0; i < total; i++) {
+      const correct = i < score;
+      await recordAnswer({
+        profileId, lessonId, skillTag: skill, questionType: 'paper',
+        questionText: 'Paper exercise', userAnswer: correct ? 'correct' : 'incorrect',
+        correctAnswer: 'correct', correct, timeSpentMs: 0
+      });
+    }
   }
   return recordAttempt(profileId, lessonId, { score, total, setName: 'paper' });
 }

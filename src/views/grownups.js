@@ -6,6 +6,7 @@ import {
 import { analyzeProfile, buildExport, answerLogToCSV, downloadFile } from '../services/analysis.js';
 import { getAnswerLog, clearProfileData, recordManualScore, importData } from '../services/tracking.js';
 import { STAGES, getLessonsByStage } from '../data/curriculum.js';
+import { getStageAssessments, getMockPapers } from '../data/papers.js';
 import { isSyncConfigured, getFamilyCode, isConnected, makeFamilyCode, connectSync, disconnectSync, pushNow, pullNow } from '../services/sync.js';
 
 const SEVERITY_LABEL = { high: "Let's revisit", medium: 'Needs practice', low: 'Nearly there' };
@@ -58,6 +59,9 @@ async function showDashboard(flash) {
   const child = profiles.find((p) => p.profileId === viewingId) || profiles[0];
   const lessonOptions = [1, 2, 3, 4].map((st) =>
     `<optgroup label="Stage ${st}: ${esc(STAGES[st].name)}">${getLessonsByStage(st).map((l) => `<option value="${l.id}">${esc(l.title)}</option>`).join('')}</optgroup>`).join('');
+  const assessOptions = [1, 2, 3, 4].map((st) =>
+    `<optgroup label="Stage ${st} assessments">${getStageAssessments(st).map((a) => `<option value="${a.id}">Stage ${st} · ${esc(a.title)}</option>`).join('')}</optgroup>`).join('');
+  const mockOptions = `<optgroup label="Mock 11+ exams">${getMockPapers().map((m) => `<option value="${m.id}">${esc(m.title)}</option>`).join('')}</optgroup>`;
   const others = profiles.filter((p) => p.profileId !== viewingId);
 
   const childPicker = profiles.length > 1
@@ -121,9 +125,9 @@ async function showDashboard(flash) {
 
       <section class="gu-section">
         <h2>Record a paper score</h2>
-        <p class="muted">Did ${esc(child.name)} do a lesson on paper? Enter the score and it updates progress, skills and recommendations.</p>
+        <p class="muted">Did ${esc(child.name)} do a lesson, assessment or mock on paper? Pick it, enter the score, and it updates progress, skills and recommendations.</p>
         <div class="paper-row">
-          <select id="paper-lesson">${lessonOptions}</select>
+          <select id="paper-lesson">${lessonOptions}${assessOptions}${mockOptions}</select>
           <input id="paper-score" type="number" min="0" class="paper-num" placeholder="got">
           <span class="paper-sep">out of</span>
           <input id="paper-total" type="number" min="1" class="paper-num" placeholder="total">
