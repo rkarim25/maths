@@ -159,3 +159,31 @@ export async function updatePin(profileId, newPin) {
   profile.pinHash = await hashString(newPin);
   await updateProfile(profile);
 }
+
+// --- Global parent PIN (one PIN for the whole app, shared across children) ---
+const GLOBAL_PIN_KEY = 'parentPinHash';
+
+/**
+ * Whether a global parent PIN has been set.
+ */
+export function hasGlobalPin() {
+  return !!localStorage.getItem(GLOBAL_PIN_KEY);
+}
+
+/**
+ * Set (or clear, with null) the global parent PIN.
+ */
+export async function setGlobalPin(pin) {
+  if (!pin) { localStorage.removeItem(GLOBAL_PIN_KEY); return; }
+  localStorage.setItem(GLOBAL_PIN_KEY, await hashString(pin));
+}
+
+/**
+ * Verify a PIN against the global parent PIN. Returns true if no PIN is set.
+ */
+export async function verifyGlobalPin(pin) {
+  const stored = localStorage.getItem(GLOBAL_PIN_KEY);
+  if (!stored) return true;
+  if (!pin) return false;
+  return (await hashString(pin)) === stored;
+}

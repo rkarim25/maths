@@ -64,12 +64,6 @@ export function renderProfileCreate() {
           </div>
         </div>
         
-        <div class="form-group">
-          <label for="parent-pin">Parent PIN (Optional)</label>
-          <input type="password" id="parent-pin" name="parent-pin" maxlength="4" placeholder="4-digit PIN for parent access">
-          <p class="hint">This PIN will be required to access parent dashboard</p>
-        </div>
-        
         <div class="form-actions">
           <button type="button" id="cancel-btn" class="secondary-btn">Cancel</button>
           <button type="submit" id="create-btn">Create Player</button>
@@ -130,13 +124,11 @@ async function handleFormSubmit(event) {
   
   // Get form data
   const nameInput = document.getElementById('player-name');
-  const pinInput = document.getElementById('parent-pin');
   const hairSelect = document.getElementById('hair-style');
   const outfitSelect = document.getElementById('outfit-color');
   const petSelect = document.getElementById('pet');
-  
+
   const name = nameInput?.value.trim();
-  const pin = pinInput?.value || null;
   const avatarConfig = {
     hair: hairSelect?.value || 'brown-short',
     outfit: outfitSelect?.value || 'blue',
@@ -149,18 +141,6 @@ async function handleFormSubmit(event) {
     return;
   }
   
-  // Validate PIN if provided
-  if (pin && pin.length !== 4) {
-    showError('PIN must be 4 digits');
-    return;
-  }
-  
-  // Validate PIN is numeric if provided
-  if (pin && !/^\d{4}$/.test(pin)) {
-    showError('PIN must contain only digits');
-    return;
-  }
-  
   // Disable submit button during creation
   const submitBtn = document.getElementById('create-btn');
   if (submitBtn) {
@@ -170,7 +150,7 @@ async function handleFormSubmit(event) {
   
   try {
     // Create the profile
-    const profile = await createProfile(name, avatarConfig, pin);
+    const profile = await createProfile(name, avatarConfig, null);
     
     // Navigate to profile switcher
     navigateTo('/profiles');

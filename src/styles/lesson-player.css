@@ -30,7 +30,7 @@
 }
 .story-char-emoji { font-size: 1.5rem; }
 .story-scene { text-align: center; padding: var(--spacing-md) 0; }
-.story-emoji { font-size: 4.5rem; margin-bottom: var(--spacing-md); animation: float 4s ease-in-out infinite; }
+.story-emoji { font-size: clamp(2.8rem, 11vw, 4.5rem); line-height: 1.15; margin-bottom: var(--spacing-md); animation: float 4s ease-in-out infinite; }
 .story-text { font-size: 1.4rem; line-height: 1.6; color: var(--text-dark); max-width: 38ch; margin: 0 auto; }
 .story-controls { display: flex; align-items: center; justify-content: space-between; margin-top: var(--spacing-lg); }
 .scene-dots { color: var(--primary); font-size: 1.1rem; letter-spacing: 2px; }

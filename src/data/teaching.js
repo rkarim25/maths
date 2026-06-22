@@ -199,8 +199,8 @@ const TEACHING = {
       character: 'Rosa the Gardener', emoji: '🌷',
       scenes: [
         { text: 'Rosa the Gardener was planning the most magical shape garden anyone had ever seen.', emoji: '🌷' },
-        { text: 'She dug round circle ponds, square flower beds, and pointy triangle herb patches.', emoji: '🔺' },
-        { text: '"A triangle has 3 straight sides and 3 corners," she said, planting a seed at each corner.', emoji: '🌱' },
+        { text: 'She dug round circle ponds, square flower beds, and pointy triangle herb patches.', emoji: '⭕🟦🔺' },
+        { text: '"A triangle has 3 straight sides and 3 corners," she said, touching each corner.', emoji: '🔺' },
         { text: '"A square has 4 equal sides. A rectangle has 4 sides too, but two of them are longer."', emoji: '🟦' },
         { text: '"And a circle has NO corners at all — just one smooth, curved side."', emoji: '⭕' },
         { text: '"I can name any flat shape just by counting its sides and corners!" beamed Rosa.', emoji: '✨' }
@@ -280,7 +280,7 @@ const TEACHING = {
       character: 'Iris the Fairy', emoji: '🧚',
       scenes: [
         { text: 'Oh no! The shimmering rainbow bridge had crumbled, and Iris the Fairy had to rebuild it with magic beads.', emoji: '🌈' },
-        { text: '"Red, blue, red, blue, red…" she threaded carefully. "So what comes next? Blue, of course!"', emoji: '🔵' },
+        { text: '"Red, blue, red, blue, red…" she threaded carefully. "So what comes next? Blue, of course!"', emoji: '🔴🔵' },
         { text: '"A pattern follows a rule that repeats over and over. Once I spot the rule, I can keep it going forever."', emoji: '🔁' },
         { text: '"Patterns can be made of colours, shapes, or even numbers — like 2, 4, 6, 8."', emoji: '🔢' },
         { text: 'Bead by bead, following the rule, the rainbow bridge sparkled back to life!', emoji: '✨' }
