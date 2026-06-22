@@ -9,12 +9,13 @@
 // =============================================================================
 
 export const firebaseConfig = {
-  apiKey: '',
-  authDomain: '',
-  projectId: '',
-  storageBucket: '',
-  messagingSenderId: '',
-  appId: ''
+  apiKey: 'AIzaSyAgdobBWYUdPmxpyxdUpSUkdSysqYQbNBE',
+  authDomain: 'kid-s-maths.firebaseapp.com',
+  projectId: 'kid-s-maths',
+  storageBucket: 'kid-s-maths.firebasestorage.app',
+  messagingSenderId: '628005645770',
+  appId: '1:628005645770:web:2f9760ea95bede170b7333',
+  measurementId: 'G-0H6QDFF8RW'
 };
 
 export function isConfigured() {
