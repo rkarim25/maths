@@ -116,7 +116,7 @@ function setupEventListeners() {
   // Cancel button
   if (cancelBtn) {
     cancelBtn.addEventListener('click', () => {
-      navigateTo('/profile-switcher');
+      navigateTo('/profiles');
     });
   }
 }
@@ -173,7 +173,7 @@ async function handleFormSubmit(event) {
     const profile = await createProfile(name, avatarConfig, pin);
     
     // Navigate to profile switcher
-    navigateTo('/profile-switcher');
+    navigateTo('/profiles');
   } catch (error) {
     console.error('Failed to create profile:', error);
     showError('Failed to create profile. Please try again.');

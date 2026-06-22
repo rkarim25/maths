@@ -1,266 +1,238 @@
-// Practice game view with scoring
+// Practice view — exercise sets generated on the fly, every answer + attempt
+// saved to IndexedDB through the tracking service.
 import { navigateTo } from '../router.js';
+import { getLesson } from '../data/curriculum.js';
+import { generateSet } from '../services/question-bank.js';
+import { recordAnswer, recordAttempt, logEvent } from '../services/tracking.js';
+import { getCurrentProfileId } from '../services/profile-manager.js';
 
-// Current game state
-let currentGame = null;
-let currentEpisode = null;
-let score = 0;
-let totalQuestions = 0;
-let currentQuestionIndex = 0;
-let userAnswers = [];
+const SETS = [
+  { key: 'A', label: 'Set A', count: 6, icon: '🅰️' },
+  { key: 'B', label: 'Set B', count: 6, icon: '🅱️' },
+  { key: 'C', label: 'Challenge', count: 8, icon: '🏆' }
+];
 
-/**
- * Render the practice game view
- * @param {Object} episode - The episode data
- * @param {Object} lessonContent - The lesson content
- */
-export function renderPracticeGame(episode, lessonContent) {
-  currentEpisode = episode;
-  currentGame = lessonContent;
-  score = 0;
-  totalQuestions = 0;
-  currentQuestionIndex = 0;
-  userAnswers = [];
-  
-  // Count interactive slides for total questions
-  if (lessonContent.slides) {
-    totalQuestions = lessonContent.slides.filter(slide => slide.type === 'interactive').length;
-  }
-  
-  const appElement = document.getElementById('app');
-  if (!appElement) return;
-  
-  appElement.innerHTML = `
-    <div class="practice-game">
-      <div class="header">
-        <button id="back-btn" class="back-button">← Back to Strand</button>
-        <h1>${lessonContent.title} - Practice</h1>
-        <p>${episode.description}</p>
-      </div>
-      <div class="game-content">
-        <div class="game-header">
-          <div class="score-display">
-            <span class="score-label">Score:</span>
-            <span class="score-value" id="current-score">0</span>
-            <span class="score-divider">/</span>
-            <span class="score-total" id="total-questions">${totalQuestions}</span>
-          </div>
-          <div class="progress-bar">
-            <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
-          </div>
-        </div>
-        <div id="game-area" class="game-area">
-          <!-- Game content will be loaded here -->
-        </div>
-      </div>
-    </div>
-  `;
-  
-  // Add event listeners
-  const backBtn = document.getElementById('back-btn');
-  if (backBtn) {
-    backBtn.addEventListener('click', () => {
-      const strand = episode.strand;
-      if (strand) {
-        navigateTo(`/strand/${encodeURIComponent(strand)}`);
-      } else {
-        navigateTo('/world-map');
-      }
-    });
-  }
-  
-  // Load the first interactive question
-  loadNextQuestion();
+let s = null; // active quiz state
+
+function parseArg(arg) {
+  const [id, query = ''] = String(arg).split('?');
+  return { id, set: new URLSearchParams(query).get('set') };
 }
 
-/**
- * Load and display the next question
- */
-function loadNextQuestion() {
-  if (!currentGame || !currentGame.slides) {
-    showGameComplete();
+export function renderPractice(arg) {
+  const { id, set } = parseArg(arg);
+  const lesson = getLesson(id);
+  const app = document.getElementById('app');
+  if (!app) return;
+  if (!lesson) {
+    app.innerHTML = `<div class="practice"><button class="back-button" id="b">← Back</button><h1>Not found</h1></div>`;
+    document.getElementById('b').addEventListener('click', () => navigateTo('/lessons'));
     return;
   }
-  
-  // Find the next interactive slide
-  let interactiveSlides = currentGame.slides.filter(slide => slide.type === 'interactive');
-  
-  if (currentQuestionIndex >= interactiveSlides.length) {
-    showGameComplete();
-    return;
-  }
-  
-  const slide = interactiveSlides[currentQuestionIndex];
-  const gameArea = document.getElementById('game-area');
-  
-  if (!gameArea) return;
-  
-  // Update progress
-  updateProgress();
-  
-  // Render the question
-  gameArea.innerHTML = `
-    <div class="question-container">
-      <div class="question-header">
-        ${slide.character ? `<div class="character">${slide.character}</div>` : ''}
-        <h2>${slide.title}</h2>
-      </div>
-      <div class="question-content">
-        <p>${slide.text}</p>
-        ${slide.diagram ? `<div class="diagram"><img src="./assets/diagrams/${slide.diagram}" alt="Question illustration"></div>` : ''}
-        <p class="question-prompt">${slide.interactivePrompt}</p>
-        <div class="answer-options">
-          ${slide.options.map((option, i) => `
-            <button class="answer-option" data-value="${option}">${option}</button>
-          `).join('')}
-        </div>
+  if (set) startQuiz(lesson, set);
+  else showSetPicker(lesson);
+}
+
+function showSetPicker(lesson) {
+  const app = document.getElementById('app');
+  app.innerHTML = `
+    <div class="practice">
+      <header class="lp-header">
+        <button class="back-button" id="back-btn">← Back to lessons</button>
+        <h1>Practise: ${escapeHtml(lesson.title)}</h1>
+        <p class="lp-objective">${escapeHtml(lesson.objective)}</p>
+      </header>
+      <p class="set-intro">Pick an exercise. Each one is different, so you can play again and again!</p>
+      <div class="set-grid">
+        ${SETS.map((set) => `
+          <button class="set-card" data-set="${set.key}">
+            <span class="set-icon">${set.icon}</span>
+            <span class="set-label">${set.label}</span>
+            <span class="set-count">${set.count} questions</span>
+          </button>`).join('')}
       </div>
     </div>
   `;
-  
-  // Add event listeners for answer options
-  const answerButtons = gameArea.querySelectorAll('.answer-option');
-  answerButtons.forEach(button => {
-    button.addEventListener('click', () => {
-      const selectedValue = button.getAttribute('data-value');
-      checkAnswer(selectedValue, slide.correctAnswer, button);
-    });
-  });
+  document.getElementById('back-btn').addEventListener('click', () => navigateTo('/lessons'));
+  app.querySelectorAll('.set-card').forEach((b) =>
+    b.addEventListener('click', () => startQuiz(lesson, b.dataset.set)));
 }
 
-/**
- * Check the user's answer
- * @param {string} userAnswer - The user's selected answer
- * @param {string} correctAnswer - The correct answer
- * @param {HTMLElement} button - The button element
- */
-function checkAnswer(userAnswer, correctAnswer, button) {
-  const isCorrect = userAnswer == correctAnswer;
-  
-  // Store the answer
-  userAnswers.push({
-    questionIndex: currentQuestionIndex,
-    userAnswer: userAnswer,
-    correctAnswer: correctAnswer,
-    isCorrect: isCorrect
-  });
-  
-  // Update score if correct
-  if (isCorrect) {
-    score++;
-    updateScore();
-    button.classList.add('correct');
-    button.textContent = `${userAnswer} ✓`;
+function startQuiz(lesson, setKey) {
+  const set = SETS.find((x) => x.key === setKey) || SETS[0];
+  const questions = generateSet(lesson, set.count);
+  s = { lesson, set, questions, index: 0, score: 0, answers: [], startedAt: Date.now(), qShownAt: Date.now(), hintUsed: false };
+  const pid = getCurrentProfileId();
+  if (pid) logEvent(pid, 'game-start', { lessonId: lesson.id, set: set.key }).catch(() => {});
+  paintShell();
+  paintQuestion();
+}
+
+function paintShell() {
+  const app = document.getElementById('app');
+  app.innerHTML = `
+    <div class="practice">
+      <header class="practice-bar">
+        <button class="back-button" id="quit-btn">← Quit</button>
+        <div class="score-pill">⭐ <span id="score">0</span> / ${s.questions.length}</div>
+      </header>
+      <div class="progress-track"><div class="progress-fill" id="pfill" style="width:0%"></div></div>
+      <div id="qarea" class="qarea"></div>
+    </div>
+  `;
+  document.getElementById('quit-btn').addEventListener('click', () => navigateTo('/lessons'));
+}
+
+function paintQuestion() {
+  const q = s.questions[s.index];
+  s.qShownAt = Date.now();
+  s.hintUsed = false;
+  const area = document.getElementById('qarea');
+  document.getElementById('pfill').style.width = `${(s.index / s.questions.length) * 100}%`;
+
+  const visual = q.visual && q.visual.emoji
+    ? `<div class="q-visual">${q.visual.emoji.repeat(q.visual.count)}</div>` : '';
+
+  const answerUI = q.type === 'input'
+    ? `<div class="input-row">
+         <input type="text" inputmode="numeric" id="answer-input" class="answer-input" autocomplete="off" placeholder="?">
+         <button class="primary-btn" id="check-btn">Check</button>
+       </div>`
+    : `<div class="options">${q.options.map((o) => `<button class="opt" data-val="${escapeAttr(o)}">${escapeHtml(o)}</button>`).join('')}</div>`;
+
+  area.innerHTML = `
+    <div class="q-card">
+      <div class="q-num">Question ${s.index + 1} of ${s.questions.length}</div>
+      <p class="q-prompt">${escapeHtml(q.prompt)}</p>
+      ${visual}
+      ${answerUI}
+      ${q.hint ? `<button class="hint-btn" id="hint-btn">💡 Hint</button><p class="hint-text" id="hint-text" hidden>${escapeHtml(q.hint)}</p>` : ''}
+      <div class="feedback" id="feedback"></div>
+    </div>
+  `;
+
+  if (q.type === 'input') {
+    const inp = document.getElementById('answer-input');
+    const check = document.getElementById('check-btn');
+    const submit = () => handleAnswer(inp.value, check);
+    check.addEventListener('click', submit);
+    inp.addEventListener('keydown', (e) => { if (e.key === 'Enter') submit(); });
+    inp.focus();
   } else {
-    button.classList.add('incorrect');
-    button.textContent = `${userAnswer} ✗`;
+    area.querySelectorAll('.opt').forEach((b) =>
+      b.addEventListener('click', () => handleAnswer(b.dataset.val, b)));
   }
-  
-  // Disable all buttons
-  const answerButtons = document.querySelectorAll('.answer-option');
-  answerButtons.forEach(btn => {
-    btn.disabled = true;
+  const hintBtn = document.getElementById('hint-btn');
+  if (hintBtn) hintBtn.addEventListener('click', () => {
+    s.hintUsed = true;
+    document.getElementById('hint-text').hidden = false;
+    hintBtn.disabled = true;
   });
-  
-  // Move to next question after a delay
-  setTimeout(() => {
-    currentQuestionIndex++;
-    if (currentQuestionIndex < totalQuestions) {
-      loadNextQuestion();
-    } else {
-      showGameComplete();
-    }
-  }, 1500);
 }
 
-/**
- * Update the score display
- */
-function updateScore() {
-  const scoreElement = document.getElementById('current-score');
-  if (scoreElement) {
-    scoreElement.textContent = score;
+function normalize(v) {
+  return String(v).trim().toLowerCase().replace(/\s+/g, '').replace(/^\+/, '');
+}
+
+async function handleAnswer(rawAnswer, sourceEl) {
+  const q = s.questions[s.index];
+  if (q._answered) return;
+  q._answered = true;
+  const correct = normalize(rawAnswer) === normalize(q.answer);
+  const timeSpentMs = Date.now() - s.qShownAt;
+
+  if (correct) s.score++;
+  s.answers.push({ qid: q.qid, correct, userAnswer: rawAnswer });
+
+  // lock the UI
+  const area = document.getElementById('qarea');
+  area.querySelectorAll('.opt').forEach((b) => {
+    b.disabled = true;
+    if (normalize(b.dataset.val) === normalize(q.answer)) b.classList.add('correct');
+    else if (b === sourceEl) b.classList.add('incorrect');
+  });
+  const inp = document.getElementById('answer-input');
+  if (inp) { inp.disabled = true; const cb = document.getElementById('check-btn'); if (cb) cb.disabled = true; }
+
+  document.getElementById('score').textContent = s.score;
+  const fb = document.getElementById('feedback');
+  fb.innerHTML = correct
+    ? `<span class="fb-ok">✓ Well done!</span>`
+    : `<span class="fb-no">Not quite — the answer is <strong>${escapeHtml(q.answer)}</strong></span>`;
+  fb.innerHTML += `<button class="primary-btn next-btn" id="next-btn">${s.index < s.questions.length - 1 ? 'Next →' : 'Finish'}</button>`;
+  document.getElementById('next-btn').addEventListener('click', nextQuestion);
+
+  const pid = getCurrentProfileId();
+  if (pid) {
+    recordAnswer({
+      profileId: pid, lessonId: s.lesson.id, skillTag: q.skillTag,
+      questionType: q.type, questionText: q.prompt,
+      userAnswer: rawAnswer, correctAnswer: q.answer, correct,
+      timeSpentMs, hintUsed: s.hintUsed
+    }).catch((e) => console.error('recordAnswer failed', e));
   }
 }
 
-/**
- * Update the progress bar
- */
-function updateProgress() {
-  const progressFill = document.getElementById('progress-fill');
-  if (progressFill && totalQuestions > 0) {
-    const progressPercent = ((currentQuestionIndex) / totalQuestions) * 100;
-    progressFill.style.width = `${progressPercent}%`;
-  }
+function nextQuestion() {
+  if (s.index < s.questions.length - 1) { s.index++; paintQuestion(); }
+  else finish();
 }
 
-/**
- * Show the game completion screen
- */
-function showGameComplete() {
-  const gameArea = document.getElementById('game-area');
-  if (!gameArea) return;
-  
-  const percentage = totalQuestions > 0 ? Math.round((score / totalQuestions) * 100) : 0;
-  
-  // Determine performance message
-  let performanceMessage = '';
-  let performanceClass = '';
-  
-  if (percentage >= 90) {
-    performanceMessage = 'Excellent! You\'re a math wizard! 🌟';
-    performanceClass = 'excellent';
-  } else if (percentage >= 70) {
-    performanceMessage = 'Great job! You\'re getting really good! 🎉';
-    performanceClass = 'good';
-  } else if (percentage >= 50) {
-    performanceMessage = 'Good effort! Keep practicing and you\'ll improve! 💪';
-    performanceClass = 'fair';
-  } else {
-    performanceMessage = 'Nice try! Practice makes perfect! 📚';
-    performanceClass = 'needs-improvement';
+async function finish() {
+  document.getElementById('pfill').style.width = '100%';
+  const total = s.questions.length;
+  const pid = getCurrentProfileId();
+  let stars = 0, percent = Math.round((s.score / total) * 100);
+  if (pid) {
+    try {
+      const res = await recordAttempt(pid, s.lesson.id, { score: s.score, total, setName: s.set.key });
+      stars = res.stars; percent = res.percent;
+    } catch (e) { console.error('recordAttempt failed', e); stars = percent >= 90 ? 3 : percent >= 70 ? 2 : percent >= 50 ? 1 : 0; }
   }
-  
-  gameArea.innerHTML = `
-    <div class="game-complete ${performanceClass}">
-      <h2>Game Complete! 🎮</h2>
-      <div class="final-score">
-        <div class="score-circle">
-          <span class="score-number">${score}</span>
-          <span class="score-total-small">/${totalQuestions}</span>
-        </div>
-        <div class="score-percentage">${percentage}%</div>
-      </div>
-      <p class="performance-message">${performanceMessage}</p>
-      <div class="game-actions">
-        <button id="play-again-btn" class="primary-btn">Play Again</button>
-        <button id="back-to-strand-btn" class="secondary-btn">Back to Strand</button>
+
+  const msg = percent >= 90 ? 'Amazing! You\'re a maths star! 🌟'
+    : percent >= 70 ? 'Great job! 🎉'
+    : percent >= 50 ? 'Good effort — keep practising! 💪'
+    : 'Nice try! Let\'s practise again. 📚';
+
+  const area = document.getElementById('qarea');
+  area.innerHTML = `
+    <div class="complete-card">
+      <h2>All done!</h2>
+      <div class="result-stars">${'★'.repeat(stars)}${'☆'.repeat(3 - stars)}</div>
+      <div class="result-score">${s.score} / ${total} <span class="result-pct">(${percent}%)</span></div>
+      <p class="result-msg">${msg}</p>
+      <div class="complete-actions">
+        <button class="primary-btn" id="again-btn">Play again</button>
+        <button class="secondary-btn" id="another-btn">Another set</button>
+        <button class="secondary-btn" id="done-btn">Back to lessons</button>
       </div>
     </div>
   `;
-  
-  // Add event listeners
-  const playAgainBtn = document.getElementById('play-again-btn');
-  if (playAgainBtn) {
-    playAgainBtn.addEventListener('click', () => {
-      // Reset game and start over
-      score = 0;
-      currentQuestionIndex = 0;
-      userAnswers = [];
-      updateScore();
-      loadNextQuestion();
-    });
-  }
-  
-  const backToStrandBtn = document.getElementById('back-to-strand-btn');
-  if (backToStrandBtn) {
-    backToStrandBtn.addEventListener('click', () => {
-      const strand = currentEpisode.strand;
-      if (strand) {
-        navigateTo(`/strand/${encodeURIComponent(strand)}`);
-      } else {
-        navigateTo('/world-map');
-      }
-    });
-  }
+  if (stars >= 2) confetti();
+  document.getElementById('again-btn').addEventListener('click', () => startQuiz(s.lesson, s.set.key));
+  document.getElementById('another-btn').addEventListener('click', () => showSetPicker(s.lesson));
+  document.getElementById('done-btn').addEventListener('click', () => navigateTo('/lessons'));
 }
+
+function confetti() {
+  const layer = document.createElement('div');
+  layer.className = 'celebration';
+  const colors = ['#FF6B9D', '#4ECDC4', '#FFD93D', '#A78BFA', '#63C779'];
+  for (let i = 0; i < 60; i++) {
+    const p = document.createElement('div');
+    p.className = 'confetti-piece';
+    p.style.left = `${Math.random() * 100}%`;
+    p.style.background = colors[i % colors.length];
+    p.style.animationDelay = `${Math.random() * 1.5}s`;
+    p.style.opacity = '1';
+    layer.appendChild(p);
+  }
+  document.body.appendChild(layer);
+  setTimeout(() => layer.remove(), 5000);
+}
+
+function escapeHtml(str) {
+  return String(str).replace(/[&<>"']/g, (m) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#x27;' }[m]));
+}
+function escapeAttr(str) { return escapeHtml(str); }

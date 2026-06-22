@@ -4,14 +4,12 @@ import { initRouter } from './router.js';
 
 // Initialize the application when DOM is loaded
 document.addEventListener('DOMContentLoaded', async () => {
-  console.log('Liyana\'s Maths Adventure is starting...');
-  
-  // Initialize the router (sets up hashchange listener, but does NOT render yet)
+  // Initialize the database and profiles FIRST, then start the router so the
+  // first view never renders against an uninitialised database.
+  try {
+    await initApp();
+  } catch (error) {
+    console.error('App init failed:', error);
+  }
   initRouter();
-  
-  // Initialize the main app FIRST (database, profiles)
-  // This will call navigateTo() which triggers the router to render
-  await initApp();
-  
-  console.log('App initialized successfully!');
 });

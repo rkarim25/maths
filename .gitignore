@@ -24,9 +24,10 @@ ehthumbs.db
 Thumbs.db
 desktop.ini
 
-# IDE files
+# IDE / local tooling
 .vscode/
 .idea/
+.claude/
 *.swp
 *.swo
 

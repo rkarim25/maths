@@ -1,5 +1,6 @@
 // Profile switcher view
 import { loadProfiles, setCurrentProfileId } from '../services/profile-manager.js';
+import { logEvent } from '../services/tracking.js';
 import { navigateTo } from '../router.js';
 
 // Cache for profiles
@@ -134,9 +135,10 @@ function renderProfiles(profiles) {
 function selectProfile(profileId) {
   // Set as current profile
   setCurrentProfileId(profileId);
-  
-  // Navigate to world map
-  navigateTo('/world-map');
+  logEvent(profileId, 'session-start', {}).catch(() => {});
+
+  // Navigate to the lessons table
+  navigateTo('/lessons');
 }
 
 /**

@@ -1,7 +1,7 @@
 // Main application controller
-import { navigateTo } from './router.js';
 import { initializeDatabase } from './services/db.js';
 import { loadProfiles, getCurrentProfileId } from './services/profile-manager.js';
+import { logEvent } from './services/tracking.js';
 
 // App state
 let appState = {
@@ -28,19 +28,17 @@ export async function initApp() {
     // Get current profile (if any)
     appState.currentProfileId = getCurrentProfileId();
     
-    // Hide loading state
-    hideLoadingState();
-    
-    // If no profile is selected, go to profile switcher
-    if (!appState.currentProfileId) {
-      navigateTo('/profile-switcher');
-    } else {
-      // Go to the main world map
-      navigateTo('/world-map');
+    // Choose a default route only when none is in the URL, so a reload on a
+    // deep link (e.g. #/lesson/count-to-10) is preserved. The router renders.
+    const hash = window.location.hash.replace('#', '');
+    if (!hash) {
+      window.location.hash = appState.currentProfileId ? '/lessons' : '/profiles';
     }
-    
+    if (appState.currentProfileId) {
+      logEvent(appState.currentProfileId, 'session-start', {}).catch(() => {});
+    }
+
     appState.initialized = true;
-    console.log('App initialized with', appState.profiles.length, 'profiles');
   } catch (error) {
     console.error('Failed to initialize app:', error);
     showErrorState('Failed to initialize the app. Please refresh the page.');

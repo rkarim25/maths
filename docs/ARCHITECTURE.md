@@ -21,10 +21,10 @@ Liyana's Maths Adventure is a client-side web application designed for children 
 - **Version Control**: Git
 - **Deployment**: GitHub Pages with GitHub Actions
 
-### Content Generation
-- **Offline Generation**: Node.js scripts using Gemini API
-- **Content Format**: Pre-generated static JSON files
-- **Storage**: Static files in the `content/` directory
+### Content
+- **Source of truth**: `src/data/curriculum.js` (lesson index) + `src/data/teaching.js` (story/plain text)
+- **Practice**: generated at runtime by `src/services/question-bank.js`
+- **Optional enrichment**: offline Gemini scripts in `tools/` can expand teaching text; keys stay local
 
 ## Project Structure
 
@@ -61,11 +61,14 @@ The main application controller that manages:
 - Navigation between views
 
 ### 2. Router (`src/router.js`)
-A hash-based router that handles navigation between different views:
-- Profile switcher
-- Profile creation
-- World map
-- Learning modules (future)
+A hash-based router. The database is initialised before the first view renders.
+Routes:
+- `/profiles`, `/profile-create` — choose / create a player
+- `/lessons` — the lessons table (home)
+- `/lesson/:id` — story / explain / video player
+- `/practice/:id` — exercise sets (scored)
+- `/worksheet/:id` — printable worksheet + answer key
+- `/grownups` — PIN-gated results, recommendations and export
 
 ### 3. Database Service (`src/services/db.js`)
 A wrapper around IndexedDB that provides:
@@ -81,11 +84,28 @@ Handles all profile-related operations:
 - Profile updates
 - PIN management
 
+### 4a. Tracking (`src/services/tracking.js`)
+The wiring that persists learning: `recordAnswer` → `answer_log`, `recordAttempt`
+→ `progress` (best score, stars, status) + `usage_events`, and `recomputeWeakAreas`
+→ `weak_areas`. Also reads progress maps and clears a profile's data.
+
+### 4b. Question bank (`src/services/question-bank.js`)
+Parametric generators (one per skill type) plus `generateSet()`. Each lesson in
+`curriculum.js` names a generator; the same generator feeds both on-screen
+practice and printable worksheets.
+
+### 4c. Analysis (`src/services/analysis.js`)
+Per-skill stats, weak-area ranking, next-lesson recommendations, and the
+JSON/CSV export consumed by `tools/export-analyzer.mjs`.
+
 ### 5. Views (`src/views/`)
 Individual view components:
-- Profile switcher
-- Profile creation
-- World map
+- Profile switcher / creation
+- Lessons table (home)
+- Lesson player (story / explain / video)
+- Practice game (scored exercise sets)
+- Worksheet (printable)
+- Grown-ups dashboard
 
 ### 6. Utilities (`src/utils/`)
 Helper functions:
@@ -118,7 +138,8 @@ Stored in the `profiles` object store:
 ```
 
 ### Progress Tracking
-Stored in the `progress` object store:
+Written by `tracking.js` on every completed attempt. `episodeId` holds the lesson id
+from `curriculum.js`. Stored in the `progress` object store:
 ```javascript
 {
   profileId: string,        // Profile UUID

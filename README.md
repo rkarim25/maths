@@ -1,134 +1,94 @@
-# Liyana's Maths Adventure
+# Liyana's Maths
 
-A gamified, story-driven children's math teaching website for deployment via GitHub Pages at https://rkarim25.github.io/maths.
+A gamified, story-driven maths website for **Liyana** (UK Year 1, working towards the 11+ in four
+years), deployed on GitHub Pages at https://rkarim25.github.io/maths/. Built to support multiple
+child profiles, work on phones and iPads, and track progress locally so lessons can be tailored.
 
-## Overview
+## How it works
 
-This project is designed for Liyana, a 6.5-year-old girl in UK Year 1 preparing for the 11+ exam in four years. The platform features:
+1. **Choose a player** — one tap (built for one child now, ready for siblings later).
+2. **Lessons table** — lessons are grouped by topic into tappable cards, across four stages
+   (Year 1 → 11+). Each card shows a live progress badge from saved scores.
+3. **Each lesson offers**:
+   - 📖 **Story** — the concept taught through an illustrated, narrated story.
+   - 📝 **Explain** — the same idea in plain, simple words.
+   - 🎮 **Practice** — auto-generated exercise sets (Set A / B / Challenge) you can replay endlessly.
+   - 📄 **Sheet** — a printable worksheet + answer key (Save as PDF from the print dialog).
+   - ▶ **Video** — an optional curated YouTube clip (hidden until a video is set).
+4. **Scores are saved** to the browser (IndexedDB) for every answer and attempt.
+5. **Grown-ups area** (🔒, optional PIN) — per-skill results, weak-area flags, **suggested next
+   lessons**, and **JSON / CSV export**.
 
-- **Story-Driven Learning**: Math concepts taught through engaging narratives
-- **Multi-Profile Support**: Isolated progress tracking for multiple children
-- **Fully Responsive**: Works on mobile phones, tablets, and desktops
-- **Offline Progress Tracking**: Uses browser storage to save progress
-- **Parent Dashboard**: Progress reports and data export capabilities
-- **11+ Exam Preparation**: Curriculum aligned with UK standards
+### The "results → lesson plan" loop
+Practice generates data → open **Grown-ups → Export** → the JSON/CSV captures every answer, skill
+accuracy and weak area. That export can be analysed (by you, or handed back for a tailored plan) and
+maps straight onto the syllabus ladder, so "what to teach next" is always answerable.
+`tools/export-analyzer.mjs` reads this export shape directly.
 
-## Features
+## Curriculum
 
-### For Children
-- Interactive world map with different "lands" for math strands
-- Animated story-slides with text-to-speech narration
-- Branching story-games for practice
-- Reward system with gems and stickers
-- Avatar customization
-- Age-appropriate UI with large tap targets
+[`Math syllabus.md`](Math%20syllabus.md) is the human-readable scope and sequence: a 12-step mastery
+ladder bridging UK Year 1 to the 11+, plus a year-by-year lesson list and a skill-tag glossary.
+[`src/data/curriculum.js`](src/data/curriculum.js) implements it as the single source of truth —
+72 lessons across 4 stages, each tagged to a syllabus step and skill. Add or edit a lesson there and
+it appears in the table, gains practice and a worksheet, and feeds the reports automatically.
 
-### For Parents
-- Progress tracking dashboard
-- Weekly reports with accuracy trends
-- Data export (JSON/CSV/PDF)
-- PIN-protected access
-- Curriculum override options
+## Technology
 
-### Technical Features
-- Client-side storage with IndexedDB
-- Fully static site (no server required)
-- Pre-generated content (no API keys in client)
-- Responsive design for all devices
-- Accessibility features (TTS, dyslexia font, reduced motion)
+- **Frontend:** Vanilla JavaScript (ES modules), hash-based router — no framework.
+- **Build:** Vite. **Storage:** IndexedDB. **Hosting:** GitHub Pages via GitHub Actions.
+- **Narration:** Web Speech API. **PDF:** browser print-to-PDF (no dependencies).
+- **Content:** all data is static; no API keys ship to the browser.
 
-## Technology Stack
-
-- **Frontend**: Vanilla JavaScript with ES modules
-- **Build Tool**: Vite
-- **Styling**: CSS with custom properties
-- **Storage**: IndexedDB for structured data
-- **Deployment**: GitHub Pages
-- **Content**: Pre-generated static JSON files
-
-## Project Structure
+## Project structure
 
 ```
-├── index.html              # Main HTML file
-├── favicon.svg             # Site favicon
-├── robots.txt              # Search engine instructions
-├── .nojekyll               # Disable GitHub Pages Jekyll
-├── package.json            # Project metadata and scripts
-├── vite.config.js          # Vite build configuration
-├── src/                    # Source code
-│   ├── main.js             # Application entry point
-│   ├── app.js              # Main application controller
-│   ├── router.js           # Hash-based router
-│   ├── config/             # Configuration files
-│   ├── styles/             # CSS stylesheets
-│   ├── views/              # View components
-│   ├── components/         # Reusable UI components
-│   ├── services/           # Business logic services
-│   ├── utils/              # Utility functions
-│   └── assets/             # Static assets
-├── content/                # Pre-generated content (static JSON)
-├── tools/                  # Development tools (offline content generation)
-└── docs/                   # Documentation
+index.html                 # entry; loads styles + src/main.js
+src/
+  main.js                  # boot: init DB, then router
+  app.js                   # DB + profile init, default route
+  router.js                # hash routes: /profiles /lessons /lesson/:id /practice/:id /worksheet/:id /grownups
+  config/constants.js
+  data/
+    curriculum.js          # SINGLE SOURCE OF TRUTH — all lessons
+    teaching.js            # story + plain explanations per lesson
+  services/
+    db.js                  # IndexedDB wrapper
+    profile-manager.js     # profiles + PIN
+    tracking.js            # records answers/attempts, computes weak areas
+    question-bank.js       # question generators (one per skill type)
+    analysis.js            # stats, recommendations, JSON/CSV export
+  views/                   # profile-switcher, profile-create, lessons-table,
+                           # lesson-player, practice-game, grownups, worksheet
+  styles/                  # one stylesheet per view + main.css + print.css
+tools/                     # offline Gemini content-generation + export-analyzer
+docs/                      # architecture & guides
 ```
 
-## Development Setup
+## Develop
 
-1. **Install dependencies**:
-   ```bash
-   npm install
-   ```
+```bash
+npm install
+npm run dev      # http://localhost:3000/maths/
+npm run build    # outputs to dist/
+npm run preview
+```
 
-2. **Start development server**:
-   ```bash
-   npm run dev
-   ```
+## Deploy
 
-3. **Build for production**:
-   ```bash
-   npm run build
-   ```
-
-4. **Preview production build**:
-   ```bash
-   npm run preview
-   ```
-
-## Deployment
-
-The site is deployed to GitHub Pages at https://rkarim25.github.io/maths/.
-
-To deploy updates:
-1. Build the project: `npm run build`
-2. Commit and push changes to the `main` branch
-3. GitHub Actions will automatically deploy the site
-
-## Content Generation
-
-Content is pre-generated offline using Gemini API scripts in the `tools/` directory:
-1. Edit curriculum in `src/config/curriculum-registry.js`
-2. Run content generation scripts with your Gemini API key
-3. Generated JSON files are saved to `content/` directory
-4. Commit and deploy
-
-## Browser Support
-
-- Chrome 60+
-- Firefox 60+
-- Safari 12+
-- Edge 79+
+Push to `master`; GitHub Actions builds and deploys to GitHub Pages.
 
 ## Accessibility
 
-- Text-to-speech narration on all screens
-- Large tap targets (minimum 44px)
-- Dyslexia-friendly font option
-- Reduced motion support
-- High contrast color scheme
+Large tap targets, text-to-speech narration, high-contrast playful theme, and
+`prefers-reduced-motion` support. Designed mobile-first for phones and iPads.
 
-## Contributing
+## Optional: AI content enrichment
 
-This is a personal project for Liyana's education, but suggestions are welcome!
+Story/plain text and videos can be enriched offline using the scripts in `tools/` (Gemini), which
+read `src/data/curriculum.js` and write static content. API keys stay local — nothing secret is ever
+shipped to the static site.
 
 ## License
 
-MIT License - see LICENSE file for details.
+MIT — see LICENSE.

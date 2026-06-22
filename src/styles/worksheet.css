@@ -1,0 +1,33 @@
+/* Worksheet — on-screen styles (print rules live in print.css) */
+.worksheet-screen { max-width: 800px; margin: 0 auto; }
+
+.ws-controls {
+  display: flex; align-items: center; gap: var(--spacing-md); flex-wrap: wrap;
+  margin-bottom: var(--spacing-lg);
+}
+.ws-check { display: inline-flex; align-items: center; gap: 6px; font-weight: 700; color: var(--text-medium); }
+.ws-check input { width: 20px; height: 20px; }
+
+.worksheet {
+  background: #fff; border-radius: var(--border-radius-md); padding: var(--spacing-xl);
+  box-shadow: var(--shadow-light); color: #000;
+}
+.ws-head h1 { font-size: 1.8rem; margin: 0 0 0.25rem; }
+.ws-obj { color: var(--text-medium); margin: 0 0 var(--spacing-md); }
+.ws-meta { display: flex; gap: var(--spacing-lg); flex-wrap: wrap; font-size: 0.95rem; color: var(--text-dark); border-top: 2px dashed var(--background-medium); padding-top: var(--spacing-md); margin-bottom: var(--spacing-lg); }
+
+.ws-notes { background: var(--background-light); border-radius: var(--border-radius-md); padding: var(--spacing-md) var(--spacing-lg); margin-bottom: var(--spacing-lg); }
+.ws-notes h2 { font-size: 1.2rem; margin-bottom: var(--spacing-sm); }
+.ws-notes p { margin-bottom: 0.5rem; }
+
+.ws-questions { padding-left: 1.6rem; }
+.ws-q { margin-bottom: var(--spacing-lg); font-size: 1.15rem; }
+.ws-prompt { display: block; margin-bottom: 0.4rem; font-weight: 600; }
+.ws-options { display: flex; gap: var(--spacing-lg); flex-wrap: wrap; }
+.ws-opt { font-size: 1.05rem; }
+.ws-answer-line { letter-spacing: 2px; color: var(--text-light); }
+
+.ws-key { margin-top: var(--spacing-xl); border-top: 2px solid var(--background-medium); padding-top: var(--spacing-md); }
+.ws-key h2 { font-size: 1.2rem; }
+.ws-key-list { display: flex; flex-wrap: wrap; gap: 0.4rem 1.4rem; padding-left: 1.6rem; }
+.ws-key-list li { min-width: 60px; }

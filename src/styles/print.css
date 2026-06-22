@@ -1,0 +1,21 @@
+/* Print stylesheet — only the worksheet prints. Linked with media="print". */
+body { background: #fff !important; padding: 0 !important; color: #000 !important; }
+#app { max-width: none !important; margin: 0 !important; }
+
+.no-print { display: none !important; }
+
+.worksheet { box-shadow: none !important; padding: 0 !important; border-radius: 0 !important; }
+.worksheet-screen { max-width: none !important; }
+
+.ws-head h1 { font-size: 20pt; }
+.ws-obj { font-size: 11pt; }
+.ws-meta { font-size: 11pt; }
+
+.ws-questions { padding-left: 24pt; }
+.ws-q { font-size: 13pt; margin-bottom: 22pt; page-break-inside: avoid; }
+.ws-options { gap: 18pt; }
+
+/* Answer key starts on a fresh page so it can be removed before handing over. */
+.ws-key { page-break-before: always; }
+
+.story-emoji, .lc-icon, .icon-btn { animation: none !important; }
