@@ -54,8 +54,10 @@ export async function renderLessonsTable() {
 
       <div class="quick-links">
         <button class="chip" id="ql-level">🎯 Level check</button>
-        <button class="chip" id="ql-tt">🧮 Times tables</button>
+        <button class="chip" id="ql-learn">🔢 Learn tables</button>
+        <button class="chip" id="ql-tt">🧮 Tables drill</button>
         <button class="chip" id="ql-fun">✨ Maths fun</button>
+        <button class="chip" id="ql-puzzles">🧩 Puzzles</button>
         <button class="chip" id="ql-mocks">📝 Mock exams</button>
         <button class="chip" id="ql-book">📚 Print book</button>
       </div>
@@ -70,6 +72,8 @@ export async function renderLessonsTable() {
   document.getElementById('grownups-btn').addEventListener('click', () => navigateTo('/grownups'));
   document.getElementById('ql-level').addEventListener('click', () => navigateTo('/placement'));
   document.getElementById('ql-tt').addEventListener('click', () => navigateTo('/times-tables'));
+  document.getElementById('ql-learn').addEventListener('click', () => navigateTo('/learn-tables'));
+  document.getElementById('ql-puzzles').addEventListener('click', () => navigateTo('/puzzles'));
   document.getElementById('ql-fun').addEventListener('click', () => navigateTo(`/fun/${currentStage}`));
   document.getElementById('ql-mocks').addEventListener('click', () => navigateTo('/mocks'));
   document.getElementById('ql-book').addEventListener('click', () => navigateTo(`/book/${currentStage}`));

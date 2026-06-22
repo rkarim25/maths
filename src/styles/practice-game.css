@@ -89,6 +89,39 @@
 .tt-prompt { font-size: 2.2rem; }
 @media (max-width: 640px) { .tt-grid { grid-template-columns: repeat(3, 1fr); } }
 
+/* Puzzles */
+.puzzles-screen { max-width: 760px; margin: 0 auto; }
+.puz-group { font-size: 1.2rem; margin: var(--spacing-lg) 0 var(--spacing-sm); }
+.puz-list { display: flex; flex-direction: column; gap: var(--spacing-sm); }
+.puz-item { width: 100%; justify-content: flex-start; gap: var(--spacing-md); background: #fff; color: var(--text-dark); box-shadow: var(--shadow-light); padding: var(--spacing-md); border-radius: var(--border-radius-md); }
+.puz-item:hover { background: var(--background-medium); color: var(--text-dark); transform: translateY(-2px); animation: none; }
+.puz-emoji { font-size: 1.6rem; }
+.puz-item-title { flex: 1; text-align: left; font-family: var(--font-heading); font-weight: 700; font-size: 1.05rem; }
+.puz-level { font-size: 0.75rem; font-weight: 700; padding: 0.15rem 0.6rem; border-radius: var(--border-radius-lg); white-space: nowrap; }
+.puz-level.easy { background: #e3f7e4; color: #2e7d32; }
+.puz-level.medium { background: #fff3e0; color: #e65100; }
+.puz-level.tricky { background: #ede7ff; color: #5b3fb0; }
+.puz-card { background: #fff; border-radius: var(--border-radius-lg); padding: var(--spacing-lg); box-shadow: var(--shadow-light); }
+.puz-question { font-size: 1.35rem; line-height: 1.6; color: var(--text-dark); margin-bottom: var(--spacing-md); }
+.puz-actions { display: flex; gap: var(--spacing-md); flex-wrap: wrap; margin-top: var(--spacing-md); }
+.puz-answer { margin-top: var(--spacing-lg); background: #e3f7e4; border-radius: var(--border-radius-md); padding: var(--spacing-md); animation: fadeInUp 0.4s ease; }
+.puz-answer-label { font-weight: 700; color: #2e7d32; margin: 0 0 0.25rem; }
+.puz-answer-text { font-family: var(--font-heading); font-size: 1.3rem; color: var(--text-dark); margin: 0 0 0.5rem; }
+.puz-explain { color: var(--text-medium); margin: 0; line-height: 1.6; }
+
+/* Learn the times tables */
+.tt-learn-label { font-size: 0.8rem; font-weight: 700; color: var(--text-medium); }
+.tl-card { background: #fff; border-radius: var(--border-radius-lg); padding: var(--spacing-lg); box-shadow: var(--shadow-light); }
+.tl-rows { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem var(--spacing-lg); margin-bottom: var(--spacing-md); }
+.tl-eq { font-family: var(--font-heading); font-size: 1.3rem; color: var(--text-dark); }
+.tl-skip { background: var(--background-light); border-radius: var(--border-radius-md); padding: var(--spacing-sm) var(--spacing-md); color: var(--text-medium); font-weight: 700; }
+.tl-gridwrap { overflow-x: auto; }
+.tl-grid { border-collapse: collapse; margin: 0 auto; min-width: 520px; }
+.tl-grid th, .tl-grid td { border: 1px solid var(--background-medium); padding: 0.4rem 0.5rem; text-align: center; font-size: 0.95rem; }
+.tl-grid th { background: var(--background-medium); font-family: var(--font-heading); }
+.tl-grid .tl-diag { background: var(--accent); font-weight: 700; }
+@media (max-width: 640px) { .tl-rows { grid-template-columns: 1fr; } .tl-eq { font-size: 1.2rem; } }
+
 @media (max-width: 640px) {
   .set-grid { grid-template-columns: 1fr; }
   .q-prompt { font-size: 1.35rem; }

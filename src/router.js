@@ -12,6 +12,8 @@ import { renderAssessment } from './views/assessment.js';
 import { renderTimesTables } from './views/times-tables.js';
 import { renderFun } from './views/fun.js';
 import { renderMockExams } from './views/mock-exam.js';
+import { renderPuzzles } from './views/puzzles.js';
+import { renderLearnTables } from './views/tables-learn.js';
 import { getCurrentProfileId } from './services/profile-manager.js';
 
 // Static routes: hash -> render()
@@ -23,7 +25,9 @@ const STATIC_ROUTES = {
   '/placement': renderPlacement,
   '/book': renderBook,
   '/times-tables': renderTimesTables,
-  '/mocks': renderMockExams
+  '/mocks': renderMockExams,
+  '/puzzles': renderPuzzles,
+  '/learn-tables': renderLearnTables
 };
 
 // Dynamic routes: '/prefix/:id' -> render(id)
