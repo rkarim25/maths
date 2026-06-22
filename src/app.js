@@ -2,6 +2,7 @@
 import { initializeDatabase } from './services/db.js';
 import { ensureSingleProfile, setCurrentProfileId } from './services/profile-manager.js';
 import { logEvent } from './services/tracking.js';
+import { startSync } from './services/sync.js';
 
 // App state
 let appState = {
@@ -33,6 +34,8 @@ export async function initApp() {
     const hash = window.location.hash.replace('#', '');
     if (!hash || hash === '/profiles') window.location.hash = '/lessons';
     logEvent(profile.profileId, 'session-start', {}).catch(() => {});
+    // Cross-device cloud sync (no-op unless Firebase is configured + a family code set).
+    startSync(profile.profileId).catch(() => {});
 
     appState.initialized = true;
   } catch (error) {

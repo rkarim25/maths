@@ -6,6 +6,7 @@ import {
 import { analyzeProfile, buildExport, answerLogToCSV, downloadFile } from '../services/analysis.js';
 import { getAnswerLog, clearProfileData, recordManualScore, importData } from '../services/tracking.js';
 import { STAGES, getLessonsByStage } from '../data/curriculum.js';
+import { isSyncConfigured, getFamilyCode, isConnected, makeFamilyCode, connectSync, disconnectSync, pushNow, pullNow } from '../services/sync.js';
 
 const SEVERITY_LABEL = { high: "Let's revisit", medium: 'Needs practice', low: 'Nearly there' };
 
@@ -52,6 +53,7 @@ function showLock() {
 async function showDashboard(flash) {
   const app = document.getElementById('app');
   app.innerHTML = `<div class="loading"><div class="spinner"></div><p>Loading progress…</p></div>`;
+  if (isConnected()) { try { await pullNow(viewingId); } catch (e) { /* offline ok */ } }
   const a = await analyzeProfile(viewingId);
   const child = profiles.find((p) => p.profileId === viewingId) || profiles[0];
   const lessonOptions = [1, 2, 3, 4].map((st) =>
@@ -118,6 +120,11 @@ async function showDashboard(flash) {
       </section>
 
       <section class="gu-section">
+        <h2>Sync across devices</h2>
+        ${syncSectionHTML(child)}
+      </section>
+
+      <section class="gu-section">
         <h2>Parent PIN</h2>
         ${pinSettingsHTML()}
       </section>
@@ -174,7 +181,42 @@ async function showDashboard(flash) {
     showDashboard(`Saved ${score} out of ${total} for ${child.name}. Recommendations updated.`);
   });
 
+  wireSyncSettings();
   wirePinSettings();
+}
+
+function syncSectionHTML(child) {
+  if (!isSyncConfigured()) {
+    return `<p class="muted">Cloud sync isn't switched on yet. Follow the one-time steps in <strong>SYNC-SETUP.md</strong> (about 5 minutes) and add your Firebase details — then you can connect each device here.</p>`;
+  }
+  const code = getFamilyCode();
+  if (code && isConnected()) {
+    return `<p class="muted">✅ Sync is ON. Every device using this family code shares ${esc(child.name)}'s progress automatically.</p>
+      <div class="sync-row"><span class="sync-code">${esc(code)}</span><button class="secondary-btn" id="syncnow-btn">Sync now</button><button class="danger-btn" id="syncoff-btn">Turn off here</button></div>`;
+  }
+  return `<p class="muted">Enter the SAME family code on every device to share ${esc(child.name)}'s progress. Make one up or generate one, then use it on both devices.</p>
+    <div class="sync-row">
+      <input id="famcode-input" class="answer-input" style="width:220px;letter-spacing:1px" placeholder="family code" value="${esc(code)}">
+      <button class="secondary-btn" id="gencode-btn">Generate</button>
+      <button class="primary-btn" id="syncon-btn">Turn on sync</button>
+    </div>`;
+}
+
+function wireSyncSettings() {
+  const gen = document.getElementById('gencode-btn');
+  if (gen) gen.addEventListener('click', () => { document.getElementById('famcode-input').value = makeFamilyCode(); });
+  const on = document.getElementById('syncon-btn');
+  if (on) on.addEventListener('click', async () => {
+    const code = (document.getElementById('famcode-input').value || '').trim();
+    if (!code) { alert('Enter a family code — the same one on each device.'); return; }
+    on.disabled = true;
+    const ok = await connectSync(code, viewingId);
+    showDashboard(ok ? 'Sync turned on — this device is connected.' : 'Could not connect. Check the Firebase setup and your internet.');
+  });
+  const now = document.getElementById('syncnow-btn');
+  if (now) now.addEventListener('click', async () => { await pullNow(viewingId); await pushNow(viewingId); showDashboard('Synced just now.'); });
+  const off = document.getElementById('syncoff-btn');
+  if (off) off.addEventListener('click', () => { disconnectSync(); showDashboard('Sync turned off on this device.'); });
 }
 
 function pinSettingsHTML() {
