@@ -141,6 +141,8 @@ export const LESSONS = [
     'Write a fraction in its simplest form.', 'simplifyFractions', {}),
   L('time-to-minute', 3, 2, 'Time', 6, ['time-to-minute'],
     'Tell the time to the nearest minute.', 'timeClock', { mode: 'minute' }),
+  L('timetables', 3, 2, 'Time', 6, ['time-24hour'],
+    'Read timetables and work out journey times.', 'timetable', {}),
 
   L('measure-mass-capacity', 3, 3, 'Measuring', 6, ['measure-mass', 'measure-capacity'],
     'Measure mass (g/kg) and capacity (ml/l).', 'measure', { quantity: 'mass-capacity' }),
@@ -202,6 +204,24 @@ export const LESSONS = [
     'Find mean, median, mode and range.', 'averages', {}),
   L('logic-problems', 4, 3, 'Reasoning', 11, ['logic-problems', 'multi-step-problems'],
     'Solve multi-step logic word problems.', 'wordProblem', { ops: ['+', '-', '×', '÷'], max: 100, steps: 2 }),
+  L('square-roots', 4, 1, 'Number properties', 10, ['square-cube-numbers'],
+    'Find square roots of square numbers.', 'roots', {}),
+  L('bodmas-brackets', 4, 1, 'Number properties', 10, ['order-of-operations'],
+    'Use BODMAS, including brackets.', 'bodmasBrackets', {}),
+  L('percentage-change', 4, 1, 'Fractions, decimals & %', 10, ['percentages-intro'],
+    'Increase and decrease amounts by a percentage.', 'percentageChange', {}),
+  L('ratio-sharing', 4, 2, 'Ratio & proportion', 10, ['ratio'],
+    'Share an amount in a given ratio.', 'ratioSharing', {}),
+  L('speed-distance-time', 4, 2, 'Ratio & proportion', 10, ['proportion'],
+    'Solve speed, distance and time problems.', 'speedDistanceTime', {}),
+  L('volume', 4, 2, 'Geometry', 9, ['area'],
+    'Find the volume of cuboids.', 'volume', {}),
+  L('nets-3d', 4, 3, 'Geometry', 11, ['nets'],
+    'Recognise the nets of 3D shapes.', 'staticMCQ', { pool: 'nets' }),
+  L('pie-charts', 4, 3, 'Coordinates & data', 9, ['pie-charts'],
+    'Read and interpret pie charts.', 'dataRead', { type: 'pie' }),
+  L('probability', 4, 3, 'Probability', 11, ['probability'],
+    'Work out the chance of simple events.', 'probability', {}),
   L('exam-speed', 4, 3, 'Exam skills', 12, ['speed-drills', 'mcq-tactics'],
     'Build speed and accuracy with mixed questions.', 'mixedArithmetic', { max: 100 })
 ];
@@ -235,7 +255,11 @@ const TITLES = {
   'fractions-of-shape': 'Naming Fractions', 'compare-fractions': 'Comparing Fractions',
   'simplify-fractions': 'Simplifying Fractions', 'decimals-hundredths': 'Hundredths',
   'add-decimals': 'Adding & Subtracting Decimals', 'mixed-numbers': 'Mixed Numbers',
-  'percentages': 'Percentages of Amounts'
+  'percentages': 'Percentages of Amounts',
+  'timetables': 'Timetables', 'square-roots': 'Square Roots', 'bodmas-brackets': 'BODMAS with Brackets',
+  'percentage-change': 'Percentage Change', 'ratio-sharing': 'Sharing in a Ratio',
+  'speed-distance-time': 'Speed, Distance & Time', 'volume': 'Volume of Cuboids',
+  'nets-3d': 'Nets of 3D Shapes', 'pie-charts': 'Pie Charts', 'probability': 'Probability'
 };
 
 // Verified, embeddable YouTube ids (each confirmed via oEmbed = public + embeddable).
@@ -267,10 +291,19 @@ const YOUTUBE = {
   'logic-problems': 'IW8qg7eZOTo'
 };
 
+// Self-hosted / NotebookLM video URLs (a direct .mp4 link), keyed by lesson id.
+// Empty by default — drop a URL here to attach your own video to a lesson (e.g.
+// a NotebookLM "Video Overview" exported to MP4 and hosted somewhere). A videoUrl
+// takes priority over a youtubeId in the player. Example:
+//   'count-to-10': 'https://your-host.example/videos/count-to-10.mp4',
+const VIDEO_URLS = {
+};
+
 const prettify = (id) => id.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
 LESSONS.forEach((l) => {
   l.title = TITLES[l.id] || prettify(l.id);
   if (YOUTUBE[l.id]) l.youtubeId = YOUTUBE[l.id];
+  if (VIDEO_URLS[l.id]) l.videoUrl = VIDEO_URLS[l.id];
 });
 
 // --- Lookups --------------------------------------------------------------

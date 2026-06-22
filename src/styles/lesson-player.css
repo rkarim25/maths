@@ -49,11 +49,21 @@
 /* Video */
 .video-card { background: #fff; border-radius: var(--border-radius-lg); padding: var(--spacing-md); box-shadow: var(--shadow-light); }
 .video-frame { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: var(--border-radius-md); }
-.video-frame iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
+.video-frame iframe, .video-frame video { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; background: #000; }
 .yt-link { display: inline-block; margin-top: var(--spacing-md); font-weight: 700; color: var(--secondary); }
 
 .lp-footer { display: flex; gap: var(--spacing-md); justify-content: space-between; flex-wrap: wrap; }
 .lp-footer button { flex: 1 1 auto; }
+
+/* Maths Fun */
+.fun-screen { max-width: 760px; margin: 0 auto; }
+.fun-card { background: #fff; border-radius: var(--border-radius-lg); padding: var(--spacing-lg); box-shadow: var(--shadow-light); text-align: center; }
+.fun-tag { display: inline-block; font-weight: 700; font-size: 0.85rem; padding: 0.25rem 0.9rem; border-radius: var(--border-radius-lg); margin-bottom: var(--spacing-md); }
+.fun-tag.trick { background: #ede7ff; color: #5b3fb0; }
+.fun-tag.fact { background: #fff3e0; color: #e65100; }
+.fun-emoji { font-size: clamp(3rem, 12vw, 5rem); margin-bottom: var(--spacing-sm); }
+.fun-title { font-size: 1.5rem; margin-bottom: var(--spacing-sm); }
+.fun-text { font-size: 1.25rem; line-height: 1.7; color: var(--text-dark); max-width: 42ch; margin: 0 auto var(--spacing-md); }
 
 @media (max-width: 640px) {
   .story-text, .plain-card p { font-size: 1.15rem; }

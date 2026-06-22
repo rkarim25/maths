@@ -48,13 +48,18 @@ export async function renderLessonsTable() {
         </div>
         <div class="ls-header-actions">
           <div class="ls-stars" title="Stars earned">⭐ <span>${totalStars}</span></div>
-          <button class="icon-btn" id="tt-btn" title="Times tables">🧮</button>
-          <button class="icon-btn" id="book-btn" title="Print a stage book">📚</button>
-          <button class="icon-btn" id="placement-btn" title="Find my level">🎯</button>
           <button class="icon-btn" id="switch-btn" title="Switch player">👤</button>
           <button class="icon-btn grownups-btn" id="grownups-btn" title="Grown-ups">🔒</button>
         </div>
       </header>
+
+      <div class="quick-links">
+        <button class="chip" id="ql-level">🎯 Level check</button>
+        <button class="chip" id="ql-tt">🧮 Times tables</button>
+        <button class="chip" id="ql-fun">✨ Maths fun</button>
+        <button class="chip" id="ql-mocks">📝 Mock exams</button>
+        <button class="chip" id="ql-book">📚 Print book</button>
+      </div>
 
       <div class="stage-tabs" id="stage-tabs"></div>
       <div id="placement-banner"></div>
@@ -65,9 +70,11 @@ export async function renderLessonsTable() {
 
   document.getElementById('switch-btn').addEventListener('click', () => { clearCurrentProfileId(); navigateTo('/profiles'); });
   document.getElementById('grownups-btn').addEventListener('click', () => navigateTo('/grownups'));
-  document.getElementById('placement-btn').addEventListener('click', () => navigateTo('/placement'));
-  document.getElementById('book-btn').addEventListener('click', () => navigateTo(`/book/${currentStage}`));
-  document.getElementById('tt-btn').addEventListener('click', () => navigateTo('/times-tables'));
+  document.getElementById('ql-level').addEventListener('click', () => navigateTo('/placement'));
+  document.getElementById('ql-tt').addEventListener('click', () => navigateTo('/times-tables'));
+  document.getElementById('ql-fun').addEventListener('click', () => navigateTo(`/fun/${currentStage}`));
+  document.getElementById('ql-mocks').addEventListener('click', () => navigateTo('/mocks'));
+  document.getElementById('ql-book').addEventListener('click', () => navigateTo(`/book/${currentStage}`));
 
   renderPlacementBanner(progressMap);
   renderStageTabs();
@@ -165,7 +172,7 @@ function cardHTML(lesson, progress) {
   // Only show a button when there is real content behind it.
   const storyBtn = hasStory ? `<button class="act" data-go="/lesson/${id}"><span class="act-i">📖</span>Story</button>` : '';
   const explainBtn = hasPlain ? `<button class="act" data-go="/lesson/${id}?view=plain"><span class="act-i">📝</span>Explain</button>` : '';
-  const videoBtn = lesson.youtubeId ? `<button class="act" data-go="/lesson/${id}?view=video"><span class="act-i">▶</span>Video</button>` : '';
+  const videoBtn = (lesson.youtubeId || lesson.videoUrl) ? `<button class="act" data-go="/lesson/${id}?view=video"><span class="act-i">▶</span>Video</button>` : '';
 
   return `
     <div class="lesson-card">

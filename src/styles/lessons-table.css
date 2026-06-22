@@ -27,6 +27,10 @@
 .icon-btn:hover { background: var(--background-medium); }
 .grownups-btn { background: var(--secondary); }
 
+.quick-links { display: flex; gap: var(--spacing-sm); flex-wrap: wrap; margin-bottom: var(--spacing-lg); }
+.chip { background: #fff; color: var(--text-dark); box-shadow: var(--shadow-light); font-size: 0.9rem; font-weight: 700; padding: 0.5rem 0.9rem; border-radius: var(--border-radius-lg); }
+.chip:hover { background: var(--background-medium); color: var(--text-dark); transform: translateY(-2px); animation: none; }
+
 /* Stage tabs */
 .stage-tabs {
   display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--spacing-sm);

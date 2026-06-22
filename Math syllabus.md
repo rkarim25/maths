@@ -273,3 +273,39 @@ there is a clear default path without dead ends.
   word problems, angles, and non-verbal/spatial reasoning.
 - Final term of Stage 4 should include **timed mixed papers** with error analysis, using the
   exported results to target remaining weak tags.
+
+---
+
+## Part E — Comprehensive 11+ Coverage, Practice & Inspiration
+
+The curriculum now spans **~89 lessons** across the four stages and covers every major topic tested
+in the 11+ maths paper. Beyond Parts A–B, the following topics are explicitly included:
+
+- **Number:** square roots; BODMAS with brackets; factors, multiples, primes; squares & cubes;
+  rounding; negative numbers; Roman numerals.
+- **Fractions / decimals / %:** naming fractions of a shape, comparing, simplifying, equivalent
+  fractions, mixed numbers; tenths & hundredths, adding/subtracting decimals, decimal–fraction
+  matching; percentages of amounts and percentage increase/decrease; full FDP conversion.
+- **Ratio & proportion:** sharing in a ratio; direct proportion; **speed, distance and time**.
+- **Algebra:** expressions, simplifying, sequences and missing numbers.
+- **Geometry & measure:** perimeter, area and **volume of cuboids**; angles (incl. missing angles);
+  lines; symmetry & transformations; **nets of 3D shapes**; coordinates; **timetables (24-hour)**;
+  length, mass, capacity, money.
+- **Statistics & probability:** pictograms, bar/block charts, line graphs, **pie charts**, tables;
+  mean / median / mode / range; **probability** of simple events.
+- **Reasoning & exam skill:** multi-step word problems; speed/accuracy; multiple-choice tactics.
+
+### Practice & assessment built in
+- **Per-stage assessments** (80% pass) that report gaps and update recommendations.
+- **Mock 11+ exams** — timed Quick / Half / Full papers, freshly generated so there are effectively
+  unlimited mocks, each with a topic-by-topic breakdown.
+- **Times-tables trainer** with a per-table mastery map (memorise every table to 12 × 12).
+- **Printable stage books and worksheets** for fully off-screen practice.
+
+### Inspiration
+- A **Maths Fun** section in every stage: mental-maths tricks/shortcuts and amazing facts to keep
+  her curious and quick.
+
+### Extra skill tags
+`probability` `volume` `nets` `pie-charts` `fractions-shapes` — used alongside the Part C glossary.
+

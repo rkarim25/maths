@@ -305,6 +305,13 @@ const GEN = {
   },
 
   dataRead(p, l) {
+    if (p.type === 'pie') {
+      const tot = pick([20, 40, 60, 100]);
+      const opt = pick([['half', 2], ['a quarter', 4], ['a tenth', 10]]);
+      const ans = tot / opt[1];
+      return mcq(`On a pie chart, ${opt[0]} of ${tot} children chose pizza. How many children is that?`,
+        `${ans}`, near(ans, { spread: 5, min: 0 }), tagFor(l));
+    }
     if (p.type === 'pictogram') {
       const per = pick([2, 5, 10]), pics = randInt(2, 5);
       return mcq(`On a pictogram, ${pick(EMOJI)} = ${per}. There are ${pics} of them. How many in total?`,
@@ -415,6 +422,73 @@ const GEN = {
     const amount = div * randInt(2, 8), ans = amount / div;
     return mcq(`What is ${pct}% of ${amount}?`, `${ans}`, near(ans, { spread: 3, min: 0 }), tagFor(l),
       { hint: `${pct}% means ${pct} out of every 100.` });
+  },
+
+  percentageChange(p, l) {
+    if (Math.random() < 0.5) {
+      const price = pick([20, 40, 50, 80, 100]), off = pick([10, 20, 25, 50]);
+      const ans = price - price * off / 100;
+      return mcq(`A £${price} toy has ${off}% off. What is the new price?`, `£${ans}`,
+        [`£${price - off}`, `£${ans + 5}`, `£${price * off / 100}`], tagFor(l));
+    }
+    const base = pick([20, 40, 50, 80]), inc = pick([10, 20, 25, 50]);
+    const ans = base + base * inc / 100;
+    return mcq(`Increase ${base} by ${inc}%. What do you get?`, `${ans}`, near(ans, { spread: 6, min: 0 }), tagFor(l));
+  },
+
+  ratioSharing(p, l) {
+    const r1 = randInt(1, 3), r2 = randInt(2, 4), part = pick([2, 3, 4, 5]);
+    const total = (r1 + r2) * part, big = Math.max(r1, r2) * part;
+    return mcq(`Share ${total} sweets in the ratio ${r1} : ${r2}. How many in the bigger share?`,
+      `${big}`, near(big, { spread: 4, min: 1 }), tagFor(l), { hint: `There are ${r1 + r2} equal parts altogether.` });
+  },
+
+  probability(p, l) {
+    const variants = [
+      () => { const r = randInt(2, 5), b = randInt(1, 4); return mcq(`A bag has ${r} red and ${b} blue counters. What is the chance of picking red?`, `${r}/${r + b}`, [`${b}/${r + b}`, `${r}/${b}`, `${r + b}/${r}`], tagFor(l)); },
+      () => mcq('What is the chance of rolling a 6 on a normal dice?', '1/6', ['1/2', '1/3', '6/1'], tagFor(l)),
+      () => mcq('A fair coin is flipped. The chance of heads is…', '1/2', ['1/4', '1/6', '1/1'], tagFor(l)),
+      () => mcq('Picking a number from 1 to 10, the chance it is even is…', '1/2', ['1/10', '1/5', '2/10'], tagFor(l))
+    ];
+    return pick(variants)();
+  },
+
+  volume(p, l) {
+    const a = randInt(2, 6), b = randInt(2, 6), c = randInt(2, 5);
+    return mcq(`A cuboid is ${a} cm by ${b} cm by ${c} cm. What is its volume?`,
+      `${a * b * c} cm³`, [`${a * b * c + a} cm³`, `${2 * (a + b + c)} cm³`, `${a + b + c} cm³`], tagFor(l),
+      { hint: 'Volume = length × width × height.' });
+  },
+
+  roots(p, l) {
+    const n = randInt(2, 12);
+    return mcq(`What is the square root of ${n * n}  (√${n * n})?`, `${n}`, near(n, { spread: 2, min: 1 }), tagFor(l),
+      { hint: 'Which number times itself gives this?' });
+  },
+
+  bodmasBrackets(p, l) {
+    const a = randInt(2, 6), b = randInt(2, 6), c = randInt(2, 5);
+    if (Math.random() < 0.5) return mcq(`(${a} + ${b}) × ${c} = ?`, `${(a + b) * c}`, [`${a + b * c}`, `${(a + b) * c + c}`, `${a * c + b}`], tagFor(l), { hint: 'Do the brackets first.' });
+    return mcq(`${a} + ${b} × ${c} = ?`, `${a + b * c}`, [`${(a + b) * c}`, `${a + b + c}`, `${a * b * c}`], tagFor(l), { hint: '× before +.' });
+  },
+
+  timetable(p, l) {
+    const h = randInt(8, 17), m = pick([0, 15, 30, 45]), dur = pick([20, 30, 40, 45, 50]);
+    const fmt = (mins) => `${String(Math.floor(mins / 60) % 24).padStart(2, '0')}:${String(mins % 60).padStart(2, '0')}`;
+    const startM = h * 60 + m, endM = startM + dur;
+    return mcq(`A train leaves at ${fmt(startM)} and the journey takes ${dur} minutes. When does it arrive?`,
+      fmt(endM), [fmt(endM + 10), fmt(endM + 60), fmt(endM - 10)], tagFor(l));
+  },
+
+  speedDistanceTime(p, l) {
+    if (Math.random() < 0.5) {
+      const sp = pick([30, 40, 50, 60]), t = randInt(2, 4);
+      return mcq(`A car travels at ${sp} km/h for ${t} hours. How far does it go?`, `${sp * t} km`,
+        [`${sp * t + sp} km`, `${sp + t} km`, `${sp * t - sp} km`], tagFor(l), { hint: 'Distance = speed × time.' });
+    }
+    const sp = pick([40, 50, 60]), t = pick([2, 3, 4]);
+    return mcq(`A train covers ${sp * t} km in ${t} hours. What is its speed?`, `${sp} km/h`,
+      [`${sp + 10} km/h`, `${sp - 10} km/h`, `${sp * t} km/h`], tagFor(l), { hint: 'Speed = distance ÷ time.' });
   },
 
   rounding(p, l) {
@@ -649,6 +723,14 @@ const STATIC = {
     { q: 'How many lines of symmetry does a circle have?', answer: 'lots (infinite)', options: ['lots (infinite)', '1', '2', '4'] },
     { q: 'How many lines of symmetry does a (non-square) rectangle have?', answer: '2', options: ['2', '1', '4', '0'] },
     { q: 'Turning a shape around a point is called a…', answer: 'rotation', options: ['rotation', 'reflection', 'translation', 'symmetry'] }
+  ],
+  'nets': [
+    { q: 'A net made of 6 equal squares folds into a…', answer: 'cube', options: ['cube', 'cuboid', 'pyramid', 'cylinder'] },
+    { q: 'A net with 2 circles and 1 rectangle folds into a…', answer: 'cylinder', options: ['cylinder', 'cone', 'sphere', 'cube'] },
+    { q: 'A net with 1 square and 4 triangles folds into a…', answer: 'square-based pyramid', options: ['square-based pyramid', 'cube', 'cone', 'prism'] },
+    { q: 'A net with 1 circle and 1 curved piece folds into a…', answer: 'cone', options: ['cone', 'cylinder', 'cube', 'sphere'] },
+    { q: 'How many faces must a cube’s net have?', answer: '6', options: ['6', '4', '8', '5'] },
+    { q: 'A cuboid’s net is made of how many rectangles?', answer: '6', options: ['6', '4', '5', '8'] }
   ]
 };
 

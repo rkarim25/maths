@@ -664,6 +664,66 @@ const TEACHING = {
       'In the 11+ you have about 45 seconds per question, so accuracy AND speed both count.',
       'For multiple choice, rule out answers that are clearly wrong, and move on if stuck — come back later.'
     ]
+  },
+  'timetables': {
+    plain: [
+      'Timetables usually use the 24-hour clock (so 3 pm is 15:00). To find how long a journey takes, count on from the start time to the end time.',
+      'A train leaving 09:15 that takes 40 minutes arrives at 09:55.'
+    ]
+  },
+  'square-roots': {
+    plain: [
+      'A square root undoes squaring. Because 7 × 7 = 49, the square root of 49 is 7 — written √49 = 7.',
+      'It helps to know the square numbers (1, 4, 9, 16, 25, …) by heart.'
+    ]
+  },
+  'bodmas-brackets': {
+    plain: [
+      'BODMAS gives the order: Brackets, Orders (powers), Division/Multiplication, then Addition/Subtraction.',
+      '(2 + 3) × 4 = 5 × 4 = 20, but without brackets 2 + 3 × 4 = 14. Brackets change everything!'
+    ]
+  },
+  'percentage-change': {
+    plain: [
+      'To take 20% off £50: find 20% (£10), then subtract → £40.',
+      'To increase by a percentage, work out the percentage and add it on instead.'
+    ]
+  },
+  'ratio-sharing': {
+    plain: [
+      'To share in a ratio like 2 : 3, first add the parts (2 + 3 = 5). Divide the total by 5 to find one part, then multiply.',
+      'Sharing £20 as 2 : 3 → one part = £4, so the shares are £8 and £12.'
+    ]
+  },
+  'speed-distance-time': {
+    plain: [
+      'Speed = distance ÷ time. Distance = speed × time. Time = distance ÷ speed.',
+      'A car at 60 km/h for 2 hours travels 60 × 2 = 120 km.'
+    ]
+  },
+  'volume': {
+    plain: [
+      'Volume is the space inside a solid, measured in cubic units (cm³).',
+      'For a cuboid, volume = length × width × height. A 2 × 3 × 4 box holds 24 cm³.'
+    ]
+  },
+  'nets-3d': {
+    plain: [
+      'A net is a flat shape that folds up into a 3D solid.',
+      'A cube unfolds into 6 squares; a cylinder into 2 circles and a rectangle; a square-based pyramid into a square and 4 triangles.'
+    ]
+  },
+  'pie-charts': {
+    plain: [
+      'A pie chart shows parts of a whole as slices of a circle. The bigger the slice, the bigger the share.',
+      'Half the circle is half the total; a quarter slice is a quarter of the total.'
+    ]
+  },
+  'probability': {
+    plain: [
+      'Probability is how likely something is, from 0 (impossible) to 1 (certain).',
+      'The chance of rolling a 6 on a dice is 1 out of 6 = 1/6. The chance of heads on a coin is 1/2.'
+    ]
   }
 };
 

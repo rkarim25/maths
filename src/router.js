@@ -10,6 +10,8 @@ import { renderPlacement } from './views/placement-test.js';
 import { renderBook } from './views/book.js';
 import { renderAssessment } from './views/assessment.js';
 import { renderTimesTables } from './views/times-tables.js';
+import { renderFun } from './views/fun.js';
+import { renderMockExams } from './views/mock-exam.js';
 import { getCurrentProfileId } from './services/profile-manager.js';
 
 // Static routes: hash -> render()
@@ -20,7 +22,8 @@ const STATIC_ROUTES = {
   '/grownups': renderGrownups,
   '/placement': renderPlacement,
   '/book': renderBook,
-  '/times-tables': renderTimesTables
+  '/times-tables': renderTimesTables,
+  '/mocks': renderMockExams
 };
 
 // Dynamic routes: '/prefix/:id' -> render(id)
@@ -29,7 +32,8 @@ const DYNAMIC_ROUTES = [
   { prefix: '/practice/', render: renderPractice },
   { prefix: '/worksheet/', render: renderWorksheet },
   { prefix: '/book/', render: renderBook },
-  { prefix: '/assessment/', render: renderAssessment }
+  { prefix: '/assessment/', render: renderAssessment },
+  { prefix: '/fun/', render: renderFun }
 ];
 
 // Routes reachable without a selected profile

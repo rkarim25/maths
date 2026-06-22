@@ -32,7 +32,7 @@ export function renderLessonPlayer(arg) {
   const hasStory = !!(teaching && teaching.story && teaching.story.scenes.length);
   let initialView = view || 'story';
   if (initialView === 'story' && !hasStory) initialView = 'plain';
-  if (initialView === 'video' && !lesson.youtubeId) initialView = hasStory ? 'story' : 'plain';
+  if (initialView === 'video' && !lesson.youtubeId && !lesson.videoUrl) initialView = hasStory ? 'story' : 'plain';
 
   state = { lesson, teaching, view: initialView, scene: 0, hasStory };
 
@@ -47,7 +47,7 @@ export function renderLessonPlayer(arg) {
       <div class="lp-toggle" id="lp-toggle">
         ${hasStory ? tab('story', '📖 Story') : ''}
         ${tab('plain', '📝 Explain')}
-        ${lesson.youtubeId ? tab('video', '▶ Video') : ''}
+        ${(lesson.youtubeId || lesson.videoUrl) ? tab('video', '▶ Video') : ''}
       </div>
 
       <div class="lp-stage" id="lp-stage"></div>
@@ -125,7 +125,16 @@ function plainHTML() {
 }
 
 function videoHTML() {
-  const vid = encodeURIComponent(state.lesson.youtubeId);
+  const l = state.lesson;
+  if (l.videoUrl) {
+    return `
+    <div class="video-card">
+      <div class="video-frame">
+        <video controls preload="metadata" playsinline src="${encodeURI(l.videoUrl)}"></video>
+      </div>
+    </div>`;
+  }
+  const vid = encodeURIComponent(l.youtubeId);
   return `
     <div class="video-card">
       <div class="video-frame">
