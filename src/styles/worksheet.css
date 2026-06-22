@@ -7,6 +7,15 @@
 }
 .ws-check { display: inline-flex; align-items: center; gap: 6px; font-weight: 700; color: var(--text-medium); }
 .ws-check input { width: 20px; height: 20px; }
+.ws-modes { display: inline-flex; gap: 6px; flex-wrap: wrap; }
+.ws-mode { background: #fff; color: var(--text-medium); box-shadow: var(--shadow-light); font-size: 0.95rem; padding: 0.5rem 1rem; border-radius: var(--border-radius-lg); }
+.ws-mode.active { background: var(--primary); color: #fff; }
+.ws-mode:hover { animation: none; transform: none; }
+.ws-visual { font-size: 1.9rem; line-height: 1.5; margin: 0.3rem 0; word-break: break-word; }
+.ws-story-char { font-family: var(--font-heading); color: var(--primary); font-size: 1.3rem; font-weight: 700; }
+.ws-scene { display: flex; gap: 1rem; align-items: flex-start; margin-bottom: 1rem; }
+.ws-scene-emoji { font-size: 2rem; }
+.ws-scene p { font-size: 1.2rem; line-height: 1.7; margin: 0; }
 
 .worksheet {
   background: #fff; border-radius: var(--border-radius-md); padding: var(--spacing-xl);

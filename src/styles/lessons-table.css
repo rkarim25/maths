@@ -57,6 +57,14 @@
 .cb-title { font-family: var(--font-heading); font-size: 1.25rem; font-weight: 700; }
 .cb-arrow { font-size: 1.5rem; }
 
+.placement-banner {
+  width: 100%; justify-content: flex-start; gap: var(--spacing-md);
+  background: var(--accent); color: #7a5b00;
+  padding: var(--spacing-md) var(--spacing-lg); border-radius: var(--border-radius-lg);
+  margin-bottom: var(--spacing-md); box-shadow: var(--shadow-light); text-align: left;
+}
+.placement-banner:hover { color: #7a5b00; transform: translateY(-2px); animation: none; }
+
 /* Groups */
 .lesson-group { margin-bottom: var(--spacing-xl); }
 .group-title { font-size: 1.35rem; margin-bottom: var(--spacing-md); display: flex; align-items: center; gap: 0.5rem; }

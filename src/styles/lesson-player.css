@@ -42,6 +42,9 @@
 }
 .plain-card p { font-size: 1.3rem; line-height: 1.8; color: var(--text-dark); }
 .plain-card p:last-child { margin-bottom: 0; }
+.concept-figure { margin: 0 0 var(--spacing-lg); padding: var(--spacing-md); background: var(--background-light); border-radius: var(--border-radius-md); }
+.concept-svg { width: 100%; max-width: 420px; height: auto; display: block; margin: 0 auto; }
+.concept-figure figcaption { text-align: center; color: var(--text-medium); font-weight: 600; margin-top: var(--spacing-sm); }
 
 /* Video */
 .video-card { background: #fff; border-radius: var(--border-radius-lg); padding: var(--spacing-md); box-shadow: var(--shadow-light); }

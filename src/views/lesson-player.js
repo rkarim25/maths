@@ -2,9 +2,10 @@
 import { navigateTo } from '../router.js';
 import { getLesson } from '../data/curriculum.js';
 import { getTeaching } from '../data/teaching.js';
+import { getDiagramFor } from '../data/diagrams.js';
 import { logEvent } from '../services/tracking.js';
 import { getCurrentProfileId } from '../services/profile-manager.js';
-import { NARRATION_SPEED } from '../config/constants.js';
+import { speak, stopSpeaking } from '../services/tts.js';
 
 let state = { lesson: null, teaching: null, view: 'story', scene: 0 };
 
@@ -118,7 +119,9 @@ function storyHTML() {
 
 function plainHTML() {
   const paras = (state.teaching && state.teaching.plain) || [state.lesson.objective];
-  return `<div class="plain-card">${paras.map((p) => `<p>${escapeHtml(p)}</p>`).join('')}</div>`;
+  const d = getDiagramFor(state.lesson);
+  const fig = d ? `<figure class="concept-figure">${d.svg}<figcaption>${escapeHtml(d.caption)}</figcaption></figure>` : '';
+  return `<div class="plain-card">${fig}${paras.map((p) => `<p>${escapeHtml(p)}</p>`).join('')}</div>`;
 }
 
 function videoHTML() {
@@ -144,18 +147,7 @@ function currentNarration() {
 }
 
 function speakCurrent() {
-  const text = currentNarration();
-  if (!text) return;
-  if (!('speechSynthesis' in window)) return;
-  stopSpeaking();
-  const u = new SpeechSynthesisUtterance(text);
-  u.rate = NARRATION_SPEED || 1;
-  u.pitch = 1.1;
-  window.speechSynthesis.speak(u);
-}
-
-function stopSpeaking() {
-  if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+  speak(currentNarration());
 }
 
 function notFound() {

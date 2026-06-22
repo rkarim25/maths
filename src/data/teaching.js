@@ -2,9 +2,10 @@
 // Teaching content for each lesson: an optional illustrated `story` (Liyana
 // loves stories) and a `plain` explanation (the "explain it simply" view).
 //
-// Stage 1 (Year 1 — what Liyana needs now) has full stories. Stages 2-4 have
-// clear plain explanations and short story hooks; these are the slots the
-// offline Gemini pipeline (tools/) is designed to enrich over time.
+// Stage 1 (Year 1) stories are rich and multi-scene, and each one ENDS by
+// drawing an explicit parallel between the story and the maths being taught,
+// so the idea sticks. Stages 2-4 have clear plain explanations (+ diagrams in
+// the Explain view) and are the slots the offline Gemini pipeline can enrich.
 //
 // Shape:
 //   { story?: { character, emoji, scenes: [{ text, emoji? }] },
@@ -12,70 +13,84 @@
 // =============================================================================
 
 const TEACHING = {
-  // --------------------------- STAGE 1 (full stories) ----------------------
+  // --------------------------- STAGE 1 (rich stories) ----------------------
   'count-to-10': {
     story: {
       character: 'Finn the Fox', emoji: '🦊',
       scenes: [
-        { text: 'Finn the Fox found a magical apple tree in the Enchanted Forest. "Let\'s count the apples!" he said.', emoji: '🌳' },
-        { text: 'He pointed at each apple and counted out loud: one, two, three, four, five… all the way to ten.', emoji: '🍎' },
-        { text: 'Counting means saying one number for each thing — and never skipping one. Now you try with Finn!', emoji: '✨' }
+        { text: 'Finn the Fox skipped into the Enchanted Forest and gasped. A magical apple tree, glowing with bright red apples!', emoji: '🌳' },
+        { text: '"I wonder how many there are," said Finn. He reached up and touched the very first apple. "One!"', emoji: '🍎' },
+        { text: 'He touched the next apple. "Two!" Then three, four, five — saying just one number for each apple, never skipping any.', emoji: '✋' },
+        { text: 'He kept going: six, seven, eight, nine… and the very last apple — "TEN!" The tree gave a happy shimmer.', emoji: '🔟' },
+        { text: 'Finn grinned. "Pointing and saying one number for each apple — that is exactly what counting is!"', emoji: '🦊' },
+        { text: 'And the LAST number he said — ten — told him how many apples there were altogether. Now count with Finn!', emoji: '✨' }
       ]
     },
     plain: [
       'Counting is saying the numbers in order while pointing at each thing once: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10.',
-      'Top tip: touch each object as you say its number, so you don\'t count anything twice or miss one.'
+      'The last number you say tells you how many there are altogether.',
+      'Top tip: touch each object as you say its number, so you don\'t count one twice or miss one.'
     ]
   },
   'count-to-20': {
     story: {
       character: 'Pip the Penguin', emoji: '🐧',
       scenes: [
-        { text: 'Pip the Penguin caught a big bucket of shiny fish and wanted to count them all.', emoji: '🪣' },
-        { text: 'After ten, the numbers keep going: eleven, twelve, thirteen… up to twenty!', emoji: '🐟' },
-        { text: 'The "teen" numbers are just a ten and some more. Thirteen is ten and three.', emoji: '✨' }
+        { text: 'Pip the Penguin waddled home across the ice with a big silver bucket full of fresh fish.', emoji: '🪣' },
+        { text: '"Let\'s count my catch!" She lined the fish up and counted: one, two, three… all the way to ten.', emoji: '🐟' },
+        { text: 'But there were MORE fish! "After ten comes eleven," said Pip, "then twelve, thirteen…"', emoji: '🧊' },
+        { text: 'She kept going — fourteen, fifteen, sixteen, seventeen, eighteen, nineteen… "TWENTY!" she cheered.', emoji: '🎉' },
+        { text: '"Look closely," said Pip. "Thirteen is just ten fish and three more. Every teen number is a ten with extra ones!"', emoji: '✨' }
       ]
     },
     plain: [
       'After 10 we keep counting: 11, 12, 13, 14, 15, 16, 17, 18, 19, 20.',
-      'Each teen number is "ten and some more". 14 is one ten and four ones.'
+      'Each "teen" number is ten and some more — 14 is one ten and four ones.'
     ]
   },
   'one-more-less': {
     story: {
       character: 'Hoppy the Rabbit', emoji: '🐰',
       scenes: [
-        { text: 'Hoppy the Rabbit loves hopping along the number line.', emoji: '➡️' },
-        { text: 'Hop forward once and you get one MORE. Hop back once and you get one LESS.', emoji: '🔢' },
-        { text: 'One more than 7 is 8. One less than 7 is 6. Easy hops!', emoji: '✨' }
+        { text: 'Hoppy the Rabbit loved bouncing along the giant number path painted across the meadow.', emoji: '🐰' },
+        { text: 'She landed on the number 7. "Watch this!" she said, and hopped forward just once — onto 8. "One MORE!"', emoji: '➡️' },
+        { text: 'She bounced back to 7, then hopped backward just once — onto 6. "One LESS!"', emoji: '⬅️' },
+        { text: '"One more is always the next number up. One less is the number just behind."', emoji: '🔢' },
+        { text: '"So I never have to count them all again — I just take one little hop!" said clever Hoppy.', emoji: '✨' }
       ]
     },
     plain: [
       'One more means the next number up. One less means the number just before.',
-      'Picture a number line: one more is a step right, one less is a step left.'
+      'Picture a number line: one more is a small step to the right, one less is a step to the left.'
     ]
   },
   'number-bonds-10': {
     story: {
       character: 'Luna the Wizard', emoji: '🧙',
       scenes: [
-        { text: 'Luna the Wizard\'s best spell needs exactly 10 sparkles — but she can split them in many ways.', emoji: '🔮' },
-        { text: 'She can use 6 red and 4 blue, or 7 red and 3 blue. Both make 10!', emoji: '✨' },
-        { text: 'Pairs that make 10 are called number bonds: 0+10, 1+9, 2+8, 3+7, 4+6, 5+5.', emoji: '🌈' }
+        { text: 'Luna the Wizard needed exactly 10 glowing sparkles to cast her very brightest spell.', emoji: '🔮' },
+        { text: 'She scooped 6 red sparkles into her jar. "Hmm… how many more do I need to make 10?"', emoji: '✨' },
+        { text: 'She popped them in one at a time — 7, 8, 9, 10! "Four more did it. So 6 and 4 make 10!"', emoji: '🌟' },
+        { text: '"But I could mix them differently," Luna smiled. "7 and 3, or 5 and 5 — they ALL make 10!"', emoji: '🌈' },
+        { text: '"These special pairs that make 10 are called number bonds."', emoji: '🔟' },
+        { text: '"If I just KNOW them, without counting, my spells are lightning fast!" Now learn the pairs that make 10.', emoji: '⚡' }
       ]
     },
     plain: [
       'Number bonds to 10 are the pairs that add up to 10: 1+9, 2+8, 3+7, 4+6, 5+5 (and the other way round).',
-      'Knowing these by heart makes adding and taking away much faster later on.'
+      'Knowing these by heart, without counting, makes adding and taking away much faster later on.'
     ]
   },
   'add-within-10': {
     story: {
       character: 'Benny the Beaver', emoji: '🦫',
       scenes: [
-        { text: 'Benny the Beaver is building a bridge. A friend gives him 3 planks.', emoji: '🪵' },
-        { text: 'Then a neighbour brings 4 more planks. How many altogether?', emoji: '🪵' },
-        { text: 'Adding means putting groups together: 3 + 4 = 7 planks. The bridge is ready!', emoji: '🌉' }
+        { text: 'Benny the Beaver was building a sturdy bridge across the bubbling stream.', emoji: '🌉' },
+        { text: 'His friend Otter brought 3 wooden planks and laid them on the bank.', emoji: '🪵' },
+        { text: 'Then neighbour Mole arrived with 4 more planks. "How many planks do I have now?" wondered Benny.', emoji: '🪵' },
+        { text: 'He pushed the two piles together and counted them all: 1, 2, 3, 4, 5, 6, 7. "Seven planks!"', emoji: '🔢' },
+        { text: '"Adding just means putting groups together," said Benny. "3 and 4 join up to make 7."', emoji: '➕' },
+        { text: '"Here\'s a clever trick — start at the bigger pile, 4, and count on: 5, 6, 7. Faster!"', emoji: '✨' }
       ]
     },
     plain: [
@@ -87,13 +102,15 @@ const TEACHING = {
     story: {
       character: 'Mango the Monkey', emoji: '🐵',
       scenes: [
-        { text: 'Mango the Monkey had 9 bananas in his basket.', emoji: '🍌' },
-        { text: 'He felt hungry and ate 4 of them. How many are left?', emoji: '😋' },
-        { text: 'Taking away leaves fewer behind: 9 − 4 = 5 bananas left.', emoji: '✨' }
+        { text: 'Mango the Monkey had 9 ripe yellow bananas in his basket.', emoji: '🍌' },
+        { text: 'He was SO hungry. He peeled one and ate it… then another… and another… and one more.', emoji: '😋' },
+        { text: '"I gobbled up 4 bananas," said Mango, patting his tummy. "How many are left now?"', emoji: '🍌' },
+        { text: 'He counted what was still in the basket: 5 bananas. "Nine take away four leaves five!"', emoji: '🔢' },
+        { text: '"Taking away makes a group SMALLER," said Mango. "I can count back from 9: 8, 7, 6, 5."', emoji: '➖' }
       ]
     },
     plain: [
-      'Subtraction (taking away) finds how many are left when some are removed.',
+      'Subtraction (taking away) finds how many are left when some are removed — the group gets smaller.',
       'For 9 − 4, start at 9 and count back four: 8, 7, 6, 5.'
     ]
   },
@@ -101,69 +118,79 @@ const TEACHING = {
     story: {
       character: 'Astro the Owl', emoji: '🦉',
       scenes: [
-        { text: 'Astro the Owl counts stars from her hundred square every night.', emoji: '🌟' },
-        { text: 'The numbers go in rows of ten: 10, 20, 30… up to 100.', emoji: '🔢' },
-        { text: 'If you know where a number is, the one after and before are its neighbours.', emoji: '✨' }
+        { text: 'High in her tree, Astro the Owl counted stars on her magic hundred chart every single night.', emoji: '🌟' },
+        { text: 'The chart had neat rows of ten. "Ten, twenty, thirty…" she hooted, hopping down one row at a time.', emoji: '🦉' },
+        { text: '"After 29 comes 30. After 59 comes 60. Each brand-new row is just another ten!"', emoji: '🔟' },
+        { text: '"If I know where a number lives on the chart, I instantly know its neighbours too."', emoji: '🔢' },
+        { text: '"So counting to 100 is really just counting in tens, with the ones tucked in between." Wise owl!', emoji: '✨' }
       ]
     },
     plain: [
       'Numbers carry on past 20 all the way to 100, going up in tens: 10, 20, 30, … 100.',
-      'A hundred square helps you spot the number that comes next or just before.'
+      'A hundred square is laid out in rows of ten, which helps you find the number that comes next or just before.'
     ]
   },
   'place-value-2digit': {
     story: {
       character: 'Tilly the Tortoise', emoji: '🐢',
       scenes: [
-        { text: 'Tilly the Tortoise bundles straws into tens to count them quickly.', emoji: '🥤' },
-        { text: 'The number 47 means 4 bundles of ten and 7 single straws.', emoji: '🔢' },
-        { text: 'The left digit tells the tens, the right digit tells the ones.', emoji: '✨' }
+        { text: 'Tilly the Tortoise had a HUGE pile of drinking straws she needed to count.', emoji: '🥤' },
+        { text: '"Counting one by one takes forever," she sighed. So she bundled them into tens with little bands.', emoji: '🎀' },
+        { text: 'She made 4 full bundles of ten… and had 7 single straws left over.', emoji: '🔢' },
+        { text: '"That makes the number 47," said Tilly. "4 tens and 7 ones."', emoji: '🐢' },
+        { text: '"The first digit tells the TENS, the second tells the ONES. So 47 really means 40 and 7!"', emoji: '✨' }
       ]
     },
     plain: [
       'A two-digit number is made of tens and ones. In 47, the 4 means 4 tens (40) and the 7 means 7 ones.',
-      'So 47 = 40 + 7. Bundling into tens makes big counts much easier.'
+      'So 47 = 40 + 7. Bundling into tens makes big counts much quicker.'
     ]
   },
   'compare-numbers': {
     story: {
-      character: 'The Two Dragons', emoji: '🐉',
+      character: 'Ruby & Jade the Dragons', emoji: '🐉',
       scenes: [
-        { text: 'Two dragons each count their treasure to see who has more.', emoji: '💎' },
-        { text: 'We use signs: > means "greater than", < means "less than", = means "equal".', emoji: '🔢' },
-        { text: 'The open mouth of the sign always gobbles the bigger number!', emoji: '✨' }
+        { text: 'Two dragons, Ruby and Jade, each guarded a pile of gold — and argued about who had more!', emoji: '💰' },
+        { text: 'Ruby had 52 coins. Jade had 47 coins. "Let\'s check the TENS first," said wise old Tortoise.', emoji: '🪙' },
+        { text: '"5 tens beats 4 tens — so Ruby has more, even without counting every single coin."', emoji: '🐉' },
+        { text: '"We can write it with a sign: 52 > 47. The wide-open mouth always gobbles the bigger number!"', emoji: '🐊' },
+        { text: '"And if the tens had been the same, we would just peek at the ones to decide."', emoji: '✨' }
       ]
     },
     plain: [
-      'To compare, look at the tens first; if they are equal, look at the ones.',
-      'The signs are >, < and =. The wide-open side faces the bigger number: 52 > 47.'
+      'To compare, look at the tens first; if they are equal, then look at the ones.',
+      'The signs are >, < and =. The wide-open side always faces the bigger number: 52 > 47.'
     ]
   },
   'add-within-20': {
     story: {
       character: 'Bella the Baker', emoji: '👩‍🍳',
       scenes: [
-        { text: 'Bella the Baker had 8 buns on a tray.', emoji: '🥐' },
-        { text: 'She baked 7 more. How many buns now?', emoji: '🔥' },
-        { text: 'Make 10 first: 8 + 2 = 10, then 5 more makes 15 buns.', emoji: '✨' }
+        { text: 'Bella the Baker slid a tray of 8 warm, golden buns out of the oven.', emoji: '🥐' },
+        { text: 'Then she baked 7 more. "How many buns do I have altogether now?"', emoji: '🔥' },
+        { text: '"Let me make a TEN first," said Bella. She took 2 buns from the 7 to fill the tray of 8 — that made 10.', emoji: '🔟' },
+        { text: '"Now I have 10 buns, and 5 left over… that\'s 15 buns!"', emoji: '🎉' },
+        { text: '"Making 10 on the way turns a tricky add into an easy one," said clever Bella.', emoji: '✨' }
       ]
     },
     plain: [
       'When the total goes past 10, it helps to "make 10" first.',
-      'For 8 + 7: take 2 from the 7 to make 8 into 10, then add the 5 left over → 15.'
+      'For 8 + 7: take 2 from the 7 to turn 8 into 10, then add the 5 that is left → 15.'
     ]
   },
   'sub-within-20': {
     story: {
       character: 'Detective Cat', emoji: '🐱',
       scenes: [
-        { text: 'Someone took some cookies! There were 15, now there are fewer.', emoji: '🍪' },
-        { text: 'If 6 are missing, how many are left? 15 − 6.', emoji: '🔍' },
-        { text: 'Count back to 10 first: 15 − 5 = 10, then 1 more makes 9 left.', emoji: '✨' }
+        { text: 'Someone had been nibbling the cookies! Detective Cat checked the jar — there should be 15.', emoji: '🍪' },
+        { text: '"6 cookies are missing! How many are still left?" she said, pulling out her magnifying glass.', emoji: '🔍' },
+        { text: '"I\'ll jump back to the nearest ten first: 15 take away 5 lands me on 10."', emoji: '🔟' },
+        { text: '"Then 1 more away makes 9. So 15 − 6 = 9 cookies left."', emoji: '🔢' },
+        { text: '"Case solved! Hopping down to ten first makes taking away nice and easy." Purr.', emoji: '✨' }
       ]
     },
     plain: [
-      'For take-away past ten, count back to 10 first, then take away the rest.',
+      'For take-away that crosses ten, count back to 10 first, then take away the rest.',
       'For 15 − 6: 15 − 5 = 10, then 10 − 1 = 9.'
     ]
   },
@@ -171,13 +198,16 @@ const TEACHING = {
     story: {
       character: 'Rosa the Gardener', emoji: '🌷',
       scenes: [
-        { text: 'Rosa plants a shape garden with circle ponds and square beds.', emoji: '🟦' },
-        { text: 'A triangle has 3 sides, a square has 4 equal sides, a circle has none.', emoji: '🔺' },
-        { text: 'Sides are the straight edges; corners (vertices) are where they meet.', emoji: '✨' }
+        { text: 'Rosa the Gardener was planning the most magical shape garden anyone had ever seen.', emoji: '🌷' },
+        { text: 'She dug round circle ponds, square flower beds, and pointy triangle herb patches.', emoji: '🔺' },
+        { text: '"A triangle has 3 straight sides and 3 corners," she said, planting a seed at each corner.', emoji: '🌱' },
+        { text: '"A square has 4 equal sides. A rectangle has 4 sides too, but two of them are longer."', emoji: '🟦' },
+        { text: '"And a circle has NO corners at all — just one smooth, curved side."', emoji: '⭕' },
+        { text: '"I can name any flat shape just by counting its sides and corners!" beamed Rosa.', emoji: '✨' }
       ]
     },
     plain: [
-      'Flat shapes are called 2D shapes. We describe them by their sides and corners.',
+      'Flat shapes are called 2D shapes. We describe them by their sides and corners (vertices).',
       'Triangle = 3 sides, square/rectangle = 4 sides, pentagon = 5, hexagon = 6, circle = 0 (it is curved).'
     ]
   },
@@ -185,51 +215,59 @@ const TEACHING = {
     story: {
       character: 'Skip the Frog', emoji: '🐸',
       scenes: [
-        { text: 'Skip the Frog never lands on every lily pad — he jumps in steps!', emoji: '🪷' },
-        { text: 'In 2s: 2, 4, 6, 8… In 5s: 5, 10, 15… In 10s: 10, 20, 30…', emoji: '🔢' },
-        { text: 'Skip counting is the start of times tables. Clever Skip!', emoji: '✨' }
+        { text: 'Skip the Frog never landed on every lily pad — he loved to leap in big, even jumps!', emoji: '🐸' },
+        { text: '"In 2s!" he sang, springing 2, 4, 6, 8, 10 right across the pond.', emoji: '🪷' },
+        { text: '"In 5s!" — 5, 10, 15, 20. "In 10s!" — 10, 20, 30, 40! Splash, splash, splash.', emoji: '💦' },
+        { text: '"Skip counting gets me there SO much faster than counting one… by… one."', emoji: '🔢' },
+        { text: '"And here\'s a secret," winked Skip. "Skip counting is the very beginning of times tables!"', emoji: '✨' }
       ]
     },
     plain: [
       'Skip counting means counting in equal jumps instead of one at a time.',
-      'In 2s: 2,4,6,8,10. In 5s: 5,10,15,20. In 10s: 10,20,30,40. This builds towards multiplication.'
+      'In 2s: 2, 4, 6, 8, 10. In 5s: 5, 10, 15, 20. In 10s: 10, 20, 30, 40. This builds towards multiplication.'
     ]
   },
   'number-bonds-20': {
     story: {
       character: 'Luna the Wizard', emoji: '🧙',
       scenes: [
-        { text: 'Luna\'s bigger spell needs 20 sparkles this time.', emoji: '🔮' },
-        { text: 'If she has 13, she needs 7 more, because 13 + 7 = 20.', emoji: '✨' },
-        { text: 'Number bonds to 20 work just like bonds to 10, with bigger pairs.', emoji: '🌈' }
+        { text: 'Luna\'s grandest spell of all needed 20 sparkles this time — twice as many!', emoji: '🔮' },
+        { text: '"I already know my bonds to 10," she said. "I bet I can use them to help me."', emoji: '✨' },
+        { text: 'She had 13 sparkles. "13 is just 10 and 3. I still need 7 more to reach 20."', emoji: '🌟' },
+        { text: '"Because 3 and 7 make 10, I knew straight away that 13 and 7 make 20!"', emoji: '🌈' },
+        { text: '"Bonds to 20 follow the very same magic as bonds to 10." Luna\'s spell lit up the sky.', emoji: '⚡' }
       ]
     },
     plain: [
       'Number bonds to 20 are pairs that make 20: 11+9, 12+8, 13+7, 14+6, 15+5, and so on.',
-      'If you know bonds to 10, bonds to 20 follow the same pattern.'
+      'If you know your bonds to 10, the bonds to 20 follow the same pattern.'
     ]
   },
   'ordinal-numbers': {
     story: {
-      character: 'Race Day', emoji: '🏁',
+      character: 'The Great Meadow Race', emoji: '🏁',
       scenes: [
-        { text: 'It\'s race day in the meadow! The animals line up to finish.', emoji: '🐇' },
-        { text: 'The winner is 1st, then 2nd, then 3rd, 4th, 5th…', emoji: '🏆' },
-        { text: 'Ordinal numbers tell us position or order, not how many.', emoji: '✨' }
+        { text: 'It was the Great Meadow Race, and all the animals lined up, hearts pounding, for the finish!', emoji: '🐇' },
+        { text: 'Hare zoomed in 1st. Fox came 2nd. And Tortoise — slow but steady — proudly came 3rd.', emoji: '🏆' },
+        { text: '"4th, 5th, 6th…" called the judge, handing each animal a ribbon for their place.', emoji: '🎀' },
+        { text: '"Ordinal numbers tell us the ORDER — who came first, second, third, and so on."', emoji: '🔢' },
+        { text: '"They are different from counting HOW MANY. They tell us WHERE someone is in the line."', emoji: '✨' }
       ]
     },
     plain: [
       'Ordinal numbers tell us position: 1st, 2nd, 3rd, 4th, 5th, and so on.',
-      'They are different from counting numbers — they say where something is in a line or race.'
+      'They are different from counting numbers — they say where something is in a line or a race.'
     ]
   },
   'money-coins': {
     story: {
       character: 'Penny the Shopkeeper', emoji: '🛍️',
       scenes: [
-        { text: 'Penny runs a tiny pet shop. Coins come in 1p, 2p, 5p, 10p, 20p…', emoji: '🪙' },
-        { text: 'To make 7p you could use 5p + 2p, or 2p + 2p + 2p + 1p.', emoji: '💰' },
-        { text: 'Different coins can make the same amount. Clever counting!', emoji: '✨' }
+        { text: 'Penny ran the cosiest little pet shop in town, with a jar of shiny, jingling coins.', emoji: '🪙' },
+        { text: 'A customer wanted a ball of string for 7p. "Now, which coins make exactly 7p?"', emoji: '🧶' },
+        { text: '"A 5p and a 2p!" said Penny, clinking them together. "Or I could use 2p, 2p, 2p and 1p."', emoji: '💰' },
+        { text: '"Isn\'t that clever — different coins can add up to the very same amount."', emoji: '✨' },
+        { text: '"To find the total, I just add up what each coin is worth." Ding! went the till.', emoji: '🔔' }
       ]
     },
     plain: [
@@ -241,9 +279,11 @@ const TEACHING = {
     story: {
       character: 'Iris the Fairy', emoji: '🧚',
       scenes: [
-        { text: 'Iris the Fairy rebuilds the rainbow bridge with coloured beads.', emoji: '🌈' },
-        { text: 'Red, blue, red, blue, red… what comes next? Blue!', emoji: '🔵' },
-        { text: 'A pattern repeats in a rule. Find the rule and you can carry it on.', emoji: '✨' }
+        { text: 'Oh no! The shimmering rainbow bridge had crumbled, and Iris the Fairy had to rebuild it with magic beads.', emoji: '🌈' },
+        { text: '"Red, blue, red, blue, red…" she threaded carefully. "So what comes next? Blue, of course!"', emoji: '🔵' },
+        { text: '"A pattern follows a rule that repeats over and over. Once I spot the rule, I can keep it going forever."', emoji: '🔁' },
+        { text: '"Patterns can be made of colours, shapes, or even numbers — like 2, 4, 6, 8."', emoji: '🔢' },
+        { text: 'Bead by bead, following the rule, the rainbow bridge sparkled back to life!', emoji: '✨' }
       ]
     },
     plain: [
@@ -255,20 +295,22 @@ const TEACHING = {
     story: {
       character: 'The Star Festival', emoji: '🎆',
       scenes: [
-        { text: 'At the Star Festival, Liyana collects glowing stars in a jar.', emoji: '⭐' },
-        { text: 'She has 8 stars and catches 6 more. The words tell a sum: 8 + 6.', emoji: '🫙' },
-        { text: 'Read carefully: "more" usually means add, "left" usually means take away.', emoji: '✨' }
+        { text: 'At the magical Star Festival, Liyana ran around catching glowing stars in her jar.', emoji: '⭐' },
+        { text: '"I had 8 stars," she said, "and then I caught 6 more. How many do I have now?"', emoji: '🫙' },
+        { text: '"The words hide a sum! The word MORE tells me to add: 8 + 6."', emoji: '➕' },
+        { text: 'She counted on from 8: 9, 10, 11, 12, 13, 14. "Fourteen shining stars!"', emoji: '🌟' },
+        { text: '"When I read carefully, words like MORE mean add, and LEFT means take away." Magic maths!', emoji: '✨' }
       ]
     },
     plain: [
       'A word problem hides a sum inside a story. Read it, picture it, then choose add or take away.',
-      'Clues: "altogether / more" → add; "left / gives away / fewer" → take away.'
+      'Clues: "altogether" and "more" mean add; "left", "gives away" and "fewer" mean take away.'
     ]
   },
 
-  // --------------------------- STAGE 2 (plain + hooks) ---------------------
+  // --------------------------- STAGE 2 (plain + a hook) --------------------
   'place-value-1000': {
-    story: { character: 'Tilly the Tortoise', emoji: '🐢', scenes: [{ text: 'Now Tilly bundles tens into hundreds! 100s, 10s and 1s build any number to 1000.', emoji: '🔢' }] },
+    story: { character: 'Tilly the Tortoise', emoji: '🐢', scenes: [{ text: 'Now Tilly bundles her tens into HUNDREDS! Hundreds, tens and ones can build any number up to 1000.', emoji: '🔢' }] },
     plain: [
       'Three-digit numbers have hundreds, tens and ones. In 528: 5 hundreds, 2 tens, 8 ones.',
       'So 528 = 500 + 20 + 8. The place of a digit tells you what it is worth.'
@@ -276,7 +318,7 @@ const TEACHING = {
   },
   'add-2digit': {
     plain: [
-      'To add two-digit numbers, add the ones, then add the tens.',
+      'To add two-digit numbers, add the ones first, then add the tens.',
       'For 34 + 25: ones 4 + 5 = 9, tens 30 + 20 = 50, so the answer is 59.'
     ]
   },
@@ -288,7 +330,7 @@ const TEACHING = {
   },
   'fact-families': {
     plain: [
-      'A fact family is a set of linked sums using the same three numbers.',
+      'A fact family is a set of linked sums that use the same three numbers.',
       'From 3 + 4 = 7 you also get 4 + 3 = 7, 7 − 3 = 4 and 7 − 4 = 3.'
     ]
   },
@@ -312,7 +354,7 @@ const TEACHING = {
   },
   'fractions-half-quarter': {
     plain: [
-      'A fraction is an equal part of a whole. Half (1/2) is one of two equal parts; a quarter (1/4) is one of four.',
+      'A fraction is an equal part of a whole. A half (1/2) is one of two equal parts; a quarter (1/4) is one of four.',
       'Half of 8 is 4. A quarter of 8 is 2. Share the whole into equal parts to find a fraction of an amount.'
     ]
   },
@@ -325,7 +367,7 @@ const TEACHING = {
   'time-oclock': {
     plain: [
       'On a clock, the short hand shows the hour and the long hand shows the minutes.',
-      'When the long hand points to 12 it is "o\'clock"; pointing to 6 it is "half past".'
+      'When the long hand points to 12 it is "o\'clock"; when it points to 6 it is "half past".'
     ]
   },
   'measure-length': {
@@ -349,7 +391,7 @@ const TEACHING = {
   'position-direction': {
     plain: [
       'Position words tell us where things are: left, right, above, below, between, next to.',
-      'A quarter turn is a right angle; a half turn faces you the opposite way.'
+      'A quarter turn is a right angle; a half turn makes you face the opposite way.'
     ]
   },
   'pictograms': {
@@ -456,7 +498,7 @@ const TEACHING = {
   'negative-numbers': {
     plain: [
       'Negative numbers are below zero, like cold temperatures: −1, −2, −3.',
-      'On a number line they sit to the left of 0. 2 − 5 = −3.'
+      'On a number line they sit to the left of 0. So 2 − 5 = −3.'
     ]
   },
   'decimals-intro': {
@@ -512,7 +554,7 @@ const TEACHING = {
   'ratio': {
     plain: [
       'A ratio compares amounts, like 2 red to 3 blue, written 2 : 3.',
-      'If you scale up, keep the ratio: 2 : 3 becomes 4 : 6 then 6 : 9.'
+      'If you scale up, keep the ratio the same: 2 : 3 becomes 4 : 6 then 6 : 9.'
     ]
   },
   'proportion': {
@@ -578,7 +620,7 @@ const TEACHING = {
   'exam-speed': {
     plain: [
       'In the 11+ you have about 45 seconds per question, so accuracy AND speed both count.',
-      'For multiple choice, rule out answers that are clearly wrong, and move on if you are stuck — come back later.'
+      'For multiple choice, rule out answers that are clearly wrong, and move on if stuck — come back later.'
     ]
   }
 };

@@ -18,4 +18,10 @@ body { background: #fff !important; padding: 0 !important; color: #000 !importan
 /* Answer key starts on a fresh page so it can be removed before handing over. */
 .ws-key { page-break-before: always; }
 
+.concept-figure { page-break-inside: avoid; background: none !important; }
+.concept-svg { max-width: 360px; }
+.ws-visual { font-size: 20pt; }
+.ws-scene p { font-size: 13pt; }
+.ws-scene { page-break-inside: avoid; }
+
 .story-emoji, .lc-icon, .icon-btn { animation: none !important; }

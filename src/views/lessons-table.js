@@ -28,7 +28,9 @@ export async function renderLessonsTable() {
 
   const profile = await getProfile(profileId);
   if (!profile) { clearCurrentProfileId(); navigateTo('/profiles'); return; }
-  currentStage = profile.currentYear && STAGES[profile.currentYear] ? profile.currentYear : currentStage;
+  const savedStage = Number(sessionStorage.getItem('selectedStage'));
+  currentStage = (savedStage && STAGES[savedStage]) ? savedStage
+    : (profile.currentYear && STAGES[profile.currentYear] ? profile.currentYear : 1);
 
   const progressMap = await getProgressMap(profileId);
   const totalStars = Object.values(progressMap).reduce((s, p) => s + (p.stars || 0), 0);
@@ -46,12 +48,14 @@ export async function renderLessonsTable() {
         </div>
         <div class="ls-header-actions">
           <div class="ls-stars" title="Stars earned">⭐ <span>${totalStars}</span></div>
+          <button class="icon-btn" id="placement-btn" title="Find my level">🎯</button>
           <button class="icon-btn" id="switch-btn" title="Switch player">👤</button>
           <button class="icon-btn grownups-btn" id="grownups-btn" title="Grown-ups">🔒</button>
         </div>
       </header>
 
       <div class="stage-tabs" id="stage-tabs"></div>
+      <div id="placement-banner"></div>
       <div id="continue-banner"></div>
       <div id="lesson-groups"></div>
     </div>
@@ -59,7 +63,9 @@ export async function renderLessonsTable() {
 
   document.getElementById('switch-btn').addEventListener('click', () => { clearCurrentProfileId(); navigateTo('/profiles'); });
   document.getElementById('grownups-btn').addEventListener('click', () => navigateTo('/grownups'));
+  document.getElementById('placement-btn').addEventListener('click', () => navigateTo('/placement'));
 
+  renderPlacementBanner(progressMap);
   renderStageTabs();
   renderContinue(progressMap);
   renderGroups(progressMap);
@@ -76,6 +82,7 @@ function renderStageTabs() {
   document.getElementById('stage-sub').textContent = `${STAGES[currentStage].schoolYear} · ${STAGES[currentStage].blurb}`;
   tabs.querySelectorAll('.stage-tab').forEach((b) => b.addEventListener('click', async () => {
     currentStage = Number(b.dataset.stage);
+    sessionStorage.setItem('selectedStage', String(currentStage));
     const progressMap = await getProgressMap(getCurrentProfileId());
     renderStageTabs();
     renderContinue(progressMap);
@@ -99,6 +106,19 @@ function renderContinue(progressMap) {
     </button>
   `;
   document.getElementById('continue-btn').addEventListener('click', () => navigateTo(`/lesson/${encodeURIComponent(nextId)}`));
+}
+
+function renderPlacementBanner(progressMap) {
+  const el = document.getElementById('placement-banner');
+  if (!el) return;
+  if (Object.keys(progressMap).length > 0) { el.innerHTML = ''; return; }
+  el.innerHTML = `
+    <button class="placement-banner" id="placement-banner-btn">
+      <span class="cb-icon">🎯</span>
+      <span class="cb-text"><span class="cb-label">New here?</span><span class="cb-title">Take a quick level check</span></span>
+      <span class="cb-arrow">→</span>
+    </button>`;
+  document.getElementById('placement-banner-btn').addEventListener('click', () => navigateTo('/placement'));
 }
 
 function renderGroups(progressMap) {
@@ -147,7 +167,7 @@ function cardHTML(lesson, progress) {
         ${storyBtn}
         ${explainBtn}
         <button class="act act-primary" data-go="/practice/${id}"><span class="act-i">🎮</span>Practice</button>
-        <button class="act" data-go="/worksheet/${id}"><span class="act-i">📄</span>Sheet</button>
+        <button class="act" data-go="/worksheet/${id}"><span class="act-i">🖨️</span>Print</button>
         ${videoBtn}
       </div>
     </div>

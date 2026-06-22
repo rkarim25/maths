@@ -6,6 +6,7 @@ import { renderLessonPlayer } from './views/lesson-player.js';
 import { renderPractice } from './views/practice-game.js';
 import { renderWorksheet } from './views/worksheet.js';
 import { renderGrownups } from './views/grownups.js';
+import { renderPlacement } from './views/placement-test.js';
 import { getCurrentProfileId } from './services/profile-manager.js';
 
 // Static routes: hash -> render()
@@ -13,7 +14,8 @@ const STATIC_ROUTES = {
   '/profiles': renderProfileSwitcher,
   '/profile-create': renderProfileCreate,
   '/lessons': renderLessonsTable,
-  '/grownups': renderGrownups
+  '/grownups': renderGrownups,
+  '/placement': renderPlacement
 };
 
 // Dynamic routes: '/prefix/:id' -> render(id)
