@@ -102,8 +102,7 @@ function renderProfiles(profiles) {
   const profilesHTML = profiles.map(profile => `
     <div class="profile-card" data-profile-id="${profile.profileId}">
       <div class="avatar-placeholder">
-        <!-- Avatar will be rendered here in future -->
-        <div class="avatar-icon">👤</div>
+        ${profile.avatarImage ? `<img class="avatar-img" src="${profile.avatarImage}" alt="">` : '<div class="avatar-icon">👤</div>'}
       </div>
       <div class="profile-info">
         <h3>${escapeHtml(profile.name)}</h3>

@@ -40,7 +40,7 @@ export async function renderLessonsTable() {
     <div class="lessons-screen">
       <header class="ls-header">
         <div class="ls-who">
-          <div class="ls-avatar">${initial}</div>
+          <div class="ls-avatar">${profile.avatarImage ? `<img src="${profile.avatarImage}" alt="${escapeHtml(profile.name)}">` : initial}</div>
           <div>
             <h1>Hi ${escapeHtml(profile.name)}!</h1>
             <p class="ls-sub" id="stage-sub"></p>

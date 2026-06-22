@@ -1,7 +1,7 @@
 // Grown-ups screen — ONE global parent area (single PIN, view any child).
 import { navigateTo } from '../router.js';
 import {
-  getCurrentProfileId, loadProfiles, hasGlobalPin, hasCustomPin, verifyGlobalPin, setGlobalPin, deleteProfile
+  getCurrentProfileId, loadProfiles, hasGlobalPin, hasCustomPin, verifyGlobalPin, setGlobalPin, deleteProfile, updateProfile
 } from '../services/profile-manager.js';
 import { analyzeProfile, buildExport, answerLogToCSV, downloadFile } from '../services/analysis.js';
 import { getAnswerLog, clearProfileData, recordManualScore, importData } from '../services/tracking.js';
@@ -81,6 +81,18 @@ async function showDashboard(flash) {
         ${stat('Questions answered', a.summary.totalAnswers)}
         ${stat('Last active', fmtDate(a.summary.lastActive))}
       </div>
+
+      <section class="gu-section">
+        <h2>Profile photo</h2>
+        <div class="avatar-edit">
+          <div class="avatar-preview-lg">${child.avatarImage ? `<img src="${child.avatarImage}" alt="${esc(child.name)}">` : esc((child.name || '?').charAt(0).toUpperCase())}</div>
+          <div class="avatar-edit-controls">
+            <button class="primary-btn" id="photo-btn">${child.avatarImage ? 'Change photo' : 'Choose photo'}</button>
+            ${child.avatarImage ? '<button class="danger-btn" id="photo-remove">Remove</button>' : ''}
+            <p class="muted gu-note">A square photo works best — it’s shown in a circle. Saved on this device.</p>
+          </div>
+        </div>
+      </section>
 
       <section class="gu-section">
         <h2>Suggested next lessons</h2>
@@ -181,8 +193,47 @@ async function showDashboard(flash) {
     showDashboard(`Saved ${score} out of ${total} for ${child.name}. Recommendations updated.`);
   });
 
+  const photoBtn = document.getElementById('photo-btn');
+  if (photoBtn) photoBtn.addEventListener('click', () => {
+    const inp = document.createElement('input');
+    inp.type = 'file'; inp.accept = 'image/*';
+    inp.addEventListener('change', async () => {
+      const file = inp.files && inp.files[0];
+      if (!file) return;
+      try {
+        child.avatarImage = await resizeImage(file, 256);
+        await updateProfile(child);
+        showDashboard('Photo updated!');
+      } catch (e) { alert('Sorry, that image could not be used. Please try a different photo.'); }
+    });
+    inp.click();
+  });
+  const photoRemove = document.getElementById('photo-remove');
+  if (photoRemove) photoRemove.addEventListener('click', async () => {
+    child.avatarImage = null; await updateProfile(child); showDashboard('Photo removed.');
+  });
+
   wireSyncSettings();
   wirePinSettings();
+}
+
+// Load an image file, scale it to fit `max` px, and return a small JPEG data URL.
+function resizeImage(file, max) {
+  return new Promise((resolve, reject) => {
+    const url = URL.createObjectURL(file);
+    const img = new Image();
+    img.onload = () => {
+      URL.revokeObjectURL(url);
+      const scale = Math.min(1, max / Math.max(img.width, img.height));
+      const w = Math.round(img.width * scale), h = Math.round(img.height * scale);
+      const c = document.createElement('canvas');
+      c.width = w; c.height = h;
+      c.getContext('2d').drawImage(img, 0, 0, w, h);
+      resolve(c.toDataURL('image/jpeg', 0.85));
+    };
+    img.onerror = reject;
+    img.src = url;
+  });
 }
 
 function syncSectionHTML(child) {
