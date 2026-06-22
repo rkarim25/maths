@@ -48,7 +48,6 @@ export async function renderLessonsTable() {
         </div>
         <div class="ls-header-actions">
           <div class="ls-stars" title="Stars earned">⭐ <span>${totalStars}</span></div>
-          <button class="icon-btn" id="switch-btn" title="Switch player">👤</button>
           <button class="icon-btn grownups-btn" id="grownups-btn" title="Grown-ups">🔒</button>
         </div>
       </header>
@@ -68,7 +67,6 @@ export async function renderLessonsTable() {
     </div>
   `;
 
-  document.getElementById('switch-btn').addEventListener('click', () => { clearCurrentProfileId(); navigateTo('/profiles'); });
   document.getElementById('grownups-btn').addEventListener('click', () => navigateTo('/grownups'));
   document.getElementById('ql-level').addEventListener('click', () => navigateTo('/placement'));
   document.getElementById('ql-tt').addEventListener('click', () => navigateTo('/times-tables'));

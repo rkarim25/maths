@@ -1,6 +1,6 @@
 // Main application controller
 import { initializeDatabase } from './services/db.js';
-import { loadProfiles, getCurrentProfileId } from './services/profile-manager.js';
+import { ensureSingleProfile, setCurrentProfileId } from './services/profile-manager.js';
 import { logEvent } from './services/tracking.js';
 
 // App state
@@ -22,21 +22,17 @@ export async function initApp() {
     // Initialize the database
     appState.db = await initializeDatabase();
     
-    // Load profiles
-    appState.profiles = await loadProfiles();
-    
-    // Get current profile (if any)
-    appState.currentProfileId = getCurrentProfileId();
-    
-    // Choose a default route only when none is in the URL, so a reload on a
-    // deep link (e.g. #/lesson/count-to-10) is preserved. The router renders.
+    // Single-profile mode: always use one canonical Liyana profile and enter
+    // straight into the lessons (no profile chooser, no accidental new profiles).
+    const profile = await ensureSingleProfile();
+    setCurrentProfileId(profile.profileId);
+    appState.currentProfileId = profile.profileId;
+    appState.profiles = [profile];
+
+    // Keep a deep link (e.g. #/lesson/count-to-10) on reload; else go to lessons.
     const hash = window.location.hash.replace('#', '');
-    if (!hash) {
-      window.location.hash = appState.currentProfileId ? '/lessons' : '/profiles';
-    }
-    if (appState.currentProfileId) {
-      logEvent(appState.currentProfileId, 'session-start', {}).catch(() => {});
-    }
+    if (!hash || hash === '/profiles') window.location.hash = '/lessons';
+    logEvent(profile.profileId, 'session-start', {}).catch(() => {});
 
     appState.initialized = true;
   } catch (error) {

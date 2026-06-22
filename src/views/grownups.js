@@ -1,10 +1,10 @@
 // Grown-ups screen — ONE global parent area (single PIN, view any child).
 import { navigateTo } from '../router.js';
 import {
-  getCurrentProfileId, loadProfiles, hasGlobalPin, verifyGlobalPin, setGlobalPin
+  getCurrentProfileId, loadProfiles, hasGlobalPin, hasCustomPin, verifyGlobalPin, setGlobalPin, deleteProfile
 } from '../services/profile-manager.js';
 import { analyzeProfile, buildExport, answerLogToCSV, downloadFile } from '../services/analysis.js';
-import { getAnswerLog, clearProfileData, recordManualScore } from '../services/tracking.js';
+import { getAnswerLog, clearProfileData, recordManualScore, importData } from '../services/tracking.js';
 import { STAGES, getLessonsByStage } from '../data/curriculum.js';
 
 const SEVERITY_LABEL = { high: "Let's revisit", medium: 'Needs practice', low: 'Nearly there' };
@@ -56,6 +56,7 @@ async function showDashboard(flash) {
   const child = profiles.find((p) => p.profileId === viewingId) || profiles[0];
   const lessonOptions = [1, 2, 3, 4].map((st) =>
     `<optgroup label="Stage ${st}: ${esc(STAGES[st].name)}">${getLessonsByStage(st).map((l) => `<option value="${l.id}">${esc(l.title)}</option>`).join('')}</optgroup>`).join('');
+  const others = profiles.filter((p) => p.profileId !== viewingId);
 
   const childPicker = profiles.length > 1
     ? `<label class="child-pick">Viewing
@@ -97,8 +98,11 @@ async function showDashboard(flash) {
         <div class="export-row">
           <button class="primary-btn" id="json-btn">⬇ Download JSON</button>
           <button class="secondary-btn" id="csv-btn">⬇ Download answers (CSV)</button>
+          <button class="secondary-btn" id="import-btn">⬆ Import data</button>
           <button class="danger-btn" id="reset-btn">Reset ${esc(child.name)}'s data</button>
         </div>
+        <p class="muted gu-note">⚠️ This site saves data on <em>this device only</em> — there is no shared server. To see the same progress on another device, use the same device, or Download here and Import there.</p>
+        ${others.length ? `<p class="muted gu-note">There ${others.length === 1 ? 'is 1 other profile' : 'are ' + others.length + ' other profiles'} on this device. <button class="danger-btn" id="tidy-btn">Keep only ${esc(child.name)}</button></p>` : ''}
       </section>
 
       <section class="gu-section">
@@ -137,6 +141,24 @@ async function showDashboard(flash) {
     await clearProfileData(viewingId);
     showDashboard();
   });
+  document.getElementById('import-btn').addEventListener('click', () => {
+    const inp = document.createElement('input');
+    inp.type = 'file'; inp.accept = 'application/json,.json';
+    inp.addEventListener('change', async () => {
+      const file = inp.files && inp.files[0];
+      if (!file) return;
+      try { await importData(viewingId, JSON.parse(await file.text())); showDashboard(`Imported and merged progress into ${child.name}.`); }
+      catch (e) { alert('Sorry, that file could not be read. Please choose a JSON file exported from this app.'); }
+    });
+    inp.click();
+  });
+  const tidy = document.getElementById('tidy-btn');
+  if (tidy) tidy.addEventListener('click', async () => {
+    if (!confirm(`Remove all OTHER profiles and their data, keeping only ${child.name}?`)) return;
+    for (const p of others) { await clearProfileData(p.profileId); await deleteProfile(p.profileId); }
+    profiles = profiles.filter((p) => p.profileId === viewingId);
+    showDashboard('Other profiles removed.');
+  });
 
   const paperSave = document.getElementById('paper-save');
   paperSave.addEventListener('click', async () => {
@@ -156,17 +178,17 @@ async function showDashboard(flash) {
 }
 
 function pinSettingsHTML() {
-  return hasGlobalPin()
-    ? `<p class="muted">A parent PIN is set — it protects this area on this device.</p>
+  return hasCustomPin()
+    ? `<p class="muted">A custom parent PIN is set on this device.</p>
        <div class="export-row">
          <button class="secondary-btn" id="changepin-btn">Change PIN</button>
-         <button class="danger-btn" id="removepin-btn">Remove PIN</button>
+         <button class="danger-btn" id="removepin-btn">Reset to default</button>
        </div>
        <div id="pin-form"></div>`
-    : `<p class="muted">No PIN set yet — anyone can open this area. Set a 4-digit PIN to protect it.</p>
+    : `<p class="muted">The parent area uses the default PIN <strong>2353</strong> on every device. You can set your own PIN to override it on this device.</p>
        <div class="pin-set-row">
          <input type="password" inputmode="numeric" maxlength="4" id="newpin-input" class="answer-input" placeholder="••••" style="width:120px">
-         <button class="primary-btn" id="setpin-btn">Set PIN</button>
+         <button class="primary-btn" id="setpin-btn">Set custom PIN</button>
        </div>`;
 }
 
@@ -192,7 +214,7 @@ function wirePinSettings() {
   });
   const removeBtn = document.getElementById('removepin-btn');
   if (removeBtn) removeBtn.addEventListener('click', async () => {
-    if (!confirm('Remove the parent PIN? The grown-ups area will be open to anyone.')) return;
+    if (!confirm('Reset to the default PIN (2353)?')) return;
     await setGlobalPin(null); showDashboard();
   });
 }

@@ -162,28 +162,41 @@ export async function updatePin(profileId, newPin) {
 
 // --- Global parent PIN (one PIN for the whole app, shared across children) ---
 const GLOBAL_PIN_KEY = 'parentPinHash';
+const DEFAULT_PARENT_PIN = '2353';
 
-/**
- * Whether a global parent PIN has been set.
- */
+// The parent area is ALWAYS protected: by a custom PIN if one has been set on
+// this device, otherwise by the default PIN (2353). This makes the same PIN
+// work on every device with no setup.
 export function hasGlobalPin() {
+  return true;
+}
+
+/** Whether a custom PIN (other than the default 2353) has been set here. */
+export function hasCustomPin() {
   return !!localStorage.getItem(GLOBAL_PIN_KEY);
 }
 
-/**
- * Set (or clear, with null) the global parent PIN.
- */
+/** Set (or clear, with null) a custom parent PIN. Clearing falls back to 2353. */
 export async function setGlobalPin(pin) {
   if (!pin) { localStorage.removeItem(GLOBAL_PIN_KEY); return; }
   localStorage.setItem(GLOBAL_PIN_KEY, await hashString(pin));
 }
 
-/**
- * Verify a PIN against the global parent PIN. Returns true if no PIN is set.
- */
+/** Verify a PIN against the custom PIN if set, otherwise the default 2353. */
 export async function verifyGlobalPin(pin) {
   const stored = localStorage.getItem(GLOBAL_PIN_KEY);
-  if (!stored) return true;
-  if (!pin) return false;
-  return (await hashString(pin)) === stored;
+  if (stored) return !!pin && (await hashString(pin)) === stored;
+  return pin === DEFAULT_PARENT_PIN;
+}
+
+/**
+ * Single-profile mode: always use one canonical "Liyana" profile.
+ * Returns the existing profile (preferring one named Liyana) or creates it.
+ */
+export async function ensureSingleProfile() {
+  const profiles = await loadProfiles();
+  if (profiles.length) {
+    return profiles.find((p) => /liyana/i.test(p.name)) || profiles[0];
+  }
+  return createProfile('Liyana', { hair: 'brown-long', outfit: 'purple', pet: 'cat' }, null);
 }

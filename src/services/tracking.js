@@ -203,6 +203,19 @@ export async function getUsageEvents(profileId) {
 // --- maintenance -------------------------------------------------------------
 
 /**
+ * Merge an exported data object into a profile (used by "Import data" so the
+ * same child's progress can be moved between devices). All records are remapped
+ * to `profileId` so they join this device's profile regardless of source id.
+ */
+export async function importData(profileId, data) {
+  if (!data || typeof data !== 'object') throw new Error('Invalid data');
+  for (const p of data.progress || []) await updateInStore('progress', { ...p, profileId });
+  for (const a of data.answer_log || []) await updateInStore('answer_log', { ...a, profileId });
+  for (const e of data.usage_events || []) await updateInStore('usage_events', { ...e, profileId });
+  await recomputeWeakAreas(profileId);
+}
+
+/**
  * Delete all tracked data for a profile (keeps the profile itself).
  */
 export async function clearProfileData(profileId) {

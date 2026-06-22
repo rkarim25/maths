@@ -12,6 +12,7 @@
 .paper-row select { font-family: var(--font-body); font-size: 1rem; padding: 0.5rem; border-radius: var(--border-radius-sm); border: 2px solid var(--background-medium); flex: 1 1 200px; min-width: 0; }
 .paper-num { font-family: var(--font-heading); font-size: 1.1rem; width: 90px; text-align: center; padding: 0.4rem; border: 2px solid var(--background-medium); border-radius: var(--border-radius-sm); }
 .paper-sep { color: var(--text-medium); }
+.gu-note { font-size: 0.85rem; margin-top: var(--spacing-sm); line-height: 1.5; }
 
 .stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--spacing-md); margin-bottom: var(--spacing-xl); }
 .stat-card { background: #fff; border-radius: var(--border-radius-md); padding: var(--spacing-md); box-shadow: var(--shadow-light); display: flex; flex-direction: column; gap: 4px; }
