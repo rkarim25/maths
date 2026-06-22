@@ -299,11 +299,18 @@ const YOUTUBE = {
 const VIDEO_URLS = {
 };
 
+// "Dad made videos" — parent-recorded YouTube clips, shown as their own section
+// and only on lessons that have one. Keyed by lesson id → 11-char YouTube id.
+const DAD_VIDEOS = {
+  'number-bonds-10': 'l3c1qVn17u0'
+};
+
 const prettify = (id) => id.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
 LESSONS.forEach((l) => {
   l.title = TITLES[l.id] || prettify(l.id);
   if (YOUTUBE[l.id]) l.youtubeId = YOUTUBE[l.id];
   if (VIDEO_URLS[l.id]) l.videoUrl = VIDEO_URLS[l.id];
+  if (DAD_VIDEOS[l.id]) l.dadVideo = DAD_VIDEOS[l.id];
 });
 
 // --- Lookups --------------------------------------------------------------

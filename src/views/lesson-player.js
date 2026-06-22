@@ -33,6 +33,7 @@ export function renderLessonPlayer(arg) {
   let initialView = view || 'story';
   if (initialView === 'story' && !hasStory) initialView = 'plain';
   if (initialView === 'video' && !lesson.youtubeId && !lesson.videoUrl) initialView = hasStory ? 'story' : 'plain';
+  if (initialView === 'dad' && !lesson.dadVideo) initialView = hasStory ? 'story' : 'plain';
 
   state = { lesson, teaching, view: initialView, scene: 0, hasStory };
 
@@ -48,6 +49,7 @@ export function renderLessonPlayer(arg) {
         ${hasStory ? tab('story', '📖 Story') : ''}
         ${tab('plain', '📝 Explain')}
         ${(lesson.youtubeId || lesson.videoUrl) ? tab('video', '▶ Video') : ''}
+        ${lesson.dadVideo ? tab('dad', '👨‍👧 Dad’s video') : ''}
       </div>
 
       <div class="lp-stage" id="lp-stage"></div>
@@ -85,6 +87,7 @@ function paintStage() {
   const stage = document.getElementById('lp-stage');
   if (state.view === 'plain') stage.innerHTML = plainHTML();
   else if (state.view === 'video') stage.innerHTML = videoHTML();
+  else if (state.view === 'dad') stage.innerHTML = dadHTML();
   else stage.innerHTML = storyHTML();
 
   if (state.view === 'story' && state.hasStory) {
@@ -140,6 +143,22 @@ function videoHTML() {
       <div class="video-frame">
         <iframe src="https://www.youtube-nocookie.com/embed/${vid}?rel=0"
           title="Lesson video" frameborder="0"
+          allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen></iframe>
+      </div>
+      <a class="yt-link" href="https://www.youtube.com/watch?v=${vid}" target="_blank" rel="noopener">Watch on YouTube ↗</a>
+    </div>
+  `;
+}
+
+function dadHTML() {
+  const vid = encodeURIComponent(state.lesson.dadVideo);
+  return `
+    <div class="video-card">
+      <p class="dad-label">👨‍👧 A special video made just for you!</p>
+      <div class="video-frame">
+        <iframe src="https://www.youtube-nocookie.com/embed/${vid}?rel=0"
+          title="Dad's video" frameborder="0"
           allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           allowfullscreen></iframe>
       </div>

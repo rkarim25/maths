@@ -173,6 +173,7 @@ function cardHTML(lesson, progress) {
   const storyBtn = hasStory ? `<button class="act" data-go="/lesson/${id}"><span class="act-i">📖</span>Story</button>` : '';
   const explainBtn = hasPlain ? `<button class="act" data-go="/lesson/${id}?view=plain"><span class="act-i">📝</span>Explain</button>` : '';
   const videoBtn = (lesson.youtubeId || lesson.videoUrl) ? `<button class="act" data-go="/lesson/${id}?view=video"><span class="act-i">▶</span>Video</button>` : '';
+  const dadBtn = lesson.dadVideo ? `<button class="act act-dad" data-go="/lesson/${id}?view=dad"><span class="act-i">👨‍👧</span>Dad’s video</button>` : '';
 
   return `
     <div class="lesson-card">
@@ -190,6 +191,7 @@ function cardHTML(lesson, progress) {
         <button class="act act-primary" data-go="/practice/${id}"><span class="act-i">🎮</span>Practice</button>
         <button class="act" data-go="/worksheet/${id}"><span class="act-i">🖨️</span>Print</button>
         ${videoBtn}
+        ${dadBtn}
       </div>
     </div>
   `;
