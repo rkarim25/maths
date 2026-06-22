@@ -197,6 +197,12 @@ export function getDiagramFor(lesson) {
     case 'decimalsIntro': return wrap(tenthsGrid(3), 'Split one whole into ten equal parts: tenths.');
     case 'decimalFractionMatch': return wrap(tenthsGrid(5), 'Five tenths (0.5) is the same as one half.');
     case 'perimeterArea': return wrap(rectangleWH(4, 3), 'Perimeter is the distance around; area is the squares inside.');
+    case 'fractionOfShape': return wrap(fractionBar(4, 3), 'Count the shaded parts over the total parts.');
+    case 'compareFractions': return wrap(fractionBar(4, 3), 'Same bottom number — more shaded means bigger.');
+    case 'simplifyFractions': return wrap(equivalentBars(), '2/4 and 1/2 are the same amount — that is simplifying.');
+    case 'decimalAddSub': return wrap(tenthsGrid(7), 'Tenths add up just like whole numbers.');
+    case 'hundredths': return wrap(tenthsGrid(3), 'Each tenth can split again into ten hundredths.');
+    case 'percentOfAmount': return wrap(tenthsGrid(5), '50% is 5 out of 10 — a half.');
     default: return null;
   }
 }

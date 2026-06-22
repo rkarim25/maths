@@ -48,6 +48,8 @@ export async function renderLessonsTable() {
         </div>
         <div class="ls-header-actions">
           <div class="ls-stars" title="Stars earned">⭐ <span>${totalStars}</span></div>
+          <button class="icon-btn" id="tt-btn" title="Times tables">🧮</button>
+          <button class="icon-btn" id="book-btn" title="Print a stage book">📚</button>
           <button class="icon-btn" id="placement-btn" title="Find my level">🎯</button>
           <button class="icon-btn" id="switch-btn" title="Switch player">👤</button>
           <button class="icon-btn grownups-btn" id="grownups-btn" title="Grown-ups">🔒</button>
@@ -64,6 +66,8 @@ export async function renderLessonsTable() {
   document.getElementById('switch-btn').addEventListener('click', () => { clearCurrentProfileId(); navigateTo('/profiles'); });
   document.getElementById('grownups-btn').addEventListener('click', () => navigateTo('/grownups'));
   document.getElementById('placement-btn').addEventListener('click', () => navigateTo('/placement'));
+  document.getElementById('book-btn').addEventListener('click', () => navigateTo(`/book/${currentStage}`));
+  document.getElementById('tt-btn').addEventListener('click', () => navigateTo('/times-tables'));
 
   renderPlacementBanner(progressMap);
   renderStageTabs();
@@ -134,7 +138,17 @@ function renderGroups(progressMap) {
         </div>
       </section>
     `;
-  }).join('');
+  }).join('') + `
+    <div class="assess-cta">
+      <button class="assess-btn" data-go="/assessment/${currentStage}">
+        <span class="assess-icon">📋</span>
+        <span class="assess-text">
+          <span class="assess-label">When you're ready</span>
+          <span class="assess-title">Take the Stage ${currentStage} assessment</span>
+        </span>
+        <span class="cb-arrow">→</span>
+      </button>
+    </div>`;
 
   wrap.querySelectorAll('[data-go]').forEach((btn) => {
     btn.addEventListener('click', () => navigateTo(btn.getAttribute('data-go')));

@@ -358,6 +358,65 @@ const GEN = {
     return mcq(`${a + b}/${d} − ${b}/${d} = ?`, `${a}/${d}`, [`${a + 1}/${d}`, `${b}/${d}`, `${a}/${d * 2}`], tagFor(l));
   },
 
+  fractionOfShape(p, l) {
+    const parts = pick([2, 3, 4, 5, 6, 8]);
+    const sh = randInt(1, parts - 1);
+    return mcq(`A shape is split into ${parts} equal parts and ${sh} are shaded. What fraction is shaded?`,
+      `${sh}/${parts}`, [`${parts}/${sh}`, `${sh}/${parts + 1}`, `${sh + 1}/${parts}`], tagFor(l),
+      { hint: 'Top = shaded parts, bottom = total parts.' });
+  },
+
+  compareFractions(p, l) {
+    const d = pick([3, 4, 5, 6, 8]);
+    let a = randInt(1, d - 1), b = randInt(1, d - 1);
+    while (b === a) b = randInt(1, d - 1);
+    const bigger = a > b ? `${a}/${d}` : `${b}/${d}`;
+    const smaller = a > b ? `${b}/${d}` : `${a}/${d}`;
+    return mcq(`Which is bigger:  ${a}/${d}  or  ${b}/${d}?`, bigger, [smaller], tagFor(l),
+      { hint: 'Same bottom number — the bigger top is bigger.' });
+  },
+
+  simplifyFractions(p, l) {
+    const base = pick([[1, 2], [1, 3], [1, 4], [2, 3], [3, 4], [1, 5]]);
+    const m = randInt(2, 4);
+    const n = base[0] * m, d = base[1] * m;
+    return mcq(`Write ${n}/${d} in its simplest form.`, `${base[0]}/${base[1]}`,
+      [`${n}/${d}`, `${base[0]}/${d}`, `${n}/${base[1]}`], tagFor(l),
+      { hint: 'Divide the top and bottom by the same number.' });
+  },
+
+  decimalAddSub(p, l) {
+    if (Math.random() < 0.5) {
+      const a = randInt(1, 8), b = randInt(1, 9 - a);
+      return mcq(`0.${a} + 0.${b} = ?`, `0.${a + b}`, [`0.${a + b + 1 > 9 ? 9 : a + b + 1}`, `0.${Math.max(0, a + b - 1)}`, `${a + b}`], tagFor(l));
+    }
+    const a = randInt(3, 9), b = randInt(1, a - 1);
+    return mcq(`0.${a} − 0.${b} = ?`, `0.${a - b}`, [`0.${a - b + 1}`, `0.${Math.max(0, a - b - 1)}`, `0.${a}`], tagFor(l));
+  },
+
+  hundredths(p, l) {
+    const n = randInt(1, 9);
+    if (Math.random() < 0.5) return mcq(`What is ${n} hundredths as a decimal?`, `0.0${n}`, [`0.${n}`, `0.00${n}`, `${n}`], tagFor(l));
+    const t = randInt(1, 9);
+    return mcq(`In 0.${t}${n}, what is the ${n} worth?`, `${n} hundredths`, [`${n} tenths`, `${n} ones`, `${n} tens`], tagFor(l));
+  },
+
+  improperMixed(p, l) {
+    const d = pick([2, 3, 4]), whole = randInt(1, 3), num = randInt(1, d - 1);
+    const improper = whole * d + num;
+    if (Math.random() < 0.5) return mcq(`How many whole ones are in ${improper}/${d}?`, `${whole}`, near(whole, { spread: 2, min: 0 }), tagFor(l));
+    return mcq(`${improper}/${d} as a mixed number is…`, `${whole} ${num}/${d}`,
+      [`${whole} ${d}/${num}`, `${whole + 1} ${num}/${d}`, `${num}/${d}`], tagFor(l));
+  },
+
+  percentOfAmount(p, l) {
+    const map = [[50, 2], [25, 4], [10, 10], [20, 5]];
+    const [pct, div] = pick(map);
+    const amount = div * randInt(2, 8), ans = amount / div;
+    return mcq(`What is ${pct}% of ${amount}?`, `${ans}`, near(ans, { spread: 3, min: 0 }), tagFor(l),
+      { hint: `${pct}% means ${pct} out of every 100.` });
+  },
+
   rounding(p, l) {
     const to = pick(p.to);
     const n = randInt(to + 1, to * 9 + 7);

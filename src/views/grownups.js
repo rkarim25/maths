@@ -4,7 +4,8 @@ import {
   getCurrentProfileId, loadProfiles, hasGlobalPin, verifyGlobalPin, setGlobalPin
 } from '../services/profile-manager.js';
 import { analyzeProfile, buildExport, answerLogToCSV, downloadFile } from '../services/analysis.js';
-import { getAnswerLog, clearProfileData } from '../services/tracking.js';
+import { getAnswerLog, clearProfileData, recordManualScore } from '../services/tracking.js';
+import { STAGES, getLessonsByStage } from '../data/curriculum.js';
 
 const SEVERITY_LABEL = { high: "Let's revisit", medium: 'Needs practice', low: 'Nearly there' };
 
@@ -48,11 +49,13 @@ function showLock() {
   input.focus();
 }
 
-async function showDashboard() {
+async function showDashboard(flash) {
   const app = document.getElementById('app');
   app.innerHTML = `<div class="loading"><div class="spinner"></div><p>Loading progress…</p></div>`;
   const a = await analyzeProfile(viewingId);
   const child = profiles.find((p) => p.profileId === viewingId) || profiles[0];
+  const lessonOptions = [1, 2, 3, 4].map((st) =>
+    `<optgroup label="Stage ${st}: ${esc(STAGES[st].name)}">${getLessonsByStage(st).map((l) => `<option value="${l.id}">${esc(l.title)}</option>`).join('')}</optgroup>`).join('');
 
   const childPicker = profiles.length > 1
     ? `<label class="child-pick">Viewing
@@ -62,6 +65,7 @@ async function showDashboard() {
 
   app.innerHTML = `
     <div class="grownups">
+      ${flash ? `<div class="flash-note">✓ ${esc(flash)}</div>` : ''}
       <header class="lp-header">
         <button class="back-button" id="back-btn">← Back to lessons</button>
         <h1>Grown-ups area</h1>
@@ -98,6 +102,18 @@ async function showDashboard() {
       </section>
 
       <section class="gu-section">
+        <h2>Record a paper score</h2>
+        <p class="muted">Did ${esc(child.name)} do a lesson on paper? Enter the score and it updates progress, skills and recommendations.</p>
+        <div class="paper-row">
+          <select id="paper-lesson">${lessonOptions}</select>
+          <input id="paper-score" type="number" min="0" class="paper-num" placeholder="got">
+          <span class="paper-sep">out of</span>
+          <input id="paper-total" type="number" min="1" class="paper-num" placeholder="total">
+          <button class="primary-btn" id="paper-save">Save score</button>
+        </div>
+      </section>
+
+      <section class="gu-section">
         <h2>Parent PIN</h2>
         ${pinSettingsHTML()}
       </section>
@@ -121,6 +137,21 @@ async function showDashboard() {
     await clearProfileData(viewingId);
     showDashboard();
   });
+
+  const paperSave = document.getElementById('paper-save');
+  paperSave.addEventListener('click', async () => {
+    const lessonId = document.getElementById('paper-lesson').value;
+    const score = Number(document.getElementById('paper-score').value);
+    const total = Number(document.getElementById('paper-total').value);
+    if (!Number.isFinite(score) || !Number.isFinite(total) || total <= 0 || score < 0 || score > total) {
+      alert('Enter a score from 0 up to the total (e.g. 8 out of 10).');
+      return;
+    }
+    paperSave.disabled = true;
+    await recordManualScore(viewingId, lessonId, score, total);
+    showDashboard(`Saved ${score} out of ${total} for ${child.name}. Recommendations updated.`);
+  });
+
   wirePinSettings();
 }
 

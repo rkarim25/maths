@@ -87,6 +87,8 @@ export const LESSONS = [
     'Find halves and quarters of shapes and amounts.', 'fractionsOfAmount', { parts: [2, 4] }),
   L('fractions-thirds', 2, 2, 'Fractions', 3, ['fractions-thirds'],
     'Find thirds of shapes and amounts.', 'fractionsOfAmount', { parts: [2, 3, 4] }),
+  L('fractions-of-shape', 2, 2, 'Fractions', 3, ['fractions-shapes'],
+    'Name the fraction of a shape that is shaded.', 'fractionOfShape', {}),
   L('time-oclock', 2, 2, 'Time', 6, ['time-oclock'],
     'Tell the time to the hour and half past.', 'timeClock', { mode: 'oclock-half' }),
   L('measure-length', 2, 2, 'Measuring', 6, ['measure-length'],
@@ -133,6 +135,10 @@ export const LESSONS = [
     'Find equivalent fractions.', 'equivalentFractions', {}),
   L('add-subtract-fractions', 3, 2, 'Fractions', 6, ['add-subtract-fractions'],
     'Add and subtract fractions with the same denominator.', 'addSubtractFractions', {}),
+  L('compare-fractions', 3, 2, 'Fractions', 6, ['compare-fractions'],
+    'Compare fractions with the same denominator.', 'compareFractions', {}),
+  L('simplify-fractions', 3, 2, 'Fractions', 6, ['equivalent-fractions'],
+    'Write a fraction in its simplest form.', 'simplifyFractions', {}),
   L('time-to-minute', 3, 2, 'Time', 6, ['time-to-minute'],
     'Tell the time to the nearest minute.', 'timeClock', { mode: 'minute' }),
 
@@ -148,6 +154,10 @@ export const LESSONS = [
     'Understand tenths and hundredths.', 'decimalsIntro', {}),
   L('decimal-fraction-match', 3, 3, 'Decimals', 8, ['decimal-fraction-match'],
     'Match decimals to their fraction equivalents.', 'decimalFractionMatch', {}),
+  L('decimals-hundredths', 3, 3, 'Decimals', 8, ['decimals-intro'],
+    'Understand hundredths.', 'hundredths', {}),
+  L('add-decimals', 3, 3, 'Decimals', 8, ['add-decimals'],
+    'Add and subtract decimals (tenths).', 'decimalAddSub', {}),
 
   // ---------------------------------------------------------------------------
   // STAGE 4 — Expedition to Calculand (Year 5–6)
@@ -164,6 +174,10 @@ export const LESSONS = [
     'Apply BODMAS to multi-step sums.', 'orderOfOperations', {}),
   L('fdp-conversion', 4, 1, 'Fractions, decimals & %', 10, ['fdp-conversion'],
     'Convert between fractions, decimals and percentages.', 'fdpConversion', {}),
+  L('mixed-numbers', 4, 1, 'Fractions, decimals & %', 8, ['mixed-numbers'],
+    'Understand mixed numbers and improper fractions.', 'improperMixed', {}),
+  L('percentages', 4, 1, 'Fractions, decimals & %', 10, ['percentages-intro'],
+    'Find percentages of amounts.', 'percentOfAmount', {}),
 
   L('ratio', 4, 2, 'Ratio & proportion', 10, ['ratio'],
     'Solve simple ratio problems.', 'ratio', {}),
@@ -217,7 +231,11 @@ const TITLES = {
   'fdp-conversion': 'Fractions, Decimals & %', 'ratio': 'Ratio', 'proportion': 'Proportion & Scaling', 'algebra': 'Simple Algebra',
   'sequences-rules': 'Sequences & Missing Numbers', 'perimeter-area': 'Perimeter and Area', 'angles-lines': 'Angles and Lines',
   'angles-missing': 'Missing Angles', 'symmetry-transformations': 'Symmetry & Transformations', 'coordinates': 'Coordinates',
-  'averages': 'Mean, Median, Mode, Range', 'logic-problems': 'Logic Problems', 'exam-speed': 'Exam Speed Practice'
+  'averages': 'Mean, Median, Mode, Range', 'logic-problems': 'Logic Problems', 'exam-speed': 'Exam Speed Practice',
+  'fractions-of-shape': 'Naming Fractions', 'compare-fractions': 'Comparing Fractions',
+  'simplify-fractions': 'Simplifying Fractions', 'decimals-hundredths': 'Hundredths',
+  'add-decimals': 'Adding & Subtracting Decimals', 'mixed-numbers': 'Mixed Numbers',
+  'percentages': 'Percentages of Amounts'
 };
 
 // Verified, embeddable YouTube ids (each confirmed via oEmbed = public + embeddable).

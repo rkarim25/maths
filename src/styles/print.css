@@ -18,6 +18,12 @@ body { background: #fff !important; padding: 0 !important; color: #000 !importan
 /* Answer key starts on a fresh page so it can be removed before handing over. */
 .ws-key { page-break-before: always; }
 
+.book { box-shadow: none !important; padding: 0 !important; }
+.book-screen { max-width: none !important; }
+.book-cover { page-break-after: always; padding: 25vh 0 !important; }
+.book-lesson { page-break-before: always; border-bottom: none !important; }
+.book-answers { page-break-before: always; }
+
 .concept-figure { page-break-inside: avoid; background: none !important; }
 .concept-svg { max-width: 360px; }
 .ws-visual { font-size: 20pt; }

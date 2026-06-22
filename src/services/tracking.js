@@ -103,6 +103,25 @@ export async function recordAttempt(profileId, lessonId, { score, total, setName
 }
 
 /**
+ * Record a score the parent entered for paper work. Writes synthetic per-skill
+ * answers (so the skills breakdown and weak-area recommendations update) and a
+ * progress attempt. Returns { progress, stars, percent }.
+ */
+export async function recordManualScore(profileId, lessonId, score, total) {
+  const lesson = getLesson(lessonId);
+  const skill = lesson ? lesson.skillTags[0] : 'unknown';
+  for (let i = 0; i < total; i++) {
+    const correct = i < score;
+    await recordAnswer({
+      profileId, lessonId, skillTag: skill, questionType: 'paper',
+      questionText: 'Paper exercise', userAnswer: correct ? 'correct' : 'incorrect',
+      correctAnswer: 'correct', correct, timeSpentMs: 0
+    });
+  }
+  return recordAttempt(profileId, lessonId, { score, total, setName: 'paper' });
+}
+
+/**
  * Log a usage event (session-start, lesson-start, lesson-complete, …).
  */
 export async function logEvent(profileId, eventType, metadata = {}) {

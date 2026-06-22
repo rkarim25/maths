@@ -65,6 +65,14 @@
 }
 .placement-banner:hover { color: #7a5b00; transform: translateY(-2px); animation: none; }
 
+.assess-cta { margin-top: var(--spacing-lg); }
+.assess-btn { width: 100%; justify-content: flex-start; gap: var(--spacing-md); background: #fff; color: var(--text-dark); border: 3px dashed var(--secondary); box-shadow: var(--shadow-light); padding: var(--spacing-md) var(--spacing-lg); border-radius: var(--border-radius-lg); text-align: left; }
+.assess-btn:hover { background: var(--background-light); color: var(--text-dark); transform: translateY(-2px); animation: none; }
+.assess-icon { font-size: 1.6rem; }
+.assess-text { display: flex; flex-direction: column; flex: 1; }
+.assess-label { font-size: 0.8rem; font-weight: 700; color: var(--text-light); }
+.assess-title { font-family: var(--font-heading); font-size: 1.2rem; font-weight: 700; }
+
 /* Groups */
 .lesson-group { margin-bottom: var(--spacing-xl); }
 .group-title { font-size: 1.35rem; margin-bottom: var(--spacing-md); display: flex; align-items: center; gap: 0.5rem; }

@@ -61,6 +61,27 @@
 .rec-stage { font-family: var(--font-heading); font-weight: 700; color: var(--primary); font-size: 1.2rem; margin: 0 0 0.25rem; }
 .rec-lesson { margin: 0; font-size: 1.1rem; color: var(--text-dark); }
 
+.assess-gaps { margin: var(--spacing-md) 0 var(--spacing-lg); }
+.assess-gaps h3 { font-size: 1.1rem; margin-bottom: var(--spacing-sm); }
+.assess-gaps .mini-btn { margin: 4px; }
+
+/* Times-tables trainer */
+.tt-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--spacing-md); }
+.tt-card { flex-direction: column; gap: 6px; background: #fff; color: var(--text-dark); box-shadow: var(--shadow-light); padding: var(--spacing-md); border-radius: var(--border-radius-lg); border: 3px solid transparent; }
+.tt-card:hover { border-color: var(--primary); color: var(--text-dark); transform: translateY(-3px); animation: none; }
+.tt-num { font-family: var(--font-heading); font-size: 1.8rem; font-weight: 700; }
+.tt-dot { font-size: 0.78rem; font-weight: 700; padding: 2px 8px; border-radius: var(--border-radius-lg); }
+.tt-dot.good { background: #e3f7e4; color: #2e7d32; }
+.tt-dot.ok { background: #fff3e0; color: #e65100; }
+.tt-dot.low { background: #ffebee; color: #c62828; }
+.tt-dot.none { background: var(--background-medium); color: var(--text-medium); }
+.tt-mixed { background: var(--secondary); color: #06403b; }
+.tt-mixed:hover { background: var(--secondary); color: #06403b; }
+.tt-mixed-label { font-weight: 700; }
+.tt-streak { background: #fff3e0; color: #e65100; font-family: var(--font-heading); font-weight: 700; padding: 0.4rem 0.9rem; border-radius: var(--border-radius-lg); }
+.tt-prompt { font-size: 2.2rem; }
+@media (max-width: 640px) { .tt-grid { grid-template-columns: repeat(3, 1fr); } }
+
 @media (max-width: 640px) {
   .set-grid { grid-template-columns: 1fr; }
   .q-prompt { font-size: 1.35rem; }

@@ -17,6 +17,19 @@
 .ws-scene-emoji { font-size: 2rem; }
 .ws-scene p { font-size: 1.2rem; line-height: 1.7; margin: 0; }
 
+/* Stage book */
+.book-screen { max-width: 820px; margin: 0 auto; }
+.book-includes { display: inline-flex; gap: var(--spacing-md); flex-wrap: wrap; }
+.book { background: #fff; border-radius: var(--border-radius-md); padding: var(--spacing-xl); box-shadow: var(--shadow-light); color: #000; }
+.book-cover { text-align: center; padding: var(--spacing-xxl) 0; }
+.book-cover-emoji { font-size: 4rem; }
+.book-cover h1 { font-size: 2.2rem; margin: var(--spacing-sm) 0 0; }
+.book-cover h2 { font-size: 1.6rem; color: var(--primary); margin: 0.25rem 0; }
+.book-lesson { margin-bottom: var(--spacing-xl); padding-bottom: var(--spacing-lg); border-bottom: 2px dashed var(--background-medium); }
+.book-lesson-title { font-size: 1.5rem; margin-bottom: 0.25rem; }
+.book-key-lesson { margin-bottom: var(--spacing-md); }
+.book-key-lesson h3 { font-size: 1.05rem; margin-bottom: 0.25rem; }
+
 .worksheet {
   background: #fff; border-radius: var(--border-radius-md); padding: var(--spacing-xl);
   box-shadow: var(--shadow-light); color: #000;

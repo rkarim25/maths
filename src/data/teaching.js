@@ -364,6 +364,12 @@ const TEACHING = {
       'A third of 9 is 3, because 9 shared into 3 equal groups gives 3 in each.'
     ]
   },
+  'fractions-of-shape': {
+    plain: [
+      'We name a fraction by counting equal parts. If a shape has 4 equal parts and 3 are shaded, that is 3/4.',
+      'The bottom number is the total number of equal parts; the top number is how many are shaded.'
+    ]
+  },
   'time-oclock': {
     plain: [
       'On a clock, the short hand shows the hour and the long hand shows the minutes.',
@@ -471,6 +477,18 @@ const TEACHING = {
       'For 1/5 + 2/5, the bottom stays 5 and 1 + 2 = 3, so the answer is 3/5.'
     ]
   },
+  'compare-fractions': {
+    plain: [
+      'When fractions have the same bottom number, the one with the bigger top number is bigger: 3/5 > 2/5.',
+      'When the bottoms are different, make them the same first, then compare the tops.'
+    ]
+  },
+  'simplify-fractions': {
+    plain: [
+      'Simplifying means writing a fraction with the smallest possible numbers.',
+      'Divide the top and bottom by the same number: 2/4 becomes 1/2, and 3/9 becomes 1/3.'
+    ]
+  },
   'time-to-minute': {
     plain: [
       'Each small mark on a clock is one minute; each number is five minutes.',
@@ -513,6 +531,18 @@ const TEACHING = {
       '0.5 = 1/2, 0.25 = 1/4, 0.75 = 3/4, 0.1 = 1/10.'
     ]
   },
+  'decimals-hundredths': {
+    plain: [
+      'The second place after the decimal point is hundredths. 0.07 means 7 hundredths.',
+      '0.25 is 2 tenths and 5 hundredths — the same as 25 hundredths.'
+    ]
+  },
+  'add-decimals': {
+    plain: [
+      'Add or subtract decimals by lining up the decimal points and working in tenths.',
+      '0.3 + 0.4 = 0.7, just like 3 + 4 = 7 — only these are tenths.'
+    ]
+  },
 
   // --------------------------- STAGE 4 (plain) -----------------------------
   'tables-all': {
@@ -549,6 +579,18 @@ const TEACHING = {
     plain: [
       'Fractions, decimals and percentages are three ways to show parts of a whole.',
       '1/2 = 0.5 = 50%. 1/4 = 0.25 = 25%. 3/4 = 0.75 = 75%.'
+    ]
+  },
+  'mixed-numbers': {
+    plain: [
+      'A mixed number has a whole part and a fraction, like 2 1/2.',
+      'An improper fraction such as 5/2 is the same amount: 5/2 = 2 1/2.'
+    ]
+  },
+  'percentages': {
+    plain: [
+      'Per cent means "out of 100". 50% is a half, 25% is a quarter, 10% is a tenth.',
+      'To find 50% of 20, halve it → 10. To find 25% of 8, quarter it → 2.'
     ]
   },
   'ratio': {

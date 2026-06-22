@@ -7,6 +7,9 @@ import { renderPractice } from './views/practice-game.js';
 import { renderWorksheet } from './views/worksheet.js';
 import { renderGrownups } from './views/grownups.js';
 import { renderPlacement } from './views/placement-test.js';
+import { renderBook } from './views/book.js';
+import { renderAssessment } from './views/assessment.js';
+import { renderTimesTables } from './views/times-tables.js';
 import { getCurrentProfileId } from './services/profile-manager.js';
 
 // Static routes: hash -> render()
@@ -15,14 +18,18 @@ const STATIC_ROUTES = {
   '/profile-create': renderProfileCreate,
   '/lessons': renderLessonsTable,
   '/grownups': renderGrownups,
-  '/placement': renderPlacement
+  '/placement': renderPlacement,
+  '/book': renderBook,
+  '/times-tables': renderTimesTables
 };
 
 // Dynamic routes: '/prefix/:id' -> render(id)
 const DYNAMIC_ROUTES = [
   { prefix: '/lesson/', render: renderLessonPlayer },
   { prefix: '/practice/', render: renderPractice },
-  { prefix: '/worksheet/', render: renderWorksheet }
+  { prefix: '/worksheet/', render: renderWorksheet },
+  { prefix: '/book/', render: renderBook },
+  { prefix: '/assessment/', render: renderAssessment }
 ];
 
 // Routes reachable without a selected profile
