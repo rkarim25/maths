@@ -9,6 +9,16 @@
 .speed-pill.s2 { background: #e3edff; color: #2a5db0; }
 .speed-pill.s1 { background: #fff3d6; color: #8a5d00; }
 .speed-pill.s0 { background: #ffe0e0; color: #b03a3a; }
+
+/* No-PIN sync page */
+.sync-status { font-family: var(--font-heading); font-weight: 700; font-size: 1.1rem; padding: 0.45rem 0.9rem; border-radius: var(--border-radius-md); display: inline-block; margin-bottom: var(--spacing-sm); }
+.sync-status.on { background: #d8f5e3; color: #1b7f4d; }
+.sync-status.off { background: var(--background-medium); color: var(--text-dark); }
+.sync-code-label { margin: var(--spacing-sm) 0 0.2rem; font-weight: 700; color: var(--text-medium); }
+.sync-code-big { font-family: monospace; font-size: 1.8rem; font-weight: 800; letter-spacing: 2px; color: var(--primary); background: var(--background-light); padding: 0.5rem 1rem; border-radius: var(--border-radius-md); display: inline-block; }
+.sync-steps { line-height: 1.7; padding-left: 1.3rem; margin: var(--spacing-sm) 0; }
+.sync-steps li { margin-bottom: 0.35rem; }
+.sync-input { width: 240px; max-width: 100%; letter-spacing: 1px; }
 .set-intro { color: var(--text-medium); margin-bottom: var(--spacing-lg); font-size: 1.1rem; }
 .set-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--spacing-md); }
 .set-card {

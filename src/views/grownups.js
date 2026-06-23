@@ -84,10 +84,10 @@ async function showDashboard(flash) {
         <p class="lp-objective">Progress and reports for every child on this device. ${childPicker}</p>
       </header>
 
-      <section class="gu-section sync-hero">
-        <h2>☁️ Sync across your devices</h2>
-        <p class="muted">Set this up <strong>first</strong> — then ${esc(child.name)}'s progress and photo save to all your devices automatically. Use the SAME family code on every device.</p>
-        ${syncSectionHTML(child)}
+      <section class="gu-section">
+        <h2>☁️ Sync</h2>
+        <p class="muted">${(isSyncConfigured() && isConnected()) ? `Sync is ON — ${esc(child.name)}'s progress saves to all your devices automatically.` : 'Sync is off on this device.'} Setting it up needs no PIN.</p>
+        <button class="primary-btn" id="opensync-btn">Open sync settings</button>
       </section>
 
       <div class="stat-grid">
@@ -231,7 +231,8 @@ async function showDashboard(flash) {
     child.avatarImage = null; await updateProfile(child); showDashboard('Photo removed.');
   });
 
-  wireSyncSettings();
+  const openSync = document.getElementById('opensync-btn');
+  if (openSync) openSync.addEventListener('click', () => navigateTo('/sync'));
   wirePinSettings();
 }
 

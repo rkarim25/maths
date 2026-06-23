@@ -8,6 +8,7 @@ import {
 import { getProgressMap } from '../services/tracking.js';
 import { nextLessonId } from '../services/analysis.js';
 import { getTeaching } from '../data/teaching.js';
+import { isSyncConfigured, isConnected } from '../services/sync.js';
 
 const TOPIC_EMOJI = {
   'Counting': '🔢', 'Number bonds': '🔗', 'Adding & taking away': '➕', 'Adding & subtracting': '➕',
@@ -48,6 +49,7 @@ export async function renderLessonsTable() {
         </div>
         <div class="ls-header-actions">
           <div class="ls-stars" title="Stars earned">⭐ <span>${totalStars}</span></div>
+          <button class="icon-btn sync-btn" id="sync-btn" title="Sync across devices">${(isSyncConfigured() && isConnected()) ? '☁️✓' : '☁️'}</button>
           <button class="icon-btn grownups-btn" id="grownups-btn" title="Grown-ups">🔒</button>
         </div>
       </header>
@@ -72,6 +74,7 @@ export async function renderLessonsTable() {
   `;
 
   document.getElementById('grownups-btn').addEventListener('click', () => navigateTo('/grownups'));
+  document.getElementById('sync-btn').addEventListener('click', () => navigateTo('/sync'));
   document.getElementById('ql-level').addEventListener('click', () => navigateTo('/placement'));
   document.getElementById('ql-tt').addEventListener('click', () => navigateTo('/times-tables'));
   document.getElementById('ql-learn').addEventListener('click', () => navigateTo('/learn-tables'));

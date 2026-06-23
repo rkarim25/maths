@@ -17,6 +17,7 @@ import { renderLearnTables } from './views/tables-learn.js';
 import { renderRealWorld } from './views/real-world.js';
 import { renderMentalMaths } from './views/mental-maths.js';
 import { renderMentalPractice } from './views/mental-practice.js';
+import { renderSync } from './views/sync.js';
 import { getCurrentProfileId } from './services/profile-manager.js';
 
 // Static routes: hash -> render()
@@ -31,7 +32,8 @@ const STATIC_ROUTES = {
   '/mocks': renderMockExams,
   '/puzzles': renderPuzzles,
   '/learn-tables': renderLearnTables,
-  '/mental-maths': renderMentalMaths
+  '/mental-maths': renderMentalMaths,
+  '/sync': renderSync
 };
 
 // Dynamic routes: '/prefix/:id' -> render(id)
