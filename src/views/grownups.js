@@ -63,6 +63,11 @@ async function showDashboard(flash) {
     `<optgroup label="Stage ${st} assessments">${getStageAssessments(st).map((a) => `<option value="${a.id}">Stage ${st} · ${esc(a.title)}</option>`).join('')}</optgroup>`).join('');
   const mockOptions = `<optgroup label="Mock 11+ exams">${getMockPapers().map((m) => `<option value="${m.id}">${esc(m.title)}</option>`).join('')}</optgroup>`;
   const others = profiles.filter((p) => p.profileId !== viewingId);
+  const dataNote = (isSyncConfigured() && isConnected())
+    ? '☁️ Cloud sync is ON — progress and the profile photo sync across your devices automatically.'
+    : isSyncConfigured()
+      ? 'Cloud sync is set up. Turn it on for this device under “Sync across devices” below to share automatically — or Download here and Import on another device.'
+      : '⚠️ This site saves data on <em>this device only</em>. Set up cloud sync below to share across devices, or Download here and Import there.';
 
   const childPicker = profiles.length > 1
     ? `<label class="child-pick">Viewing
@@ -119,7 +124,7 @@ async function showDashboard(flash) {
           <button class="secondary-btn" id="import-btn">⬆ Import data</button>
           <button class="danger-btn" id="reset-btn">Reset ${esc(child.name)}'s data</button>
         </div>
-        <p class="muted gu-note">⚠️ This site saves data on <em>this device only</em> — there is no shared server. To see the same progress on another device, use the same device, or Download here and Import there.</p>
+        <p class="muted gu-note">${dataNote}</p>
         ${others.length ? `<p class="muted gu-note">There ${others.length === 1 ? 'is 1 other profile' : 'are ' + others.length + ' other profiles'} on this device. <button class="danger-btn" id="tidy-btn">Keep only ${esc(child.name)}</button></p>` : ''}
       </section>
 

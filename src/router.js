@@ -91,3 +91,8 @@ export function navigateTo(path) {
 export function getCurrentRoute() {
   return currentRoute;
 }
+
+// Re-render the current route (used when cloud sync pulls a remote change).
+export function refreshRoute() {
+  handleRouteChange();
+}

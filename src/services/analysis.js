@@ -11,6 +11,7 @@ import { getAllLessons, getLesson, getLessonOrder } from '../data/curriculum.js'
 import {
   getProgressMap, getAnswerLog, getAllWeakAreaStats, getUsageEvents
 } from './tracking.js';
+import { getProfile } from './profile-manager.js';
 
 const SEVERITY_RANK = { high: 0, medium: 1, low: 2, none: 3 };
 
@@ -143,6 +144,7 @@ export async function buildExport(profileId, profileName = '') {
     getUsageEvents(profileId)
   ]);
   const analysis = await analyzeProfile(profileId);
+  const profile = await getProfile(profileId);
 
   return {
     meta: {
@@ -151,6 +153,7 @@ export async function buildExport(profileId, profileName = '') {
       profileId,
       profileName
     },
+    profile: profile ? { name: profile.name, avatarImage: profile.avatarImage || null, avatarConfig: profile.avatarConfig || null } : null,
     summary: analysis.summary,
     progress: Object.values(progressMap),
     answer_log: answerLog,

@@ -3,6 +3,7 @@ import { initializeDatabase } from './services/db.js';
 import { ensureSingleProfile, setCurrentProfileId } from './services/profile-manager.js';
 import { logEvent } from './services/tracking.js';
 import { startSync } from './services/sync.js';
+import { refreshRoute } from './router.js';
 
 // App state
 let appState = {
@@ -35,7 +36,10 @@ export async function initApp() {
     if (!hash || hash === '/profiles') window.location.hash = '/lessons';
     logEvent(profile.profileId, 'session-start', {}).catch(() => {});
     // Cross-device cloud sync (no-op unless Firebase is configured + a family code set).
-    startSync(profile.profileId).catch(() => {});
+    // On a remote change, softly re-render the lessons/grown-ups screen so synced
+    // updates (e.g. the profile photo) appear without a manual refresh.
+    const onSync = () => { const h = window.location.hash; if (h.includes('/lessons') || h.includes('/grownups')) refreshRoute(); };
+    startSync(profile.profileId, onSync).catch(() => {});
 
     appState.initialized = true;
   } catch (error) {

@@ -217,6 +217,14 @@ export async function importData(profileId, data) {
   for (const p of data.progress || []) await updateInStore('progress', { ...p, profileId });
   for (const a of data.answer_log || []) await updateInStore('answer_log', { ...a, profileId });
   for (const e of data.usage_events || []) await updateInStore('usage_events', { ...e, profileId });
+  // Bring across the profile photo (so the avatar syncs between devices).
+  if (data.profile && data.profile.avatarImage) {
+    const prof = await getFromStore('profiles', profileId);
+    if (prof && prof.avatarImage !== data.profile.avatarImage) {
+      prof.avatarImage = data.profile.avatarImage;
+      await updateInStore('profiles', prof);
+    }
+  }
   await recomputeWeakAreas(profileId);
 }
 
