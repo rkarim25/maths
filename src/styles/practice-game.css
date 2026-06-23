@@ -19,6 +19,11 @@
 .sync-steps { line-height: 1.7; padding-left: 1.3rem; margin: var(--spacing-sm) 0; }
 .sync-steps li { margin-bottom: 0.35rem; }
 .sync-input { width: 240px; max-width: 100%; letter-spacing: 1px; }
+
+/* Mental-maths trick diagrams */
+.mm-diagram { margin: var(--spacing-md) 0; text-align: center; background: var(--background-light); border-radius: var(--border-radius-md); padding: var(--spacing-sm) var(--spacing-md); }
+.mm-diagram .concept-svg { width: 100%; max-width: 420px; height: auto; display: inline-block; }
+.diagram-caption { font-size: 0.9rem; color: var(--text-medium); margin: 0.4rem 0 0; line-height: 1.4; }
 .set-intro { color: var(--text-medium); margin-bottom: var(--spacing-lg); font-size: 1.1rem; }
 .set-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--spacing-md); }
 .set-card {

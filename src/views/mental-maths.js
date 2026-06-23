@@ -3,6 +3,7 @@
 // examples and read-aloud.
 import { navigateTo } from '../router.js';
 import { getMethods, getMethod } from '../data/mental-maths.js';
+import { getMentalDiagram } from '../data/mental-diagrams.js';
 import { speak, stopSpeaking } from '../services/tts.js';
 
 const LEVELS = ['Starter', 'Builder', 'Speedster'];
@@ -44,6 +45,7 @@ function showMethod(id) {
   stopSpeaking();
   const m = getMethod(id);
   if (!m) { showList(); return; }
+  const diag = getMentalDiagram(m.id);
   const app = document.getElementById('app');
   app.innerHTML = `
     <div class="puzzles-screen">
@@ -54,6 +56,7 @@ function showMethod(id) {
       </header>
       <div class="puz-card">
         <p class="puz-question">${esc(m.idea)}</p>
+        ${diag ? `<div class="mm-diagram">${diag.svg}${diag.caption ? `<p class="diagram-caption">${esc(diag.caption)}</p>` : ''}</div>` : ''}
         <p class="app-task-label">How to do it</p>
         <ol class="mm-steps">${m.steps.map((s) => `<li>${esc(s)}</li>`).join('')}</ol>
         <p class="app-task-label">Examples</p>
