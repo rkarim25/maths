@@ -185,7 +185,7 @@ async function finish() {
   let stars = 0, percent = Math.round((s.score / total) * 100);
   if (pid) {
     try {
-      const res = await recordAttempt(pid, s.lesson.id, { score: s.score, total, setName: s.set.key });
+      const res = await recordAttempt(pid, s.lesson.id, { score: s.score, total, setName: s.set.key, timeMs: Date.now() - s.startedAt });
       stars = res.stars; percent = res.percent;
     } catch (e) { console.error('recordAttempt failed', e); stars = percent >= 90 ? 3 : percent >= 70 ? 2 : percent >= 50 ? 1 : 0; }
   }

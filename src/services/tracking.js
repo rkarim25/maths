@@ -61,7 +61,7 @@ export async function recordAnswer({
  * Record a completed practice attempt: upsert the lesson's progress row and log
  * a usage event. Returns { progress, stars, percent }.
  */
-export async function recordAttempt(profileId, lessonId, { score, total, setName = 'A' }) {
+export async function recordAttempt(profileId, lessonId, { score, total, setName = 'A', timeMs = null }) {
   const lesson = getLesson(lessonId);
   const percent = total > 0 ? Math.round((score / total) * 100) : 0;
   const stars = scoreToStars(percent);
@@ -88,6 +88,12 @@ export async function recordAttempt(profileId, lessonId, { score, total, setName
   progress.bestScore = Math.max(progress.bestScore || 0, percent);
   progress.stars = Math.max(progress.stars || 0, stars);
   progress.lastAttemptAt = now();
+  // Time is captured silently for the parent-only report (never shown to the child).
+  if (timeMs != null && timeMs >= 0) {
+    progress.lastTimeMs = timeMs;
+    progress.lastCount = total;
+    progress.totalTimeMs = (progress.totalTimeMs || 0) + timeMs;
+  }
   if (percent >= 80) {
     progress.status = 'completed';
     if (!progress.firstCompletedAt) progress.firstCompletedAt = now();

@@ -16,6 +16,7 @@ import { renderPuzzles } from './views/puzzles.js';
 import { renderLearnTables } from './views/tables-learn.js';
 import { renderRealWorld } from './views/real-world.js';
 import { renderMentalMaths } from './views/mental-maths.js';
+import { renderMentalPractice } from './views/mental-practice.js';
 import { getCurrentProfileId } from './services/profile-manager.js';
 
 // Static routes: hash -> render()
@@ -41,7 +42,8 @@ const DYNAMIC_ROUTES = [
   { prefix: '/book/', render: renderBook },
   { prefix: '/assessment/', render: renderAssessment },
   { prefix: '/fun/', render: renderFun },
-  { prefix: '/real-world/', render: renderRealWorld }
+  { prefix: '/real-world/', render: renderRealWorld },
+  { prefix: '/mental-practice/', render: renderMentalPractice }
 ];
 
 // Routes reachable without a selected profile

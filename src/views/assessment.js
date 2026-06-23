@@ -3,7 +3,7 @@
 // attempt under `assessment-s<stage>-<n>`.
 import { navigateTo } from '../router.js';
 import { STAGES, getLessonsByStage } from '../data/curriculum.js';
-import { getStageAssessments } from '../data/papers.js';
+import { getStageAssessments, ASSESSMENTS_PER_STAGE } from '../data/papers.js';
 import { generateSet } from '../services/question-bank.js';
 import { recordAnswer, recordAttempt, recomputeWeakAreas, logEvent, getProgressMap } from '../services/tracking.js';
 import { getCurrentProfileId } from '../services/profile-manager.js';
@@ -42,7 +42,7 @@ export async function renderAssessment(arg) {
       <header class="lp-header">
         <button class="back-button" id="back-btn">← Back to lessons</button>
         <h1>📋 Stage ${stage} assessments</h1>
-        <p class="lp-objective">Five assessments covering <strong>${esc(STAGES[stage].name)}</strong>. Each checks a mix of the stage's skills — aim for ${PASS}%!</p>
+        <p class="lp-objective">${ASSESSMENTS_PER_STAGE} assessments covering <strong>${esc(STAGES[stage].name)}</strong>. Each checks a mix of the stage's skills — aim for ${PASS}%!</p>
       </header>
       <div class="set-grid">${cards}</div>
     </div>`;
@@ -52,7 +52,7 @@ export async function renderAssessment(arg) {
 
 function start(stage, n) {
   const items = sampleLessons(stage, 12, (n - 1) * 2).map((lesson) => ({ lesson, q: generateSet(lesson, 1)[0] })).filter((x) => x.q);
-  s = { stage, n, id: `assessment-s${stage}-${n}`, items, index: 0, score: 0, answers: [] };
+  s = { stage, n, id: `assessment-s${stage}-${n}`, items, index: 0, score: 0, answers: [], startMs: Date.now(), qShownAt: Date.now() };
   const pid = getCurrentProfileId();
   if (pid) logEvent(pid, 'assessment-start', { stage, n }).catch(() => {});
   paintShell();
@@ -74,6 +74,7 @@ function paintShell() {
 
 function paintQuestion() {
   const { q } = s.items[s.index];
+  s.qShownAt = Date.now();
   document.getElementById('qnum').textContent = String(s.index + 1);
   document.getElementById('pfill').style.width = `${(s.index / s.items.length) * 100}%`;
   const area = document.getElementById('qarea');
@@ -98,13 +99,14 @@ const norm = (v) => String(v).trim().toLowerCase().replace(/\s+/g, '');
 async function handleAnswer(raw) {
   const { lesson, q } = s.items[s.index];
   const correct = norm(raw) === norm(q.answer);
+  const timeSpentMs = Date.now() - s.qShownAt;
   if (correct) s.score++;
   s.answers.push({ lesson, correct });
   const pid = getCurrentProfileId();
   if (pid) {
     recordAnswer({
       profileId: pid, lessonId: lesson.id, skillTag: q.skillTag, questionType: q.type,
-      questionText: q.prompt, userAnswer: raw, correctAnswer: q.answer, correct, timeSpentMs: 0
+      questionText: q.prompt, userAnswer: raw, correctAnswer: q.answer, correct, timeSpentMs
     }).catch(() => {});
   }
   s.index++;
@@ -118,7 +120,7 @@ async function finish() {
   const pid = getCurrentProfileId();
   if (pid) {
     try {
-      await recordAttempt(pid, s.id, { score: s.score, total, setName: 'assessment' });
+      await recordAttempt(pid, s.id, { score: s.score, total, setName: 'assessment', timeMs: Date.now() - s.startMs });
       await recomputeWeakAreas(pid);
       await logEvent(pid, 'assessment-complete', { stage: s.stage, n: s.n, score: s.score, total, percent });
     } catch (e) { /* noop */ }

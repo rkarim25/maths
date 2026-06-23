@@ -65,7 +65,37 @@ export const METHODS = [
   { id: 'left-to-right', level: 'Speedster', emoji: '➡️', title: 'Add left to right',
     idea: 'Add the big parts first, the way you say the number.',
     steps: ['Add the tens together.', 'Add the ones together.', 'Combine the two.'],
-    examples: ['45 + 38 → 40+30 = 70, 5+8 = 13, → 83'] }
+    examples: ['45 + 38 → 40+30 = 70, 5+8 = 13, → 83'] },
+
+  // ---------------- More tricks ----------------
+  { id: 'times-50', level: 'Builder', emoji: '🔟', title: '×50 the quick way',
+    idea: 'Fifty is half of a hundred.',
+    steps: ['Multiply by 100 (add two zeros).', 'Halve the answer.'],
+    examples: ['8 × 50 → 800, half = 400', '14 × 50 → 1400, half = 700'] },
+  { id: 'times-15', level: 'Builder', emoji: '🧮', title: '×15 = ten plus half',
+    idea: 'Fifteen is ten, and then half as much again.',
+    steps: ['Multiply by 10.', 'Add half of that.'],
+    examples: ['6 × 15 → 60 + 30 = 90', '12 × 15 → 120 + 60 = 180'] },
+  { id: 'fraction-of', level: 'Builder', emoji: '🍕', title: 'Fraction of an amount',
+    idea: 'To find a fraction of a number, divide by the bottom number.',
+    steps: ['For 1/2 — divide by 2.', 'For 1/4 — divide by 4.', 'For 1/3 — divide by 3.'],
+    examples: ['1/4 of 20 = 5', '1/3 of 18 = 6'] },
+  { id: 'rounding', level: 'Builder', emoji: '🎯', title: 'Round to estimate',
+    idea: 'Rounding makes big sums quick — and checks an answer is sensible.',
+    steps: ['Find the rounding digit (tens or hundreds).', 'Look at the digit just to its right.', '5 or more rounds up; 4 or less stays the same.'],
+    examples: ['68 to the nearest 10 → 70', '342 to the nearest 100 → 300'] },
+  { id: 'divisibility', level: 'Builder', emoji: '➗', title: 'Divisibility detective',
+    idea: 'Quick checks tell you if a number divides exactly — no dividing needed.',
+    steps: ['÷2: the last digit is even.', '÷5: it ends in 0 or 5.', '÷10: it ends in 0.', '÷3 or ÷9: add the digits — is the total in the 3s (or 9s)?'],
+    examples: ['72 → 7+2 = 9, so divisible by 3 AND 9', '85 → ends in 5, so divisible by 5 (not 2)'] },
+  { id: 'times-25', level: 'Speedster', emoji: '🔢', title: '×25 with quarters',
+    idea: 'Twenty-five is a quarter of a hundred.',
+    steps: ['Multiply by 100 (add two zeros).', 'Divide by 4 (halve, then halve again).'],
+    examples: ['8 × 25 → 800 ÷ 4 = 200', '12 × 25 → 1200 ÷ 4 = 300'] },
+  { id: 'percent-of', level: 'Speedster', emoji: '💯', title: 'Percentages in your head',
+    idea: 'Build any percentage from 10%, 1% and a half.',
+    steps: ['10% — divide by 10.', '1% — divide by 100.', '50% — take half.', 'Combine them (e.g. 30% = three lots of 10%).'],
+    examples: ['10% of 80 = 8', '50% of 60 = 30', '1% of 400 = 4'] }
 ];
 
 export function getMethods() {
@@ -73,4 +103,48 @@ export function getMethods() {
 }
 export function getMethod(id) {
   return METHODS.find((m) => m.id === id) || null;
+}
+
+// --- practice question generators (one per method) ---------------------------
+const rnd = (lo, hi) => lo + Math.floor(Math.random() * (hi - lo + 1));
+const pickOne = (arr) => arr[Math.floor(Math.random() * arr.length)];
+
+const GEN = {
+  'make-ten': () => { const a = rnd(6, 9), b = rnd(3, 9); return { prompt: `${a} + ${b} = ?`, type: 'input', answer: String(a + b) }; },
+  'doubles': () => { const a = rnd(4, 9); return { prompt: `${a} + ${a + 1} = ?`, type: 'input', answer: String(2 * a + 1) }; },
+  'add-9-11': () => { const n = rnd(15, 88), d = pickOne([9, 11]); return { prompt: `${n} + ${d} = ?`, type: 'input', answer: String(n + d) }; },
+  'count-up': () => { const big = rnd(31, 95), small = big - rnd(7, 19); return { prompt: `${big} − ${small} = ?`, type: 'input', answer: String(big - small) }; },
+  'nine-fingers': () => { const n = rnd(2, 9); return { prompt: `9 × ${n} = ?`, type: 'input', answer: String(9 * n) }; },
+  'times-9': () => { const n = rnd(2, 12); return { prompt: `9 × ${n} = ?`, type: 'input', answer: String(9 * n) }; },
+  'times-5': () => { const n = rnd(3, 20); return { prompt: `${n} × 5 = ?`, type: 'input', answer: String(5 * n) }; },
+  'double-double': () => { const n = rnd(3, 12), m = pickOne([4, 8]); return { prompt: `${n} × ${m} = ?`, type: 'input', answer: String(n * m) }; },
+  'times-12': () => { const n = rnd(3, 12); return { prompt: `${n} × 12 = ?`, type: 'input', answer: String(12 * n) }; },
+  'trachtenberg-11': () => { const n = rnd(12, 89); return { prompt: `${n} × 11 = ?`, type: 'input', answer: String(11 * n) }; },
+  'square-5': () => { const t = rnd(1, 9), v = t * 10 + 5; return { prompt: `${v} × ${v} = ?`, type: 'input', answer: String(v * v) }; },
+  'complements': () => { const n = rnd(11, 89); return { prompt: `100 − ${n} = ?`, type: 'input', answer: String(100 - n) }; },
+  'double-halve': () => { const n = rnd(6, 24) * 2; return { prompt: `${n} × 5 = ?`, type: 'input', answer: String(n * 5) }; },
+  'left-to-right': () => { const a = rnd(21, 78), b = rnd(13, 49); return { prompt: `${a} + ${b} = ?`, type: 'input', answer: String(a + b) }; },
+  'times-50': () => { const n = rnd(3, 16); return { prompt: `${n} × 50 = ?`, type: 'input', answer: String(50 * n) }; },
+  'times-15': () => { const n = rnd(3, 12); return { prompt: `${n} × 15 = ?`, type: 'input', answer: String(15 * n) }; },
+  'times-25': () => { const n = rnd(3, 16); return { prompt: `${n} × 25 = ?`, type: 'input', answer: String(25 * n) }; },
+  'fraction-of': () => { const f = pickOne([2, 4, 3]), n = rnd(2, 9) * f; return { prompt: `What is 1/${f} of ${n}?`, type: 'input', answer: String(n / f) }; },
+  'rounding': () => { const place = pickOne([10, 100]), n = rnd(11, 989); return { prompt: `Round ${n} to the nearest ${place}`, type: 'input', answer: String(Math.round(n / place) * place) }; },
+  'divisibility': () => { const d = pickOne([2, 3, 5, 9, 10]), n = rnd(10, 99); return { prompt: `Is ${n} divisible by ${d}?`, type: 'mcq', options: ['Yes', 'No'], answer: (n % d === 0) ? 'Yes' : 'No' }; },
+  'percent-of': () => { const k = pickOne([10, 50, 1]); let n; if (k === 10) n = rnd(2, 20) * 10; else if (k === 50) n = rnd(2, 30) * 2; else n = rnd(2, 20) * 100; return { prompt: `What is ${k}% of ${n}?`, type: 'input', answer: String(n * k / 100) }; }
+};
+
+// Build `count` distinct practice questions for a method (skillTag `trick-<id>`).
+export function genQuestions(methodId, count = 8) {
+  const gen = GEN[methodId];
+  if (!gen) return [];
+  const out = [], seen = new Set();
+  let guard = 0;
+  while (out.length < count && guard++ < count * 12) {
+    const q = gen();
+    if (seen.has(q.prompt)) continue;
+    seen.add(q.prompt);
+    q.skillTag = `trick-${methodId}`;
+    out.push(q);
+  }
+  return out;
 }

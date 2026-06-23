@@ -12,8 +12,66 @@ import {
   getProgressMap, getAnswerLog, getAllWeakAreaStats, getUsageEvents
 } from './tracking.js';
 import { getProfile } from './profile-manager.js';
+import { getMethod } from '../data/mental-maths.js';
 
 const SEVERITY_RANK = { high: 0, medium: 1, low: 2, none: 3 };
+
+// --- time score (parent-only) ------------------------------------------------
+// Expected seconds per question by stage; the speed rating compares the child's
+// actual pace to this. Captured silently — never shown to the child.
+const STAGE_BASE = { 1: 8, 2: 10, 3: 12, 4: 15 };
+
+function baselineSecondsForId(id) {
+  if (id.startsWith('mock-')) return 15;
+  const am = id.match(/^assessment-s(\d)-/);
+  if (am) return STAGE_BASE[Number(am[1])] || 12;
+  if (id.startsWith('trick-')) return 8;
+  const lesson = getLesson(id);
+  if (lesson) return STAGE_BASE[lesson.stage] || 10;
+  return 10;
+}
+
+function speedRating(avgSec, baseline) {
+  const ratio = baseline > 0 ? avgSec / baseline : 1;
+  if (ratio <= 0.7) return { label: 'Lightning', emoji: '⚡⚡⚡', stars: 3, ratio };
+  if (ratio <= 1.0) return { label: 'Quick', emoji: '⚡⚡', stars: 2, ratio };
+  if (ratio <= 1.4) return { label: 'Steady', emoji: '⚡', stars: 1, ratio };
+  return { label: 'Took time', emoji: '🐢', stars: 0, ratio };
+}
+
+function titleForId(id) {
+  const lesson = getLesson(id);
+  if (lesson) return { title: lesson.title, kind: 'Lesson' };
+  let m = id.match(/^assessment-s(\d)-(\d+)$/);
+  if (m) return { title: `Stage ${m[1]} · Assessment ${m[2]}`, kind: 'Assessment' };
+  m = id.match(/^mock-(\d+)$/);
+  if (m) return { title: `Mock Paper ${m[1]}`, kind: 'Mock' };
+  m = id.match(/^trick-(.+)$/);
+  if (m) { const meth = getMethod(m[1]); return { title: `Trick · ${meth ? meth.title : m[1]}`, kind: 'Mental' }; }
+  return { title: id, kind: 'Other' };
+}
+
+// Per-exercise results with score + silent time + speed rating.
+function buildResults(progressMap) {
+  const rows = [];
+  for (const [id, p] of Object.entries(progressMap)) {
+    if (!p || !p.attempts) continue;
+    const meta = titleForId(id);
+    let speed = null;
+    let avgSec = null;
+    if (p.lastTimeMs != null && p.lastCount) {
+      avgSec = (p.lastTimeMs / 1000) / p.lastCount;
+      speed = speedRating(avgSec, baselineSecondsForId(id));
+    }
+    rows.push({
+      id, title: meta.title, kind: meta.kind, attempts: p.attempts,
+      bestScore: p.bestScore || 0, lastScore: p.lastScore || 0,
+      lastAt: p.lastAttemptAt || null, avgSec, speed
+    });
+  }
+  rows.sort((a, b) => String(b.lastAt || '').localeCompare(String(a.lastAt || '')));
+  return rows;
+}
 
 /**
  * Full analysis for a profile.
@@ -50,6 +108,15 @@ export async function analyzeProfile(profileId) {
 
   const weakAreas = skills.filter((s) => s.severity && s.severity !== 'none');
 
+  const results = buildResults(progressMap);
+  const timed = results.filter((r) => r.speed);
+  const overallTimeScore = timed.length
+    ? speedRating(timed.reduce((acc, r) => acc + r.speed.ratio, 0) / timed.length, 1)
+    : null;
+  const timeOnTaskMin = Math.round(
+    Object.values(progressMap).reduce((acc, p) => acc + (p.totalTimeMs || 0), 0) / 60000
+  );
+
   return {
     profileId,
     summary: {
@@ -58,11 +125,16 @@ export async function analyzeProfile(profileId) {
       lessonsStarted,
       lessonsTotal: lessons.length,
       lessonsMastered,
-      lastActive: lastTimestamp(answerLog, events)
+      lastActive: lastTimestamp(answerLog, events),
+      timeOnTaskMin,
+      overallTimeScore: overallTimeScore
+        ? { label: overallTimeScore.label, emoji: overallTimeScore.emoji, stars: overallTimeScore.stars }
+        : null
     },
     skills,
     weakAreas,
     recommendations: recommendFrom(progressMap, weakAreas),
+    results,
     progressMap
   };
 }

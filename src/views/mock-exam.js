@@ -11,13 +11,11 @@ import { getCurrentProfileId } from '../services/profile-manager.js';
 const PAPERS = getMockPapers().map((p) => ({ ...p, count: 40, mins: 35, icon: '🎓' }));
 
 let s = null;
-let timerId = null;
 
 const shuffle = (a) => { const b = [...a]; for (let i = b.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [b[i], b[j]] = [b[j], b[i]]; } return b; };
 const pick = (a) => a[Math.floor(Math.random() * a.length)];
 
 export function renderMockExams() {
-  clearTimer();
   const app = document.getElementById('app');
   if (!app) return;
   app.innerHTML = `
@@ -25,14 +23,14 @@ export function renderMockExams() {
       <header class="lp-header">
         <button class="back-button" id="back-btn">← Back to lessons</button>
         <h1>🎓 Mock 11+ exams</h1>
-        <p class="lp-objective">Five full timed mock papers with a mix of questions from every topic. Each one is freshly generated, so you can re-sit them as often as you like — perfect 11+ practice. Aim for 80%+!</p>
+        <p class="lp-objective">Five full mock papers with a mix of questions from every topic. Each one is freshly generated, so you can re-sit them as often as you like — perfect 11+ practice. Aim for 80%+!</p>
       </header>
       <div class="set-grid">
         ${PAPERS.map((p) => `
           <button class="set-card" data-paper="${p.id}">
             <span class="set-icon">${p.icon}</span>
             <span class="set-label">${p.title}</span>
-            <span class="set-count">${p.count} questions · ~${p.mins} min</span>
+            <span class="set-count">${p.count} questions</span>
           </button>`).join('')}
       </div>
     </div>`;
@@ -59,36 +57,19 @@ function start(paperId) {
   if (pid) logEvent(pid, 'mock-start', { paper: paper.id }).catch(() => {});
   paintShell();
   paintQuestion();
-  startTimer();
 }
-
-function startTimer() {
-  clearTimer();
-  timerId = setInterval(() => {
-    const el = document.getElementById('mock-timer');
-    if (!el) { clearTimer(); return; }
-    const sec = Math.floor((Date.now() - s.startMs) / 1000);
-    const mm = String(Math.floor(sec / 60)).padStart(2, '0'), ss = String(sec % 60).padStart(2, '0');
-    el.textContent = `${mm}:${ss}`;
-    el.classList.toggle('over', sec > s.paper.mins * 60);
-  }, 1000);
-}
-function clearTimer() { if (timerId) { clearInterval(timerId); timerId = null; } }
 
 function paintShell() {
   document.getElementById('app').innerHTML = `
     <div class="practice">
       <header class="practice-bar">
         <button class="back-button" id="quit-btn">← Quit</button>
-        <div class="mock-meta">
-          <span class="mock-clock">⏱ <span id="mock-timer">00:00</span><span class="mock-target"> / ${s.paper.mins}:00</span></span>
-          <span class="score-pill"><span id="qnum">1</span>/${s.items.length}</span>
-        </div>
+        <span class="score-pill"><span id="qnum">1</span>/${s.items.length}</span>
       </header>
       <div class="progress-track"><div class="progress-fill" id="pfill" style="width:0%"></div></div>
       <div id="qarea" class="qarea"></div>
     </div>`;
-  document.getElementById('quit-btn').addEventListener('click', () => { clearTimer(); navigateTo('/lessons'); });
+  document.getElementById('quit-btn').addEventListener('click', () => navigateTo('/lessons'));
 }
 
 function paintQuestion() {
@@ -133,18 +114,16 @@ function handleAnswer(raw) {
 }
 
 async function finish() {
-  clearTimer();
   document.getElementById('pfill').style.width = '100%';
   const total = s.items.length, percent = Math.round((s.score / total) * 100);
-  const sec = Math.floor((Date.now() - s.startMs) / 1000);
-  const mm = Math.floor(sec / 60), ss = sec % 60;
+  const timeMs = Date.now() - s.startMs;
 
   const pid = getCurrentProfileId();
   if (pid) {
     try {
-      await recordAttempt(pid, s.paper.id, { score: s.score, total, setName: 'mock' });
+      await recordAttempt(pid, s.paper.id, { score: s.score, total, setName: 'mock', timeMs });
       await recomputeWeakAreas(pid);
-      await logEvent(pid, 'mock-complete', { paper: s.paper.id, score: s.score, total, percent, seconds: sec });
+      await logEvent(pid, 'mock-complete', { paper: s.paper.id, score: s.score, total, percent, seconds: Math.round(timeMs / 1000) });
     } catch (e) { /* noop */ }
   }
 
@@ -164,7 +143,7 @@ async function finish() {
     <div class="complete-card">
       <h2>${percent >= 85 ? '🏆' : '🎓'} Mock complete!</h2>
       <div class="result-score">${s.score} / ${total} <span class="result-pct">(${percent}%)</span></div>
-      <p class="result-msg">Time: ${mm}m ${ss}s · target ${s.paper.mins}m. ${grade}</p>
+      <p class="result-msg">${grade}</p>
       <div class="table-wrap mock-breakdown"><table class="skills-table"><thead><tr><th>Topic</th><th>Score</th><th></th></tr></thead><tbody>${rows}</tbody></table></div>
       <div class="complete-actions">
         <button class="primary-btn" id="again-btn">New mock</button>

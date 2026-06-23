@@ -59,11 +59,13 @@ function showMethod(id) {
         <p class="app-task-label">Examples</p>
         <ul class="mm-examples">${m.examples.map((e) => `<li>${esc(e)}</li>`).join('')}</ul>
         <div class="puz-actions">
+          <button class="primary-btn" id="practise-btn">✏️ Practise this trick</button>
           <button class="secondary-btn" id="speak-btn">🔊 Read to me</button>
         </div>
       </div>
     </div>`;
   document.getElementById('back-btn').addEventListener('click', showList);
+  document.getElementById('practise-btn').addEventListener('click', () => navigateTo(`/mental-practice/${m.id}`));
   document.getElementById('speak-btn').addEventListener('click', () => speak(`${m.title}. ${m.idea}. ${m.steps.join('. ')}`));
 }
 

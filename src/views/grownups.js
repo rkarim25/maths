@@ -84,12 +84,26 @@ async function showDashboard(flash) {
         <p class="lp-objective">Progress and reports for every child on this device. ${childPicker}</p>
       </header>
 
+      <section class="gu-section sync-hero">
+        <h2>☁️ Sync across your devices</h2>
+        <p class="muted">Set this up <strong>first</strong> — then ${esc(child.name)}'s progress and photo save to all your devices automatically. Use the SAME family code on every device.</p>
+        ${syncSectionHTML(child)}
+      </section>
+
       <div class="stat-grid">
         ${stat('Overall accuracy', a.summary.totalAnswers ? a.summary.overallAccuracy + '%' : '—')}
         ${stat('Lessons mastered', a.summary.lessonsMastered + ' / ' + a.summary.lessonsTotal)}
         ${stat('Questions answered', a.summary.totalAnswers)}
+        ${stat('Speed score', a.summary.overallTimeScore ? a.summary.overallTimeScore.emoji + ' ' + esc(a.summary.overallTimeScore.label) : '—')}
+        ${stat('Time practising', a.summary.timeOnTaskMin ? a.summary.timeOnTaskMin + ' min' : '—')}
         ${stat('Last active', fmtDate(a.summary.lastActive))}
       </div>
+
+      <section class="gu-section">
+        <h2>Exercise &amp; test results</h2>
+        <p class="muted">Scores and how long ${esc(child.name)} took — only you can see this. “Speed” compares her pace to a typical time for her stage and is never shown to her.</p>
+        ${resultsTable(a.results)}
+      </section>
 
       <section class="gu-section">
         <h2>Profile photo</h2>
@@ -138,11 +152,6 @@ async function showDashboard(flash) {
           <input id="paper-total" type="number" min="1" class="paper-num" placeholder="total">
           <button class="primary-btn" id="paper-save">Save score</button>
         </div>
-      </section>
-
-      <section class="gu-section">
-        <h2>Sync across devices</h2>
-        ${syncSectionHTML(child)}
       </section>
 
       <section class="gu-section">
@@ -336,6 +345,27 @@ function recRow(r) {
         <button class="mini-btn" data-go="/lesson/${encodeURIComponent(r.lessonId)}">Teach</button>
         <button class="mini-btn primary" data-go="/practice/${encodeURIComponent(r.lessonId)}">Practise</button>
       </div>
+    </div>`;
+}
+
+function resultsTable(results) {
+  if (!results || !results.length) return `<p class="muted">No exercises or tests completed yet. Scores from practice, assessments, mocks and mental-maths tricks will appear here.</p>`;
+  return `
+    <div class="table-wrap">
+      <table class="skills-table">
+        <thead><tr><th>Exercise / test</th><th>Type</th><th>Best</th><th>Last</th><th>Time</th><th>Speed</th></tr></thead>
+        <tbody>
+          ${results.map((r) => `
+            <tr>
+              <td>${esc(r.title)}</td>
+              <td>${esc(r.kind)}</td>
+              <td>${r.bestScore}%</td>
+              <td>${r.lastScore}%</td>
+              <td>${r.avgSec != null ? Math.round(r.avgSec) + 's/q' : '—'}</td>
+              <td>${r.speed ? `<span class="speed-pill s${r.speed.stars}">${r.speed.emoji} ${esc(r.speed.label)}</span>` : '<span class="muted">—</span>'}</td>
+            </tr>`).join('')}
+        </tbody>
+      </table>
     </div>`;
 }
 

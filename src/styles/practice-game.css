@@ -1,5 +1,14 @@
 /* Practice — set picker, questions, results */
 .practice { max-width: 720px; margin: 0 auto; }
+
+/* Parent: prominent sync card + speed (time-score) pills */
+.sync-hero { border: 2px solid var(--primary); background: var(--background-light); border-radius: var(--border-radius-lg); }
+.sync-hero h2 { margin-top: 0; }
+.speed-pill { display: inline-block; padding: 0.15rem 0.55rem; border-radius: var(--border-radius-lg); font-weight: 700; font-size: 0.8rem; white-space: nowrap; background: var(--background-medium); color: var(--text-dark); }
+.speed-pill.s3 { background: #d8f5e3; color: #1b7f4d; }
+.speed-pill.s2 { background: #e3edff; color: #2a5db0; }
+.speed-pill.s1 { background: #fff3d6; color: #8a5d00; }
+.speed-pill.s0 { background: #ffe0e0; color: #b03a3a; }
 .set-intro { color: var(--text-medium); margin-bottom: var(--spacing-lg); font-size: 1.1rem; }
 .set-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--spacing-md); }
 .set-card {
