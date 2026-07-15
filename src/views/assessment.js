@@ -7,7 +7,7 @@ import { getStageAssessments, ASSESSMENTS_PER_STAGE } from '../data/papers.js';
 import { generateSet } from '../services/question-bank.js';
 import { recordAnswer, recordAttempt, recomputeWeakAreas, logEvent, getProgressMap } from '../services/tracking.js';
 import { getCurrentProfileId } from '../services/profile-manager.js';
-import { celebrate } from '../services/celebrate.js';
+import { celebrate, bismillah } from '../services/celebrate.js';
 
 const PASS = 80;
 let s = null;
@@ -56,6 +56,7 @@ function start(stage, n) {
   s = { stage, n, id: `assessment-s${stage}-${n}`, items, index: 0, score: 0, answers: [], startMs: Date.now(), qShownAt: Date.now() };
   const pid = getCurrentProfileId();
   if (pid) logEvent(pid, 'assessment-start', { stage, n }).catch(() => {});
+  bismillah();
   paintShell();
   paintQuestion();
 }

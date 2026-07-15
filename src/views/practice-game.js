@@ -5,7 +5,7 @@ import { getLesson } from '../data/curriculum.js';
 import { generateSet } from '../services/question-bank.js';
 import { recordAnswer, recordAttempt, logEvent } from '../services/tracking.js';
 import { getCurrentProfileId } from '../services/profile-manager.js';
-import { celebrate } from '../services/celebrate.js';
+import { celebrate, bismillah } from '../services/celebrate.js';
 
 const SETS = [
   { key: 'A', label: 'Set A', count: 6, icon: '🅰️' },
@@ -65,6 +65,7 @@ function startQuiz(lesson, setKey) {
   s = { lesson, set, questions, index: 0, score: 0, answers: [], startedAt: Date.now(), qShownAt: Date.now(), hintUsed: false };
   const pid = getCurrentProfileId();
   if (pid) logEvent(pid, 'game-start', { lessonId: lesson.id, set: set.key }).catch(() => {});
+  bismillah();
   paintShell();
   paintQuestion();
 }

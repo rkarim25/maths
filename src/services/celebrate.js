@@ -10,7 +10,7 @@
 // Respects prefers-reduced-motion (phrase only, no animation).
 // =============================================================================
 import { sayPhrase } from './voice.js';
-import { CELEBRATE_PHRASES, CELEBRATE_BIG } from '../data/phrases.js';
+import { CELEBRATE_PHRASES, CELEBRATE_BIG, START_PHRASES } from '../data/phrases.js';
 
 const STARS = ['⭐', '🌟', '✨', '💜', '🎈', '🎉'];
 const COLORS = ['#FF6B9D', '#4ECDC4', '#FFD93D', '#A78BFA', '#63C779'];
@@ -67,5 +67,21 @@ export function celebrate({ big = false } = {}) {
   setTimeout(() => layer.remove(), big ? 4200 : 3200);
 
   // Say it out loud in Sunny's lively neural voice (TTS fallback inside).
+  sayPhrase(phrase);
+}
+
+/**
+ * Said when she STARTS an exercise: a small "بسم الله — Bismillah" toast with
+ * Sunny saying it in proper Arabic. Non-blocking; fades away on its own.
+ */
+export function bismillah() {
+  const phrase = pick(START_PHRASES);
+  const old = document.getElementById('bismillah-toast');
+  if (old) old.remove();
+  const el = document.createElement('div');
+  el.id = 'bismillah-toast';
+  el.textContent = `بِسْمِ الله — ${phrase.text.replace(/^Bismillah[!—\s]*/i, '')}`;
+  document.body.appendChild(el);
+  setTimeout(() => el.remove(), 2600);
   sayPhrase(phrase);
 }

@@ -5,6 +5,7 @@ import { getLesson, STAGES } from '../data/curriculum.js';
 import { generateSet } from '../services/question-bank.js';
 import { recordAnswer, logEvent } from '../services/tracking.js';
 import { getCurrentProfileId, getProfile, updateProfile } from '../services/profile-manager.js';
+import { bismillah } from '../services/celebrate.js';
 
 // Checkpoints in increasing difficulty. The first one missed is where to start.
 const CHECKPOINTS = [
@@ -43,6 +44,7 @@ function start() {
   s = { items, index: 0, firstWrong: null };
   const pid = getCurrentProfileId();
   if (pid) logEvent(pid, 'placement-start', {}).catch(() => {});
+  bismillah();
   paintShell();
   paintQuestion();
 }

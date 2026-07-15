@@ -766,3 +766,27 @@ a:focus {
 .break-emoji { font-size: 2.4rem; }
 .break-card h2 { font-family: var(--font-heading); color: #7c3aed; margin: 8px 0; }
 .break-card p { line-height: 1.55; margin: 0 0 16px; }
+
+/* --- Bismillah: toast at exercise start + basmala on worksheets --- */
+#bismillah-toast {
+  position: fixed; top: 14px; left: 50%; transform: translateX(-50%) translateY(-8px);
+  z-index: 1050; pointer-events: none;
+  background: #fff; color: #0f766e; border: 2px solid #99e2d0;
+  border-radius: 999px; padding: 9px 22px;
+  font-family: var(--font-heading); font-weight: 800; font-size: 1.05rem;
+  box-shadow: 0 6px 20px rgba(15, 118, 110, .25);
+  opacity: 0; animation: bismillah-in 2.6s ease forwards;
+  max-width: 92vw; text-align: center;
+}
+@keyframes bismillah-in {
+  0% { opacity: 0; transform: translateX(-50%) translateY(-8px); }
+  12% { opacity: 1; transform: translateX(-50%) translateY(0); }
+  80% { opacity: 1; }
+  100% { opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) { #bismillah-toast { animation: none; opacity: 1; } }
+
+.ws-basmala {
+  text-align: center; font-size: 1.15rem; color: #0f766e;
+  margin: 0 0 6px; font-weight: 600;
+}

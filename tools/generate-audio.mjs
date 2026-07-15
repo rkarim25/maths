@@ -13,7 +13,7 @@ import { execFileSync } from 'node:child_process';
 import { mkdirSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
-import { CELEBRATE_PHRASES, CELEBRATE_BIG, BREAK_MESSAGES, speakable, arabicize, hasArabic } from '../src/data/phrases.js';
+import { CELEBRATE_PHRASES, CELEBRATE_BIG, BREAK_MESSAGES, START_PHRASES, speakable, arabicize, hasArabic } from '../src/data/phrases.js';
 
 // English-only lines use Maisie (lively British child voice). Lines with
 // Islamic words are arabicized (Arabic script) and use Ava, a multilingual
@@ -31,7 +31,7 @@ export function speechFor(text) {
 const outDir = join(dirname(fileURLToPath(import.meta.url)), '..', 'src', 'assets', 'audio');
 mkdirSync(outDir, { recursive: true });
 
-const all = [...CELEBRATE_PHRASES, ...CELEBRATE_BIG, ...BREAK_MESSAGES];
+const all = [...CELEBRATE_PHRASES, ...CELEBRATE_BIG, ...BREAK_MESSAGES, ...START_PHRASES];
 for (const p of all) {
   const out = join(outDir, `${p.file}.mp3`);
   const { spoken, voice, rate, pitch } = speechFor(p.text);

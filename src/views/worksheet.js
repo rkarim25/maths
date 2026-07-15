@@ -81,7 +81,7 @@ function headHTML(withFields) {
   const fields = withFields
     ? `<div class="ws-meta"><span>Name: ____________________</span><span>Date: ____________</span><span>Score: ____ / ${state.questions.length}</span></div>`
     : '';
-  return `<div class="ws-head"><h1>${esc(lesson.title)}</h1><p class="ws-obj">${esc(lesson.objective)}</p>${fields}</div>`;
+  return `<div class="ws-head"><p class="ws-basmala">بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ</p><h1>${esc(lesson.title)}</h1><p class="ws-obj">${esc(lesson.objective)}</p>${fields}</div>`;
 }
 
 function exerciseBody() {

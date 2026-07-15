@@ -30,6 +30,12 @@ export const CELEBRATE_BIG = [
   { file: 'big-4', text: 'Allah has given you such a wonderful brain — and you used it beautifully! ✨' }
 ];
 
+// Said when she STARTS an exercise — beginning with Bismillah.
+export const START_PHRASES = [
+  { file: 'start-0', text: 'Bismillah — let’s begin! ✨' },
+  { file: 'start-1', text: 'Bismillah! Here we go, Liyana! 🌟' }
+];
+
 export const BREAK_MESSAGES = [
   { file: 'break-0', text: "Alhamdulillah, what a lot of wonderful brain-work! How about a little stretch and a drink of water? The maths will wait happily for you. 💧🧸" },
   { file: 'break-1', text: 'What a busy brain you have! Time for a wiggle, a stretch and maybe a snack. Everything here will be right where you left it. 🌈' },

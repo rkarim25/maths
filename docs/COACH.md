@@ -34,6 +34,10 @@ Liyana is **clever and highly anxious**. Every word she sees must follow:
    naturally.** Mashallah (admiration), Alhamdulillah (gratitude), InshaAllah
    (future hopes), "Allah has given you a wonderful brain". Warm family
    speech, never preachy or forced — a sprinkle, not a sermon.
+9. **Things begin with Bismillah.** The app says "بسم الله — Bismillah, let's
+   begin!" (toast + Sunny's voice) whenever she starts an exercise, and
+   printed worksheets carry the basmala at the top. Sunny's notes may open
+   with Bismillah when inviting her to start something new.
 
 The publisher (`tools/coach-publish.mjs`) enforces a banned-word list
 (hurry/rush/race/faster/behind/fail/must/…), length caps and route validation.

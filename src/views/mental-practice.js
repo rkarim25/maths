@@ -4,7 +4,7 @@ import { navigateTo } from '../router.js';
 import { getMethod, genQuestions } from '../data/mental-maths.js';
 import { recordAnswer, recordAttempt, logEvent } from '../services/tracking.js';
 import { getCurrentProfileId } from '../services/profile-manager.js';
-import { celebrate } from '../services/celebrate.js';
+import { celebrate, bismillah } from '../services/celebrate.js';
 
 const COUNT = 8;
 let s = null;
@@ -20,6 +20,7 @@ export function renderMentalPractice(arg) {
   s = { method, questions, index: 0, score: 0, startedAt: Date.now(), qShownAt: Date.now() };
   const pid = getCurrentProfileId();
   if (pid) logEvent(pid, 'trick-practice-start', { methodId: id }).catch(() => {});
+  bismillah();
   paintShell();
   paintQuestion();
 }

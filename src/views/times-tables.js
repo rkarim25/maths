@@ -4,7 +4,7 @@
 import { navigateTo } from '../router.js';
 import { recordAnswer, recomputeWeakAreas, logEvent, getAllWeakAreaStats } from '../services/tracking.js';
 import { getCurrentProfileId } from '../services/profile-manager.js';
-import { celebrate } from '../services/celebrate.js';
+import { celebrate, bismillah } from '../services/celebrate.js';
 
 const TABLES = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 const ROUND = 10;
@@ -67,6 +67,7 @@ function startRound(table) {
   s = { table, qs: buildQuestions(table), index: 0, score: 0, streak: 0, best: 0, locked: false };
   const pid = getCurrentProfileId();
   if (pid) logEvent(pid, 'times-tables-start', { table }).catch(() => {});
+  bismillah();
   paintShell();
   paintQuestion();
 }
