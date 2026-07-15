@@ -9,7 +9,7 @@ import { getProgressMap } from '../services/tracking.js';
 import { nextLessonId } from '../services/analysis.js';
 import { getTeaching } from '../data/teaching.js';
 import { isSyncConfigured, isConnected } from '../services/sync.js';
-import { getCoachNote } from '../services/coach.js';
+import { getCoachNote, getCachedNoteSync } from '../services/coach.js';
 import { playB64, stopVoice } from '../services/voice.js';
 
 const TOPIC_EMOJI = {
@@ -99,11 +99,26 @@ export async function renderLessonsTable() {
 // The coach card — a personal note (written nightly, synced via the cloud) and
 // up to three gentle "Do now" tasks. All text is escaped; routes are validated
 // in services/coach.js. See docs/COACH.md.
+//
+// Paints instantly from the cached note (no blank flash), then swaps in the
+// fresh copy ONLY if the words actually changed — so background refreshes are
+// invisible rather than "blippy".
+let coachNote = null;   // freshest note; the 🔊 button always reads this
+
 async function renderCoach(profile) {
-  const el = document.getElementById('coach-card');
-  if (!el) return;
+  const cached = getCachedNoteSync();
+  if (cached) { coachNote = cached; paintCoach(profile, cached); }
   const note = await getCoachNote(profile.profileId, profile.name);
   if (!note || !document.getElementById('coach-card')) return;   // view may have changed
+  const same = cached && JSON.stringify([cached.message, cached.celebrate, cached.doNow])
+    === JSON.stringify([note.message, note.celebrate, note.doNow]);
+  coachNote = note;                       // freshest copy (incl. audio) for 🔊
+  if (!same) paintCoach(profile, note);   // repaint only when the words changed
+}
+
+function paintCoach(profile, note) {
+  const el = document.getElementById('coach-card');
+  if (!el) return;
 
   const face = profile.avatarImage
     ? `<img class="coach-face" src="${profile.avatarImage}" alt="">`
@@ -131,8 +146,10 @@ async function renderCoach(profile) {
   el.querySelectorAll('.coach-task').forEach((b) =>
     b.addEventListener('click', () => { stopVoice(); navigateTo(b.dataset.route); }));
   const sp = document.getElementById('coach-speak');
-  if (sp) sp.addEventListener('click', () =>
-    playB64(note.audioB64, `${note.celebrate ? note.celebrate + '. ' : ''}${note.message}`));
+  if (sp) sp.addEventListener('click', () => {
+    const n = coachNote || note;   // freshest copy carries the audio
+    playB64(n.audioB64, `${n.celebrate ? n.celebrate + '. ' : ''}${n.message}`);
+  });
 }
 
 function renderStageTabs() {

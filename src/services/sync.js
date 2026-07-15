@@ -21,6 +21,11 @@ const CODE_KEY = 'familyCode';
 export const DEFAULT_FAMILY_CODE = '2353';
 
 let db = null, fns = null, familyCode = null, connected = false, unsub = null, pushTimer = null, lastSig = '';
+// The updatedAt stamp of the newest cloud state this device has already
+// merged or written. onSnapshot echoes of our own pushes (and the initial
+// subscription snapshot after a pull) carry a stamp we've seen — skipping
+// them stops the home screen re-rendering ("blipping") for no reason.
+let lastRemoteStamp = 0;
 
 export function isSyncConfigured() { return isConfigured(); }
 export function getFamilyCode() { return localStorage.getItem(CODE_KEY) || ''; }
@@ -62,15 +67,23 @@ export async function pushNow(profileId) {
     (snapshot.profile && snapshot.profile.avatarImage) ? snapshot.profile.avatarImage.length : 0
   ].join('|');
   if (sig === lastSig) return;
-  await fns.setDoc(fns.doc(db, 'families', familyCode), { snapshot, updatedAt: Date.now() });
+  const stamp = Date.now();
+  await fns.setDoc(fns.doc(db, 'families', familyCode), { snapshot, updatedAt: stamp });
   lastSig = sig;    // only after a successful write, so a failed push is retried
+  if (stamp > lastRemoteStamp) lastRemoteStamp = stamp;   // ignore our own echo
 }
 
 export async function pullNow(profileId) {
   if (!connected || !db) return false;
   try {
     const snap = await fns.getDoc(fns.doc(db, 'families', familyCode));
-    if (snap.exists()) { await mergeIn(profileId, snap.data()); return true; }
+    if (snap.exists()) {
+      const data = snap.data();
+      await mergeIn(profileId, data);
+      const stamp = Number(data.updatedAt) || 0;
+      if (stamp > lastRemoteStamp) lastRemoteStamp = stamp;
+      return true;
+    }
   } catch (e) { /* offline — fine */ }
   return false;
 }
@@ -90,7 +103,7 @@ export async function startSync(profileId, onRemote) {
     try { await pullNow(profileId); } catch (e) { /* offline — migrate anyway */ }
     localStorage.setItem(CODE_KEY, DEFAULT_FAMILY_CODE);
     code = DEFAULT_FAMILY_CODE;
-    connected = false; lastSig = '';
+    connected = false; lastSig = ''; lastRemoteStamp = 0;   // stamps are per-document
   }
 
   familyCode = code; connected = true;
@@ -101,7 +114,15 @@ export async function startSync(profileId, onRemote) {
   try {
     unsub = fns.onSnapshot(fns.doc(db, 'families', familyCode), (snap) => {
       if (snap.metadata && snap.metadata.hasPendingWrites) return;   // ignore our own writes
-      if (snap.exists()) mergeIn(profileId, snap.data()).then(() => { if (onRemote) onRemote(); }).catch(() => {});
+      if (!snap.exists()) return;
+      const data = snap.data();
+      // Only genuinely NEW remote state gets merged + re-rendered. The initial
+      // subscription snapshot and server echoes of our own pushes are skipped,
+      // so the page never "blips" while she's using it.
+      const stamp = Number(data.updatedAt) || 0;
+      if (stamp && stamp <= lastRemoteStamp) return;
+      lastRemoteStamp = stamp || lastRemoteStamp;
+      mergeIn(profileId, data).then(() => { if (onRemote) onRemote(); }).catch(() => {});
     });
   } catch (e) { /* noop */ }
 
@@ -113,7 +134,7 @@ export async function startSync(profileId, onRemote) {
 export async function connectSync(code, profileId, onRemote) {
   if (!code || !code.trim()) return false;
   localStorage.setItem(CODE_KEY, code.trim());
-  connected = false; lastSig = '';
+  connected = false; lastSig = ''; lastRemoteStamp = 0;
   if (unsub) { unsub(); unsub = null; }
   await startSync(profileId, onRemote);
   return connected;

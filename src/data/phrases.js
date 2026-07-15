@@ -23,11 +23,11 @@ export const CELEBRATE_PHRASES = [
 ];
 
 export const CELEBRATE_BIG = [
-  { file: 'big-0', text: 'WOW — Mashallah, that was amazing! 🌟✨' },
-  { file: 'big-1', text: 'Three stars — Alhamdulillah, incredible work! ⭐⭐⭐' },
+  { file: 'big-0', text: 'Mashallah! WOW — that was amazing! 🌟✨' },
+  { file: 'big-1', text: 'Three stars — incredible work! Alhamdulillah! ⭐⭐⭐' },
   { file: 'big-2', text: 'You superstar — that was brilliant! 🎉' },
   { file: 'big-3', text: 'Daddy will be so proud — Mashallah! 💜' },
-  { file: 'big-4', text: 'Allah has given you such a wonderful brain — and you used it beautifully! ✨' }
+  { file: 'big-4', text: 'Subhanallah — what a wonderful brain you have! And you used it beautifully! ✨' }
 ];
 
 // Said when she STARTS an exercise — beginning with Bismillah.
@@ -39,7 +39,7 @@ export const START_PHRASES = [
 export const BREAK_MESSAGES = [
   { file: 'break-0', text: "Alhamdulillah, what a lot of wonderful brain-work! How about a little stretch and a drink of water? The maths will wait happily for you. 💧🧸" },
   { file: 'break-1', text: 'What a busy brain you have! Time for a wiggle, a stretch and maybe a snack. Everything here will be right where you left it. 🌈' },
-  { file: 'break-2', text: 'Your brain has been growing and growing, Mashallah! A little rest makes it even stronger — go have a bounce and come back whenever you like. 🎈' }
+  { file: 'break-2', text: 'Mashallah — your brain has been growing and growing! A little rest makes it even stronger — go have a bounce and come back whenever you like. 🎈' }
 ];
 
 /** Strip emoji & symbols so the TTS reads only the words. */
@@ -48,14 +48,18 @@ export function speakable(text) {
 }
 
 // For SPOKEN audio only (display text stays in Latin script): Islamic words
-// are converted to Arabic script so a multilingual neural voice pronounces
-// them with proper Arabic phonology instead of an English accent.
+// are converted to FULLY DIACRITISED Arabic script (tashkeel) so a
+// multilingual neural voice pronounces them properly AND consistently —
+// without the vowel marks the engine guesses, and says them differently in
+// different sentences. Writing rule (docs/COACH.md): keep these words at the
+// START or END of a sentence/clause, never buried mid-flow, so the
+// English↔Arabic voice switch lands on a natural pause.
 const ARABIC_WORDS = [
-  [/mashallah|masha'?\s?allah/gi, 'ما شاء الله'],
-  [/alhamdulillah/gi, 'الحمد لله'],
-  [/inshallah|insha'?\s?allah/gi, 'إن شاء الله'],
-  [/subhanallah/gi, 'سبحان الله'],
-  [/bismillah/gi, 'بسم الله'],
+  [/mashallah|masha'?\s?allah/gi, 'مَا شَاءَ الله'],
+  [/alhamdulillah/gi, 'الْحَمْدُ لِلَّه'],
+  [/inshallah|insha'?\s?allah/gi, 'إِنْ شَاءَ الله'],
+  [/subhanallah/gi, 'سُبْحَانَ الله'],
+  [/bismillah/gi, 'بِسْمِ الله'],
   [/\ballah\b/gi, 'الله']
 ];
 

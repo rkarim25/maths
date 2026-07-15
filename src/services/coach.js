@@ -46,6 +46,14 @@ function readCache() {
   } catch (e) { return null; }
 }
 
+/**
+ * Synchronous best-effort note (localStorage cache only) — lets the view paint
+ * the card instantly with no blank flash while the fresh copy is fetched.
+ */
+export function getCachedNoteSync() {
+  return readCache();
+}
+
 function isStale(note) {
   return !note.updatedAt || (Date.now() - note.updatedAt) > MAX_AGE_MS;
 }

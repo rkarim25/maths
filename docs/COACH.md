@@ -32,8 +32,14 @@ Liyana is **clever and highly anxious**. Every word she sees must follow:
 7. **Short.** 2–4 sentences. She is 6; giant paragraphs are pressure too.
 8. **The family is Muslim — encourage the Islamic way whenever it fits
    naturally.** Mashallah (admiration), Alhamdulillah (gratitude), InshaAllah
-   (future hopes), "Allah has given you a wonderful brain". Warm family
-   speech, never preachy or forced — a sprinkle, not a sermon.
+   (future hopes). Warm family speech, never preachy or forced — a sprinkle,
+   not a sermon. **Writing rule for smooth audio**: put the Islamic word at
+   the START or END of a sentence/clause ("What a lovely day — Alhamdulillah!"),
+   never buried mid-flow ("Allah has given you…" mid-sentence) — the audio
+   pipeline switches voice language on these words, and mid-flow switches
+   sound odd. The words are auto-converted to fully diacritised Arabic script
+   for the audio (`arabicize()` in `src/data/phrases.js`), which keeps the
+   pronunciation proper and consistent.
 9. **Things begin with Bismillah.** The app says "بسم الله — Bismillah, let's
    begin!" (toast + Sunny's voice) whenever she starts an exercise, and
    printed worksheets carry the basmala at the top. Sunny's notes may open

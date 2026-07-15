@@ -35,10 +35,14 @@ async function fetchLiveBuildId() {
   return data && data.buildId ? String(data.buildId) : null;
 }
 
-async function checkOnce() {
+// `mayReload` is true only at moments where a reload is invisible or natural:
+// page arrival and visibility transitions. A mid-session interval tick never
+// reloads while she's looking at the screen — it would read as a glitch.
+async function checkOnce(mayReload) {
   try {
     const live = await fetchLiveBuildId();
     if (!live || live === currentBuildId()) return;
+    if (!mayReload && document.visibilityState === 'visible') return;   // wait for a natural moment
     // Newer build deployed. Reload once for it, and only from a safe screen.
     if (sessionStorage.getItem(RELOADED_KEY) === live) return;
     if (!onSafeScreen()) return;              // try again on the next check
@@ -48,9 +52,7 @@ async function checkOnce() {
 }
 
 export function startUpdateCheck() {
-  checkOnce();
-  setInterval(checkOnce, CHECK_EVERY_MS);
-  document.addEventListener('visibilitychange', () => {
-    if (document.visibilityState === 'visible') checkOnce();
-  });
+  checkOnce(true);                                   // page just loaded — natural moment
+  setInterval(() => checkOnce(false), CHECK_EVERY_MS);   // background: only if tab hidden
+  document.addEventListener('visibilitychange', () => checkOnce(true));
 }
