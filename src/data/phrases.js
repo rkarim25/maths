@@ -40,3 +40,25 @@ export const BREAK_MESSAGES = [
 export function speakable(text) {
   return text.replace(/[^\p{L}\p{N}\s,.!?'’—-]/gu, '').replace(/\s+/g, ' ').trim();
 }
+
+// For SPOKEN audio only (display text stays in Latin script): Islamic words
+// are converted to Arabic script so a multilingual neural voice pronounces
+// them with proper Arabic phonology instead of an English accent.
+const ARABIC_WORDS = [
+  [/mashallah|masha'?\s?allah/gi, 'ما شاء الله'],
+  [/alhamdulillah/gi, 'الحمد لله'],
+  [/inshallah|insha'?\s?allah/gi, 'إن شاء الله'],
+  [/subhanallah/gi, 'سبحان الله'],
+  [/bismillah/gi, 'بسم الله'],
+  [/\ballah\b/gi, 'الله']
+];
+
+export function arabicize(text) {
+  let t = text;
+  for (const [re, ar] of ARABIC_WORDS) t = t.replace(re, ar);
+  return t;
+}
+
+export function hasArabic(text) {
+  return /[؀-ۿ]/.test(text);
+}

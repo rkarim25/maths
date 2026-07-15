@@ -33,5 +33,5 @@ body { background: #fff !important; padding: 0 !important; color: #000 !importan
 .story-emoji, .lc-icon, .icon-btn { animation: none !important; }
 
 /* Never print the floating avatar or the coach note */
-#avatar-badge, .coach-card { display: none !important; }
+#home-fab, .coach-card { display: none !important; }
 .celebration, #break-overlay { display: none !important; }

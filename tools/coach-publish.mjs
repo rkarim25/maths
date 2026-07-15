@@ -24,6 +24,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { getLesson } from '../src/data/curriculum.js';
 import { getMethod } from '../src/data/mental-maths.js';
+import { arabicize, hasArabic } from '../src/data/phrases.js';
 
 const PROJECT = 'kid-s-maths';
 const API_KEY = 'AIzaSyAgdobBWYUdPmxpyxdUpSUkdSysqYQbNBE';
@@ -94,11 +95,16 @@ if (errs.length) {
 // (`pip install edge-tts`) the note still publishes, and the app falls back
 // to the browser voice for this note only.
 try {
-  const spoken = [clean.celebrate, clean.message].filter(Boolean).join('. ')
-    .replace(/[^\p{L}\p{N}\s,.!?'’—-]/gu, '').replace(/\s+/g, ' ').trim();
+  // Islamic words become Arabic script + the multilingual voice, so they are
+  // pronounced properly rather than with an English accent.
+  const spoken = arabicize([clean.celebrate, clean.message].filter(Boolean).join('. ')
+    .replace(/[^\p{L}\p{N}\s,.!?'’—-]/gu, '').replace(/\s+/g, ' ').trim());
+  const v = hasArabic(spoken)
+    ? { voice: 'en-US-AvaMultilingualNeural', rate: '+5%', pitch: '+10Hz' }
+    : { voice: 'en-GB-MaisieNeural', rate: '+8%', pitch: '+15Hz' };
   const tmp = join(tmpdir(), `sunny-note-${Date.now()}.mp3`);
   execFileSync('python', [
-    '-m', 'edge_tts', '--voice', 'en-GB-MaisieNeural', '--rate', '+8%', '--pitch', '+15Hz',
+    '-m', 'edge_tts', '--voice', v.voice, '--rate', v.rate, '--pitch', v.pitch,
     '--text', spoken, '--write-media', tmp
   ], { stdio: ['ignore', 'ignore', 'pipe'] });
   const b64 = readFileSync(tmp).toString('base64');

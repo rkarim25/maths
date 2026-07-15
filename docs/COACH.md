@@ -73,17 +73,25 @@ app (any synced device) ──> src/services/coach.js  (2nd guardrail layer: san
 - **Done-fold**: mastered lessons collapse into a "🏅 n finished — hooray!"
   strip per topic so she never scrolls past finished work; one tap reopens
   them for replays.
-- **Voice**: Sunny speaks with a real neural voice (Microsoft
-  `en-GB-MaisieNeural`, a lively British child voice), NOT the mechanical
-  browser speech. Fixed phrases (celebrations, break messages) are
-  pre-generated mp3s in `src/assets/audio/` — the single source of phrase text
-  is `src/data/phrases.js`; after ANY text change run
-  `node tools/generate-audio.mjs` (needs `pip install edge-tts`) and commit
-  the mp3s. Sunny's nightly note gets its audio generated automatically by
-  `tools/coach-publish.mjs` at publish time (stored as `audioB64` in the coach
-  doc; skipped gracefully if edge-tts is missing). Browser TTS
-  (`src/services/tts.js`, tuned to the best available voice) is only the
-  fallback, and still narrates stories/explanations.
+- **Voice**: Sunny speaks with real neural voices, NOT the mechanical browser
+  speech. English-only lines use `en-GB-MaisieNeural` (lively British child
+  voice); any line with Islamic words is converted to Arabic script by
+  `arabicize()` in `src/data/phrases.js` (Mashallah → ما شاء الله etc.) and
+  voiced by `en-US-AvaMultilingualNeural`, which pronounces the Arabic
+  properly instead of with an English accent. Display text always stays in
+  Latin script — only the AUDIO uses Arabic script. Fixed phrases
+  (celebrations, break messages) are pre-generated mp3s in `src/assets/audio/`
+  — the single source of phrase text is `src/data/phrases.js`; after ANY text
+  change run `node tools/generate-audio.mjs` (needs `pip install edge-tts`)
+  and commit the mp3s. Sunny's nightly note gets its audio generated
+  automatically by `tools/coach-publish.mjs` at publish time (same
+  voice-selection rule; stored as `audioB64` in the coach doc; skipped
+  gracefully if edge-tts is missing). Browser TTS (`src/services/tts.js`) is
+  only the fallback, and still narrates stories/explanations.
+- **Home button** (`src/services/home-button.js`): a floating 🏠 on every
+  screen except home and print views. (This replaced an earlier floating
+  avatar — a house is intuitive; her photo lives in the home header and
+  Sunny's card.)
 
 ## Nightly routine (scheduled task `nightly-coach-update`)
 

@@ -692,15 +692,18 @@ a:focus {
 .coach-task-label { flex: 1; font-weight: 700; }
 .coach-sign { margin: 12px 0 0; font-style: italic; color: #6b7280; font-size: .95rem; }
 
-/* --- Floating avatar (her photo on every screen) --- */
-#avatar-badge {
+/* --- Floating Home button (every screen except home + print) --- */
+#home-fab {
   position: fixed; top: 10px; right: 10px; z-index: 900;
-  width: 44px; height: 44px; padding: 0; border-radius: 50%;
-  border: 2px solid #d9c2f0; background: #fff; overflow: hidden;
+  display: flex; align-items: center; gap: 6px;
+  padding: 8px 14px; border-radius: 999px;
+  border: 2px solid #d9c2f0; background: #fff; color: #7c3aed;
+  font-family: var(--font-heading); font-weight: 800; font-size: .95rem;
   box-shadow: 0 2px 8px rgba(0,0,0,.18); cursor: pointer;
 }
-#avatar-badge img { width: 100%; height: 100%; object-fit: cover; display: block; }
-#avatar-badge:hover { transform: scale(1.06); }
+#home-fab:hover { transform: scale(1.05); background: #f7f3ff; }
+.home-fab-icon { font-size: 1.15rem; line-height: 1; }
+@media (max-width: 480px) { .home-fab-label { display: none; } #home-fab { padding: 8px 10px; } }
 
 /* --- "Learnt" tick on mental-maths / hub list items --- */
 .puz-done {
