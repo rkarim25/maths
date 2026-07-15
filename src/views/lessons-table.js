@@ -10,7 +10,7 @@ import { nextLessonId } from '../services/analysis.js';
 import { getTeaching } from '../data/teaching.js';
 import { isSyncConfigured, isConnected } from '../services/sync.js';
 import { getCoachNote } from '../services/coach.js';
-import { speak, stopSpeaking } from '../services/tts.js';
+import { playB64, stopVoice } from '../services/voice.js';
 
 const TOPIC_EMOJI = {
   'Counting': '🔢', 'Number bonds': '🔗', 'Adding & taking away': '➕', 'Adding & subtracting': '➕',
@@ -129,10 +129,10 @@ async function renderCoach(profile) {
     </div>`;
 
   el.querySelectorAll('.coach-task').forEach((b) =>
-    b.addEventListener('click', () => { stopSpeaking(); navigateTo(b.dataset.route); }));
+    b.addEventListener('click', () => { stopVoice(); navigateTo(b.dataset.route); }));
   const sp = document.getElementById('coach-speak');
   if (sp) sp.addEventListener('click', () =>
-    speak(`${note.celebrate ? note.celebrate + '. ' : ''}${note.message}`));
+    playB64(note.audioB64, `${note.celebrate ? note.celebrate + '. ' : ''}${note.message}`));
 }
 
 function renderStageTabs() {

@@ -5,7 +5,8 @@
 // Tone per docs/COACH.md: an invitation, never a telling-off, and it makes
 // clear the maths will wait for her.
 // =============================================================================
-import { speak, stopSpeaking } from './tts.js';
+import { sayPhrase, stopVoice } from './voice.js';
+import { BREAK_MESSAGES } from '../data/phrases.js';
 
 const FIRST_AT_MS = 30 * 60 * 1000;     // first nudge after 30 active minutes
 const REPEAT_MS = 15 * 60 * 1000;       // then every 15 active minutes
@@ -13,12 +14,6 @@ const TICK_MS = 5000;
 const KEY_ACTIVE = 'activeMsToday';     // active ms, per calendar day
 const KEY_SHOWN = 'breakShownAtMs';     // active-ms mark when last shown
 const KEY_DAY = 'activeMsDay';
-
-const MESSAGES = [
-  "You've been doing such lovely thinking for a whole half hour! How about a little stretch and a drink of water? The maths will wait happily for you. 💧🧸",
-  "What a lot of wonderful brain-work! Time for a wiggle, a stretch and maybe a snack. Everything here will be right where you left it. 🌈",
-  "Your brain has been busy growing! A little rest makes it even stronger — go have a bounce and come back whenever you like. 🎈"
-];
 
 let started = false;
 
@@ -47,17 +42,17 @@ export function startBreakReminder() {
 }
 
 function showOverlay() {
-  const msg = MESSAGES[Math.floor(Math.random() * MESSAGES.length)];
+  const msg = BREAK_MESSAGES[Math.floor(Math.random() * BREAK_MESSAGES.length)];
   const el = document.createElement('div');
   el.id = 'break-overlay';
   el.innerHTML = `
     <div class="break-card" role="dialog" aria-label="Break time suggestion">
       <div class="break-emoji">🧸💧</div>
       <h2>Little break time?</h2>
-      <p>${msg}</p>
+      <p>${msg.text}</p>
       <button class="primary-btn" id="break-ok">Okay! I'll be back 👋</button>
     </div>`;
   document.body.appendChild(el);
-  document.getElementById('break-ok').addEventListener('click', () => { stopSpeaking(); el.remove(); });
-  speak(msg.replace(/[^\p{L}\p{N}\s,.!?'’—-]/gu, ''));
+  document.getElementById('break-ok').addEventListener('click', () => { stopVoice(); el.remove(); });
+  sayPhrase(msg);
 }

@@ -31,7 +31,8 @@ export async function getCoachNote(profileId, profileName) {
   if (isConnected()) {
     const raw = await fetchCoachDoc();
     note = sanitize(raw);
-    if (note) { try { localStorage.setItem(CACHE_KEY, JSON.stringify(note)); } catch (e) { /* full — fine */ } }
+    // Cache without the audio (it's big; the cache is a text fallback only).
+    if (note) { try { localStorage.setItem(CACHE_KEY, JSON.stringify({ ...note, audioB64: '' })); } catch (e) { /* full — fine */ } }
   }
   if (!note) note = readCache();
   if (!note) note = await localFallback(profileId, profileName);
@@ -73,6 +74,8 @@ function sanitize(raw) {
     celebrate: clip(raw.celebrate, 140),
     signoff: clip(raw.signoff, 48) || 'Sunny 🦉 — Daddy’s helper',
     updatedAt: Number(raw.updatedAt) || 0,
+    // Sunny's voice for this note (mp3, base64) — strict shape & size check.
+    audioB64: (typeof raw.audioB64 === 'string' && raw.audioB64.length <= 800000 && /^[A-Za-z0-9+/=]+$/.test(raw.audioB64)) ? raw.audioB64 : '',
     doNow: []
   };
   if (isStale(note)) return null;

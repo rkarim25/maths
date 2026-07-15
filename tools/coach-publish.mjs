@@ -18,7 +18,10 @@
 //   "planNote":  "1-2 sentences for the PARENTS' dashboard/email, not shown to her (optional)"
 // }
 // =============================================================================
-import { readFileSync } from 'node:fs';
+import { readFileSync, rmSync } from 'node:fs';
+import { execFileSync } from 'node:child_process';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
 import { getLesson } from '../src/data/curriculum.js';
 import { getMethod } from '../src/data/mental-maths.js';
 
@@ -86,6 +89,26 @@ if (errs.length) {
   process.exit(1);
 }
 
+// Generate the note's audio in Sunny's lively neural voice (same voice as the
+// pre-generated phrase clips). Optional: if edge-tts isn't installed
+// (`pip install edge-tts`) the note still publishes, and the app falls back
+// to the browser voice for this note only.
+try {
+  const spoken = [clean.celebrate, clean.message].filter(Boolean).join('. ')
+    .replace(/[^\p{L}\p{N}\s,.!?'’—-]/gu, '').replace(/\s+/g, ' ').trim();
+  const tmp = join(tmpdir(), `sunny-note-${Date.now()}.mp3`);
+  execFileSync('python', [
+    '-m', 'edge_tts', '--voice', 'en-GB-MaisieNeural', '--rate', '+8%', '--pitch', '+15Hz',
+    '--text', spoken, '--write-media', tmp
+  ], { stdio: ['ignore', 'ignore', 'pipe'] });
+  const b64 = readFileSync(tmp).toString('base64');
+  rmSync(tmp, { force: true });
+  if (b64.length <= 700000) { clean.audioB64 = b64; }
+  else console.error(`note audio too large (${b64.length} b64 chars) — publishing without audio`);
+} catch (e) {
+  console.error('note audio skipped (is edge-tts installed? `pip install edge-tts`):', e.message.split('\n')[0]);
+}
+
 // Firestore typed encoding
 const enc = (v) => {
   if (v === null) return { nullValue: null };
@@ -109,4 +132,4 @@ const res = await fetch(url, {
   body: JSON.stringify({ fields: Object.fromEntries(Object.entries(clean).map(([k, v]) => [k, enc(v)])) })
 });
 if (!res.ok) { console.error('Firestore write failed:', res.status, await res.text()); process.exit(1); }
-console.log('published coach note ✓', JSON.stringify({ chars: clean.message.length, tasks: clean.doNow.length, celebrate: !!clean.celebrate }));
+console.log('published coach note ✓', JSON.stringify({ chars: clean.message.length, tasks: clean.doNow.length, celebrate: !!clean.celebrate, audio: !!clean.audioB64 }));

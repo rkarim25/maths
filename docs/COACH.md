@@ -30,6 +30,10 @@ Liyana is **clever and highly anxious**. Every word she sees must follow:
 6. **Assessments are "show what you know"**, never a test she can fail. Skip
    them entirely when she's practising plenty (see cadence below).
 7. **Short.** 2–4 sentences. She is 6; giant paragraphs are pressure too.
+8. **The family is Muslim — encourage the Islamic way whenever it fits
+   naturally.** Mashallah (admiration), Alhamdulillah (gratitude), InshaAllah
+   (future hopes), "Allah has given you a wonderful brain". Warm family
+   speech, never preachy or forced — a sprinkle, not a sermon.
 
 The publisher (`tools/coach-publish.mjs`) enforces a banned-word list
 (hurry/rush/race/faster/behind/fail/must/…), length caps and route validation.
@@ -69,9 +73,17 @@ app (any synced device) ──> src/services/coach.js  (2nd guardrail layer: san
 - **Done-fold**: mastered lessons collapse into a "🏅 n finished — hooray!"
   strip per topic so she never scrolls past finished work; one tap reopens
   them for replays.
-- **Voice** (`src/services/tts.js`): stories, notes and celebrations use the
-  liveliest natural voice available (neural "online natural" voices first),
-  pitched bright and chirpy.
+- **Voice**: Sunny speaks with a real neural voice (Microsoft
+  `en-GB-MaisieNeural`, a lively British child voice), NOT the mechanical
+  browser speech. Fixed phrases (celebrations, break messages) are
+  pre-generated mp3s in `src/assets/audio/` — the single source of phrase text
+  is `src/data/phrases.js`; after ANY text change run
+  `node tools/generate-audio.mjs` (needs `pip install edge-tts`) and commit
+  the mp3s. Sunny's nightly note gets its audio generated automatically by
+  `tools/coach-publish.mjs` at publish time (stored as `audioB64` in the coach
+  doc; skipped gracefully if edge-tts is missing). Browser TTS
+  (`src/services/tts.js`, tuned to the best available voice) is only the
+  fallback, and still narrates stories/explanations.
 
 ## Nightly routine (scheduled task `nightly-coach-update`)
 

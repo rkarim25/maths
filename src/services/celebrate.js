@@ -9,35 +9,18 @@
 // popping confetti over a struggle would feel mocking.
 // Respects prefers-reduced-motion (phrase only, no animation).
 // =============================================================================
-import { speak } from './tts.js';
+import { sayPhrase } from './voice.js';
+import { CELEBRATE_PHRASES, CELEBRATE_BIG } from '../data/phrases.js';
 
-const PHRASES = [
-  'Well done, Liyana! 🌟',
-  'Mashallah! Beautiful work! ✨',
-  'Good job — you did it! 🎉',
-  "You're doing so well! 💜",
-  'What lovely careful thinking! 🧠',
-  'Super work, superstar! ⭐',
-  'Mashallah — what a star! 🌟',
-  'You should feel so proud! 🥰',
-  'Hooray for you! 🎈',
-  'Brilliant — high five! 🙌'
-];
-const BIG_PHRASES = [
-  'WOW — Mashallah, amazing! 🌟✨',
-  'Three stars — incredible work! ⭐⭐⭐',
-  'You superstar — that was brilliant! 🎉',
-  'Daddy will be so proud — Mashallah! 💜'
-];
 const STARS = ['⭐', '🌟', '✨', '💜', '🎈', '🎉'];
 const COLORS = ['#FF6B9D', '#4ECDC4', '#FFD93D', '#A78BFA', '#63C779'];
 
-let lastPhrase = '';
+let lastFile = '';
 
 function pick(list) {
   let p = list[Math.floor(Math.random() * list.length)];
-  if (p === lastPhrase && list.length > 1) p = list[(list.indexOf(p) + 1) % list.length];
-  lastPhrase = p;
+  if (p.file === lastFile && list.length > 1) p = list[(list.indexOf(p) + 1) % list.length];
+  lastFile = p.file;
   return p;
 }
 
@@ -46,7 +29,7 @@ function pick(list) {
  * Safe to call from any view; cleans itself up.
  */
 export function celebrate({ big = false } = {}) {
-  const phrase = pick(big ? BIG_PHRASES : PHRASES);
+  const phrase = pick(big ? CELEBRATE_BIG : CELEBRATE_PHRASES);
   const reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   const layer = document.createElement('div');
@@ -77,13 +60,12 @@ export function celebrate({ big = false } = {}) {
 
   const card = document.createElement('div');
   card.className = 'celebrate-phrase' + (big ? ' celebrate-big' : '');
-  card.textContent = phrase;
+  card.textContent = phrase.text;
   layer.appendChild(card);
 
   document.body.appendChild(layer);
   setTimeout(() => layer.remove(), big ? 4200 : 3200);
 
-  // Say it out loud in the chirpy voice (strip the emoji for speech).
-  const spoken = phrase.replace(/[^\p{L}\p{N}\s,!'’—-]/gu, '').trim();
-  if (spoken) speak(spoken);
+  // Say it out loud in Sunny's lively neural voice (TTS fallback inside).
+  sayPhrase(phrase);
 }
