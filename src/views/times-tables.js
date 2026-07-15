@@ -4,6 +4,7 @@
 import { navigateTo } from '../router.js';
 import { recordAnswer, recomputeWeakAreas, logEvent, getAllWeakAreaStats } from '../services/tracking.js';
 import { getCurrentProfileId } from '../services/profile-manager.js';
+import { celebrate } from '../services/celebrate.js';
 
 const TABLES = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 const ROUND = 10;
@@ -144,6 +145,7 @@ async function finish() {
         <button class="secondary-btn" id="done-btn">Back to lessons</button>
       </div>
     </div>`;
+  if (percent >= 50) celebrate({ big: stars >= 3 });
   document.getElementById('again-btn').addEventListener('click', () => startRound(s.table));
   document.getElementById('pick-btn').addEventListener('click', () => navigateTo('/times-tables'));
   document.getElementById('done-btn').addEventListener('click', () => navigateTo('/lessons'));

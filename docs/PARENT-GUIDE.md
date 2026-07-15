@@ -11,6 +11,20 @@ tablet or computer. It opens straight into Liyana's lessons — no login.
   **Turn on sync**. Do this once on each device and progress, scores and the
   profile photo stay the same everywhere, automatically.
 
+## Sunny — her coach 🦉
+
+Liyana's home screen greets her with **"A little note from Sunny"** — Daddy's
+helper owl. Sunny's note is refreshed every night (site health is checked at
+the same time), celebrates something true from her recent work, and offers up
+to three gentle "if you fancy it" choices. Finishing an exercise pops a little
+celebration — confetti, stars and a cheerful "Well done!"/"Mashallah!" in a
+chirpy voice — and after 30 minutes of play a soft message suggests a stretch
+and a drink. Lessons she has mastered fold away into a "🏅 finished — hooray!"
+strip so she never scrolls past done work. Every Sunday evening you both get
+an email summary including anything she needs help with and any lesson videos
+worth recording (they appear in the app as the "Dad's video 👨‍👧" button).
+The full design and tone rules live in [docs/COACH.md](COACH.md).
+
 ## What's on the home page
 
 - **Stages 1–4** — Year 1 counting through 11+ prep, 89 lessons in a table.

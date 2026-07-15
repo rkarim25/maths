@@ -34,3 +34,4 @@ body { background: #fff !important; padding: 0 !important; color: #000 !importan
 
 /* Never print the floating avatar or the coach note */
 #avatar-badge, .coach-card { display: none !important; }
+.celebration, #break-overlay { display: none !important; }

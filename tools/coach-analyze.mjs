@@ -13,6 +13,7 @@
 // =============================================================================
 import { LESSONS, getLesson } from '../src/data/curriculum.js';
 import { getMethod } from '../src/data/mental-maths.js';
+import { getTeaching } from '../src/data/teaching.js';
 
 const SITE = 'https://rkarim25.github.io/maths/';
 const PROJECT = 'kid-s-maths';
@@ -119,6 +120,20 @@ const progressOut = progress
 const completedIds = new Set(progress.filter((p) => p.status === 'completed').map((p) => p.episodeId));
 const nextOnPath = LESSONS.find((l) => !completedIds.has(l.id));
 
+// The next few lessons she'll reach, with content flags — lessons missing a
+// video are things Dad could record (the app shows a "Dad's video" button the
+// moment `dadVideo` is set in curriculum.js). Feeds the weekly parent email.
+const upcoming = LESSONS.filter((l) => !completedIds.has(l.id)).slice(0, 6).map((l) => {
+  const t = getTeaching(l.id);
+  return {
+    id: l.id, title: l.title, topic: l.topic, route: `/lesson/${l.id}`,
+    hasStory: !!(t && t.story && t.story.scenes && t.story.scenes.length),
+    hasVideo: !!(l.youtubeId || l.videoUrl),
+    hasDadVideo: !!l.dadVideo
+  };
+});
+const videoGaps = upcoming.filter((l) => !l.hasVideo && !l.hasDadVideo);
+
 // Assessment cadence: suggest one when practice data is thin or none taken recently.
 const assessAnswers = answers.filter((a) => /^s[1-4]-a|assessment|mock/i.test(a.episodeId || ''));
 const assessEvents = (snap.usage_events || []).filter((e) => e.eventType === 'lesson-complete' && /assessment|mock|^s[1-4]-a/i.test((e.metadata && e.metadata.lessonId) || ''));
@@ -143,6 +158,8 @@ console.log(JSON.stringify({
   progress: progressOut,
   totals: { completed: completedIds.size, started: progress.length, totalLessons: LESSONS.length },
   nextOnPath: nextOnPath ? { id: nextOnPath.id, title: nextOnPath.title || nextOnPath.objective, route: `/lesson/${nextOnPath.id}` } : null,
+  upcoming,
+  videoGaps,
   assessment: { lastAssessment, daysSinceAssessment, needsAssessment },
   currentCoachNote: coachDoc ? { message: coachDoc.message, celebrate: coachDoc.celebrate, doNow: coachDoc.doNow, updatedAt: coachDoc.updatedAt } : null
 }, null, 2));

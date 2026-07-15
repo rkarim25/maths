@@ -1,8 +1,15 @@
-# The Coach — nightly monitoring, Liyana's note, and the parent email
+# Sunny the Coach — nightly monitoring, Liyana's note, and the parent email
 
 This is the operating manual for Liyana's coaching system. The nightly and
 weekly scheduled tasks follow this document; any chat session can also run the
 steps by hand. Read it fully before changing anything a child will see.
+
+**The coach has a name: Sunny 🦉 — "Daddy's helper".** Every child-facing
+message is from Sunny (default signoff `Sunny 🦉 — Daddy's helper`); the home
+card is titled "A little note from Sunny 💌". Sunny is warm, chirpy and on her
+side — Daddy asked Sunny to keep her company, and that framing (a friend sent
+by someone who loves her) is part of the design for an anxious child. Keep the
+voice consistent; never rename Sunny casually.
 
 ## Who this is for (tone contract — read first)
 
@@ -48,7 +55,32 @@ app (any synced device) ──> src/services/coach.js  (2nd guardrail layer: san
 - If the routine stops running, notes go stale and the app falls back to a
   gentle generic message after 7 days — it never shows ancient instructions.
 
+## In-app encouragement (no routine needed — built into the site)
+
+- **Celebrations** (`src/services/celebrate.js`): finishing a practice set,
+  mental trick, tables round or assessment at ≥50% pops floating confetti and
+  stars with a spoken phrase — "Well done!", "Mashallah! Beautiful work!",
+  "You're doing so well!" — extra sparkle for 3 stars. Below 50% the views keep
+  their gentle "nice try" message instead (confetti over a struggle would feel
+  mocking). Respects reduced-motion.
+- **Break reminder** (`src/services/break-reminder.js`): after 30 minutes of
+  actual visible use in a day, a soft overlay suggests a stretch and a drink
+  ("the maths will wait for you"); repeats at most every 15 active minutes.
+- **Done-fold**: mastered lessons collapse into a "🏅 n finished — hooray!"
+  strip per topic so she never scrolls past finished work; one tap reopens
+  them for replays.
+- **Voice** (`src/services/tts.js`): stories, notes and celebrations use the
+  liveliest natural voice available (neural "online natural" voices first),
+  pitched bright and chirpy.
+
 ## Nightly routine (scheduled task `nightly-coach-update`)
+
+Runs every night at ~21:08 **but sends no email, ever** — the weekly task is
+the only email. She won't use the app every night: quiet days are normal, the
+note must never guilt her about absence, and a recent note (< 5 days) may
+simply be left in place. The nightly job's real priorities are (1) site
+health — check and FIX issues (failed deploys, broken build) — and (2) keeping
+Sunny's note fresh when there is something new to say.
 
 Working directory: `C:\Users\Reza Karim\OneDrive\Children_Maths`.
 
@@ -84,11 +116,18 @@ Send via the Zapier Gmail connector to **rkarim88@gmail.com** and
 
 Contents (plain, warm, factual — this is for adults):
 - The week at a glance: answers, accuracy, minutes, days active, new lessons
-  mastered, tricks learnt.
+  mastered, tricks learnt. Quiet weeks reported plainly, no drama.
 - What she's finding easy / where the wobbles are (skill names + accuracy).
-- What the coach has been suggesting (recent planNotes) and what's next.
+- **How you can help** (always included):
+  - *Videos to record*: the analyzer's `videoGaps` lists upcoming lessons with
+    no video — ask Dad to record short ones (they appear in the app as the
+    "Dad's video 👨‍👧" button once `dadVideo` is set on the lesson in
+    `curriculum.js`).
+  - *Where she could use a hand*: one concrete parent action per wobble skill
+    (count coins together, print the worksheet and sit with her, …).
+- What Sunny has been suggesting (recent planNotes) and what's next.
 - Site health line (uptime issues, sync anomalies — e.g. extra `fam-…` docs).
-- Keep it under ~300 words. No attachments needed.
+- Keep it under ~350 words. No attachments needed.
 
 If Gmail/Zapier is unavailable in the scheduled run, save the report to
 `docs/reports/YYYY-MM-DD.md` instead and say so in the completion summary so

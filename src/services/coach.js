@@ -71,7 +71,7 @@ function sanitize(raw) {
   const note = {
     message,
     celebrate: clip(raw.celebrate, 140),
-    signoff: clip(raw.signoff, 48) || 'Your Maths Coach 🦉',
+    signoff: clip(raw.signoff, 48) || 'Sunny 🦉 — Daddy’s helper',
     updatedAt: Number(raw.updatedAt) || 0,
     doNow: []
   };
@@ -99,9 +99,9 @@ async function localFallback(profileId, profileName) {
     if (lesson) doNow = [{ label: `Try “${lesson.title}”`, route: `/lesson/${lesson.id}`, emoji: '🌟' }];
   } catch (e) { /* fine */ }
   return {
-    message: `Hello ${name}! Lovely to see you. Pick whatever looks fun today — one little step at a time is exactly right. I'm so proud of how you keep going. 💜`,
+    message: `Hello ${name}! It's me, Sunny — Daddy asked me to keep you company while you play. Pick whatever looks fun today — one little step at a time is exactly right. I'm so proud of how you keep going. 💜`,
     celebrate: '',
-    signoff: 'Your Maths Coach 🦉',
+    signoff: 'Sunny 🦉 — Daddy’s helper',
     updatedAt: Date.now(),
     doNow
   };

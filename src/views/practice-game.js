@@ -5,6 +5,7 @@ import { getLesson } from '../data/curriculum.js';
 import { generateSet } from '../services/question-bank.js';
 import { recordAnswer, recordAttempt, logEvent } from '../services/tracking.js';
 import { getCurrentProfileId } from '../services/profile-manager.js';
+import { celebrate } from '../services/celebrate.js';
 
 const SETS = [
   { key: 'A', label: 'Set A', count: 6, icon: '🅰️' },
@@ -209,27 +210,10 @@ async function finish() {
       </div>
     </div>
   `;
-  if (stars >= 2) confetti();
+  if (percent >= 50) celebrate({ big: stars >= 3 });
   document.getElementById('again-btn').addEventListener('click', () => startQuiz(s.lesson, s.set.key));
   document.getElementById('another-btn').addEventListener('click', () => showSetPicker(s.lesson));
   document.getElementById('done-btn').addEventListener('click', () => navigateTo('/lessons'));
-}
-
-function confetti() {
-  const layer = document.createElement('div');
-  layer.className = 'celebration';
-  const colors = ['#FF6B9D', '#4ECDC4', '#FFD93D', '#A78BFA', '#63C779'];
-  for (let i = 0; i < 60; i++) {
-    const p = document.createElement('div');
-    p.className = 'confetti-piece';
-    p.style.left = `${Math.random() * 100}%`;
-    p.style.background = colors[i % colors.length];
-    p.style.animationDelay = `${Math.random() * 1.5}s`;
-    p.style.opacity = '1';
-    layer.appendChild(p);
-  }
-  document.body.appendChild(layer);
-  setTimeout(() => layer.remove(), 5000);
 }
 
 function escapeHtml(str) {

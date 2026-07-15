@@ -23,17 +23,22 @@ covering 4 stages from Year 1 counting up to 11+ prep.
   build is deployed ([src/services/update-check.js](src/services/update-check.js)).
   A device stuck on a pre-July-2026 build needs one manual reload first.
 
-## The coach (nightly note + parent email)
+## Sunny the coach (nightly note + weekly parent email)
 
-Liyana is clever and **highly anxious** — every word she sees follows the tone
-contract in **[docs/COACH.md](docs/COACH.md)** (read it before touching
-anything child-facing). A nightly scheduled task (`nightly-coach-update`) runs
-`tools/coach-analyze.mjs` (site health + usage analysis), writes a warm note +
-"Do now" tasks through `tools/coach-publish.mjs` (guardrails; never bypass)
-into Firestore `families/2353-coach`; the app renders it via
-`src/services/coach.js` (second guardrail layer) as the coach card on the home
-screen. A weekly task (`weekly-parent-email`, Sundays) emails a factual summary
-to rkarim88@gmail.com + sabatarif.15@gmail.com via the Zapier Gmail connector.
+The coach is named **Sunny 🦉 — "Daddy's helper"**. Liyana is clever and
+**highly anxious** — every word she sees follows the tone contract in
+**[docs/COACH.md](docs/COACH.md)** (read it before touching anything
+child-facing). A nightly scheduled task (`nightly-coach-update`, 21:08) checks
+site health and FIXES issues, runs `tools/coach-analyze.mjs`, and refreshes
+Sunny's note through `tools/coach-publish.mjs` (guardrails; never bypass) into
+Firestore `families/2353-coach`; the app renders it via `src/services/coach.js`
+(second guardrail layer). The nightly task **never emails**; the only email is
+`weekly-parent-email` (Sundays) to rkarim88@gmail.com + sabatarif.15@gmail.com
+via the Zapier Gmail connector, including a "How you can help" section with
+video-recording requests from the analyzer's `videoGaps`. In-app encouragement
+is built in: `celebrate.js` (confetti + spoken "Well done/Mashallah" on ≥50%
+finishes), `break-reminder.js` (gentle stretch nudge after 30 active minutes),
+done-fold collapsing of mastered lessons, chirpy natural TTS voice.
 
 ## Content model (source of truth)
 

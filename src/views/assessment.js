@@ -7,6 +7,7 @@ import { getStageAssessments, ASSESSMENTS_PER_STAGE } from '../data/papers.js';
 import { generateSet } from '../services/question-bank.js';
 import { recordAnswer, recordAttempt, recomputeWeakAreas, logEvent, getProgressMap } from '../services/tracking.js';
 import { getCurrentProfileId } from '../services/profile-manager.js';
+import { celebrate } from '../services/celebrate.js';
 
 const PASS = 80;
 let s = null;
@@ -143,6 +144,7 @@ async function finish() {
         <button class="secondary-btn" id="done-btn">Back to lessons</button>
       </div>
     </div>`;
+  if (percent >= 50) celebrate({ big: passed });
   document.querySelectorAll('[data-go]').forEach((b) => b.addEventListener('click', () => navigateTo(b.dataset.go)));
   document.getElementById('retake-btn').addEventListener('click', () => start(s.stage, s.n));
   document.getElementById('more-btn').addEventListener('click', () => navigateTo(`/assessment/${s.stage}`));

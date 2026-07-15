@@ -4,6 +4,7 @@ import { ensureSingleProfile, setCurrentProfileId } from './services/profile-man
 import { logEvent } from './services/tracking.js';
 import { startSync } from './services/sync.js';
 import { startUpdateCheck } from './services/update-check.js';
+import { startBreakReminder } from './services/break-reminder.js';
 import { refreshRoute } from './router.js';
 
 // App state
@@ -43,6 +44,8 @@ export async function initApp() {
     startSync(profile.profileId, onSync).catch(() => {});
     // Reload stale cached builds automatically (old iPad Safari copies etc.).
     startUpdateCheck();
+    // Gentle "have a stretch" nudge after 30 active minutes.
+    startBreakReminder();
 
     appState.initialized = true;
   } catch (error) {

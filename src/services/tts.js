@@ -7,12 +7,15 @@ function pickVoice() {
   const voices = window.speechSynthesis.getVoices();
   if (!voices.length) return null;
   const find = (re) => voices.find((v) => re.test(v.name));
-  // Prefer known natural/expressive voices, then a friendly female en voice.
+  // Prefer the modern "natural" neural voices (liveliest by far), then known
+  // expressive voices, then any friendly female en voice.
   return (
+    voices.find((v) => /^en/i.test(v.lang) && /natural|online/i.test(v.name) && /(Maisie|Libby|Sonia|Aria|Jenny|Ana)/i.test(v.name)) ||
+    voices.find((v) => /^en/i.test(v.lang) && /natural|online/i.test(v.name)) ||
     find(/Google UK English Female/i) ||
     find(/Google US English/i) ||
     find(/Microsoft (Libby|Sonia|Maisie|Aria|Jenny|Hazel)/i) ||
-    find(/(Samantha|Karen|Moira|Tessa|Fiona|Female)/i) ||
+    find(/(Samantha|Karen|Martha|Moira|Tessa|Fiona|Female)/i) ||
     voices.find((v) => /^en-GB/i.test(v.lang)) ||
     voices.find((v) => /^en/i.test(v.lang)) ||
     voices[0]
@@ -34,8 +37,8 @@ export function speak(text) {
   if (!preferred) preferred = pickVoice();
   const u = new SpeechSynthesisUtterance(text);
   if (preferred) { u.voice = preferred; u.lang = preferred.lang; }
-  u.rate = 0.95;   // a touch slower so a young child can follow
-  u.pitch = 1.3;   // higher = brighter and chirpier
+  u.rate = 1.0;    // lively but still easy for a young child to follow
+  u.pitch = 1.35;  // higher = brighter and chirpier
   u.volume = 1;
   window.speechSynthesis.speak(u);
 }

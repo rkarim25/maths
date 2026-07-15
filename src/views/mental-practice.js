@@ -4,6 +4,7 @@ import { navigateTo } from '../router.js';
 import { getMethod, genQuestions } from '../data/mental-maths.js';
 import { recordAnswer, recordAttempt, logEvent } from '../services/tracking.js';
 import { getCurrentProfileId } from '../services/profile-manager.js';
+import { celebrate } from '../services/celebrate.js';
 
 const COUNT = 8;
 let s = null;
@@ -130,6 +131,7 @@ async function finish() {
         <button class="secondary-btn" id="all-btn">All methods</button>
       </div>
     </div>`;
+  if (percent >= 50) celebrate({ big: stars >= 3 });
   document.getElementById('again-btn').addEventListener('click', () => renderMentalPractice(s.method.id));
   document.getElementById('method-btn').addEventListener('click', () => navigateTo('/mental-maths'));
   document.getElementById('all-btn').addEventListener('click', () => navigateTo('/mental-maths'));

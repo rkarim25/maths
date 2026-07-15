@@ -119,7 +119,7 @@ async function renderCoach(profile) {
     <div class="coach-card">
       <div class="coach-head">
         ${face}
-        <p class="coach-title">A little note for you 💌</p>
+        <p class="coach-title">A little note from Sunny 💌</p>
         <button class="icon-btn coach-speak" id="coach-speak" title="Read to me">🔊</button>
       </div>
       ${note.celebrate ? `<p class="coach-celebrate">🎉 ${escapeHtml(note.celebrate)}</p>` : ''}
@@ -190,12 +190,20 @@ function renderGroups(progressMap) {
   const topics = getTopicsForStage(currentStage);
   wrap.innerHTML = topics.map((topic) => {
     const lessons = getLessonsByTopic(currentStage, topic);
+    // Mastered lessons fold away into a compact strip so she never has to
+    // scroll past what's already done — one tap re-opens them for a replay.
+    const done = lessons.filter((l) => progressMap[l.id] && progressMap[l.id].status === 'completed');
+    const todo = lessons.filter((l) => !done.includes(l));
+    const doneFold = done.length ? `
+      <details class="done-fold">
+        <summary>🏅 ${done.length} finished — hooray! <span class="done-hint">tap to peek</span></summary>
+        <div class="lesson-cards">${done.map((l) => cardHTML(l, progressMap[l.id])).join('')}</div>
+      </details>` : '';
     return `
       <section class="lesson-group">
         <h2 class="group-title"><span class="group-emoji">${TOPIC_EMOJI[topic] || '⭐'}</span> ${escapeHtml(topic)}</h2>
-        <div class="lesson-cards">
-          ${lessons.map((l) => cardHTML(l, progressMap[l.id])).join('')}
-        </div>
+        ${todo.length ? `<div class="lesson-cards">${todo.map((l) => cardHTML(l, progressMap[l.id])).join('')}</div>` : ''}
+        ${doneFold}
       </section>
     `;
   }).join('') + `

@@ -66,7 +66,7 @@ function validRoute(route) {
 const clean = {
   message: checkText('message', note.message, 550, true),
   celebrate: checkText('celebrate', note.celebrate, 130),
-  signoff: checkText('signoff', note.signoff, 40) || 'Your Maths Coach 🦉',
+  signoff: checkText('signoff', note.signoff, 48) || 'Sunny 🦉 — Daddy’s helper',
   planNote: checkText('planNote', note.planNote, 400),
   updatedAt: Date.now(),
   doNow: []
