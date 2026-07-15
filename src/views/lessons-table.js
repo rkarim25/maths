@@ -9,6 +9,8 @@ import { getProgressMap } from '../services/tracking.js';
 import { nextLessonId } from '../services/analysis.js';
 import { getTeaching } from '../data/teaching.js';
 import { isSyncConfigured, isConnected } from '../services/sync.js';
+import { getCoachNote } from '../services/coach.js';
+import { speak, stopSpeaking } from '../services/tts.js';
 
 const TOPIC_EMOJI = {
   'Counting': '🔢', 'Number bonds': '🔗', 'Adding & taking away': '➕', 'Adding & subtracting': '➕',
@@ -66,6 +68,8 @@ export async function renderLessonsTable() {
         <button class="chip" id="ql-book">📚 Print book</button>
       </div>
 
+      <section id="coach-card"></section>
+
       <div class="stage-tabs" id="stage-tabs"></div>
       <div id="placement-banner"></div>
       <div id="continue-banner"></div>
@@ -89,6 +93,46 @@ export async function renderLessonsTable() {
   renderStageTabs();
   renderContinue(progressMap);
   renderGroups(progressMap);
+  renderCoach(profile).catch(() => {});   // fills in when ready; never blocks the page
+}
+
+// The coach card — a personal note (written nightly, synced via the cloud) and
+// up to three gentle "Do now" tasks. All text is escaped; routes are validated
+// in services/coach.js. See docs/COACH.md.
+async function renderCoach(profile) {
+  const el = document.getElementById('coach-card');
+  if (!el) return;
+  const note = await getCoachNote(profile.profileId, profile.name);
+  if (!note || !document.getElementById('coach-card')) return;   // view may have changed
+
+  const face = profile.avatarImage
+    ? `<img class="coach-face" src="${profile.avatarImage}" alt="">`
+    : `<span class="coach-face coach-face-emoji">🦉</span>`;
+  const tasks = (note.doNow || []).map((t, i) =>
+    `<button class="coach-task" data-route="${escapeHtml(t.route)}">
+       <span class="coach-task-emoji">${escapeHtml(t.emoji)}</span>
+       <span class="coach-task-label">${escapeHtml(t.label)}</span>
+       <span class="cb-arrow">→</span>
+     </button>`).join('');
+
+  el.innerHTML = `
+    <div class="coach-card">
+      <div class="coach-head">
+        ${face}
+        <p class="coach-title">A little note for you 💌</p>
+        <button class="icon-btn coach-speak" id="coach-speak" title="Read to me">🔊</button>
+      </div>
+      ${note.celebrate ? `<p class="coach-celebrate">🎉 ${escapeHtml(note.celebrate)}</p>` : ''}
+      <p class="coach-msg">${escapeHtml(note.message)}</p>
+      ${tasks ? `<p class="coach-donow-label">If you fancy it today:</p><div class="coach-tasks">${tasks}</div>` : ''}
+      <p class="coach-sign">— ${escapeHtml(note.signoff)}</p>
+    </div>`;
+
+  el.querySelectorAll('.coach-task').forEach((b) =>
+    b.addEventListener('click', () => { stopSpeaking(); navigateTo(b.dataset.route); }));
+  const sp = document.getElementById('coach-speak');
+  if (sp) sp.addEventListener('click', () =>
+    speak(`${note.celebrate ? note.celebrate + '. ' : ''}${note.message}`));
 }
 
 function renderStageTabs() {

@@ -2,6 +2,7 @@
   "name": "liyanas-maths-adventure",
   "version": "1.0.0",
   "description": "A gamified math learning platform for children preparing for 11+ exams",
+  "type": "module",
   "main": "src/main.js",
   "scripts": {
     "dev": "vite",

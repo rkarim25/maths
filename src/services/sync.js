@@ -119,6 +119,20 @@ export async function connectSync(code, profileId, onRemote) {
   return connected;
 }
 
+// --- Coach note --------------------------------------------------------------
+// The nightly coach routine writes an encouraging note + "do now" tasks to a
+// SEPARATE document (families/2353-coach) — separate so pushNow, which replaces
+// the whole snapshot document, can never wipe it. Read-only from the app; only
+// available once this device has joined the family (sync on), so a random
+// visitor to the public site never sees Liyana's personal note.
+export async function fetchCoachDoc() {
+  if (!connected || !db) return null;
+  try {
+    const snap = await fns.getDoc(fns.doc(db, 'families', `${familyCode}-coach`));
+    return snap.exists() ? snap.data() : null;
+  } catch (e) { return null; }
+}
+
 export function disconnectSync() {
   localStorage.removeItem(CODE_KEY);
   connected = false;

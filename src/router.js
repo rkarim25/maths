@@ -19,6 +19,7 @@ import { renderMentalMaths } from './views/mental-maths.js';
 import { renderMentalPractice } from './views/mental-practice.js';
 import { renderSync } from './views/sync.js';
 import { getCurrentProfileId } from './services/profile-manager.js';
+import { updateAvatarBadge } from './services/avatar-badge.js';
 
 // Static routes: hash -> render()
 const STATIC_ROUTES = {
@@ -69,6 +70,8 @@ function handleRouteChange() {
     navigateTo('/profiles');
     return;
   }
+
+  updateAvatarBadge(hash).catch(() => {});
 
   for (const route of DYNAMIC_ROUTES) {
     if (hash.startsWith(route.prefix)) {

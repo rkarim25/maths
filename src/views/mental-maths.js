@@ -5,6 +5,8 @@ import { navigateTo } from '../router.js';
 import { getMethods, getMethod } from '../data/mental-maths.js';
 import { getMentalDiagram } from '../data/mental-diagrams.js';
 import { speak, stopSpeaking } from '../services/tts.js';
+import { getProgressMap } from '../services/tracking.js';
+import { getCurrentProfileId } from '../services/profile-manager.js';
 
 const LEVELS = ['Starter', 'Builder', 'Speedster'];
 const LEVEL_CLASS = { Starter: 'easy', Builder: 'medium', Speedster: 'tricky' };
@@ -13,11 +15,22 @@ export function renderMentalMaths() {
   showList();
 }
 
-function showList() {
+async function showList() {
   stopSpeaking();
   const app = document.getElementById('app');
   if (!app) return;
   const methods = getMethods();
+  // Show a ✓ on tricks she has already practised to mastery (progress rows
+  // are recorded under `trick-{id}` and sync across devices).
+  let progressMap = {};
+  try { progressMap = await getProgressMap(getCurrentProfileId()); } catch (e) { /* fine */ }
+  const doneBadge = (m) => {
+    const p = progressMap[`trick-${m.id}`];
+    if (!p || !p.attempts) return '';
+    return p.status === 'completed'
+      ? '<span class="puz-done" title="Learnt!">✓ Learnt</span>'
+      : '<span class="puz-done puz-trying" title="Practising">…practising</span>';
+  };
   const groups = LEVELS.map((lvl) => {
     const items = methods.filter((m) => m.level === lvl);
     if (!items.length) return '';
@@ -25,6 +38,7 @@ function showList() {
       <button class="puz-item" data-id="${m.id}">
         <span class="puz-emoji">${m.emoji}</span>
         <span class="puz-item-title">${esc(m.title)}</span>
+        ${doneBadge(m)}
         <span class="puz-level ${LEVEL_CLASS[lvl]}">${lvl}</span>
       </button>`).join('')}</div>`;
   }).join('');

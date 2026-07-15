@@ -1,0 +1,115 @@
+# The Coach — nightly monitoring, Liyana's note, and the parent email
+
+This is the operating manual for Liyana's coaching system. The nightly and
+weekly scheduled tasks follow this document; any chat session can also run the
+steps by hand. Read it fully before changing anything a child will see.
+
+## Who this is for (tone contract — read first)
+
+Liyana is **clever and highly anxious**. Every word she sees must follow:
+
+1. **Warm, never pushy.** Offer, don't instruct: "whenever you feel like it",
+   "if you fancy it". Never "you should/must/need to".
+2. **Praise effort and strategy, not speed or talent.** "Your careful thinking
+   shows" — never "you're so fast/smart".
+3. **No time pressure, no comparisons, no streak-guilt.** Never mention how
+   long since she last practised, never "don't break your streak", never
+   compare to other children or to expectations.
+4. **Normalise struggle gently.** Tricky ≠ bad: "if something feels tricky,
+   that means your brain is growing". Never name a topic as a weakness to her;
+   frame practice as a game she's already good at.
+5. **Small and doable.** At most 3 suggestions; one is always something she
+   already loves and succeeds at (a confidence anchor).
+6. **Assessments are "show what you know"**, never a test she can fail. Skip
+   them entirely when she's practising plenty (see cadence below).
+7. **Short.** 2–4 sentences. She is 6; giant paragraphs are pressure too.
+
+The publisher (`tools/coach-publish.mjs`) enforces a banned-word list
+(hurry/rush/race/faster/behind/fail/must/…), length caps and route validation.
+That list is the FLOOR, not the standard — write kindly, don't just dodge the
+filter.
+
+## Architecture
+
+```
+nightly task ──> node tools/coach-analyze.mjs   (site health + usage analysis, read-only)
+             ──> <Claude writes the note, following this doc>
+             ──> node tools/coach-publish.mjs note.json   (guardrails, then writes Firestore)
+                                    │
+                    Firestore families/2353-coach  (separate doc — pushNow can't wipe it)
+                                    │
+app (any synced device) ──> src/services/coach.js  (2nd guardrail layer: sanitise,
+                            route whitelist, 7-day staleness fallback, esc() rendering)
+                        ──> coach card on the home screen + "Do now" buttons
+```
+
+- The app only fetches the note on devices joined to the family (sync on), so
+  a random visitor to the public site never sees it.
+- If the routine stops running, notes go stale and the app falls back to a
+  gentle generic message after 7 days — it never shows ancient instructions.
+
+## Nightly routine (scheduled task `nightly-coach-update`)
+
+Working directory: `C:\Users\Reza Karim\OneDrive\Children_Maths`.
+
+1. `node tools/coach-analyze.mjs` → JSON report: site health, last-7-days
+   answers/accuracy/minutes/days-active, per-skill accuracy, wobbles (<80%
+   with ≥4 attempts), progress, next lesson on the path, assessment cadence,
+   and the current note (don't repeat yourself two nights running).
+2. **Site check**: if `site.ok` is false, diagnose (is github.io up? did the
+   last deploy break something?). Fix what you can; anything needing the user
+   goes in the completion summary AND the weekly email.
+3. **Write the note** (see schema in `tools/coach-publish.mjs` header):
+   - `celebrate`: one specific, true win from the data.
+   - `message`: 2–4 sentences per the tone contract.
+   - `doNow`: 1–3 tasks — typically (a) the next lesson on the path or a story
+     she hasn't seen, (b) one confidence anchor (something she's mastered,
+     framed as fun), (c) a wobble skill dressed as a game, or a new
+     mental-maths trick. Vary day to day; check `currentCoachNote`.
+   - `planNote`: 1–2 factual sentences for the parents (they see this in the
+     weekly email; she never sees it).
+4. **Assessment cadence** ("from time to time", not a drumbeat):
+   - Include ONE assessment task (`/assessment/{her stage}`) only if
+     `last7days.answers < 60` **or** `assessment.daysSinceAssessment` is null
+     or > 21 — and never two nights in a row. Frame it as
+     "show off what you know — no rush, just for fun".
+5. `node tools/coach-publish.mjs <note.json>` — if it refuses, rephrase and
+   retry. Never bypass it, never write `families/2353` (the snapshot doc)
+   directly.
+
+## Weekly parent email (scheduled task `weekly-parent-email`, Sundays)
+
+Send via the Zapier Gmail connector to **rkarim88@gmail.com** and
+**sabatarif.15@gmail.com**. Subject: `Liyana's maths week — <date>`.
+
+Contents (plain, warm, factual — this is for adults):
+- The week at a glance: answers, accuracy, minutes, days active, new lessons
+  mastered, tricks learnt.
+- What she's finding easy / where the wobbles are (skill names + accuracy).
+- What the coach has been suggesting (recent planNotes) and what's next.
+- Site health line (uptime issues, sync anomalies — e.g. extra `fam-…` docs).
+- Keep it under ~300 words. No attachments needed.
+
+If Gmail/Zapier is unavailable in the scheduled run, save the report to
+`docs/reports/YYYY-MM-DD.md` instead and say so in the completion summary so
+the user can forward it.
+
+## Manual operations
+
+```bash
+node tools/coach-analyze.mjs                 # read-only report
+node tools/coach-publish.mjs note.json       # validate + publish a note
+```
+
+Inspect or delete the coach doc via the Firestore REST commands in
+[SYNC.md](SYNC.md) (document `families/2353-coach`).
+
+## Hard rules (guardrails recap)
+
+- Everything Liyana sees goes through `coach-publish.mjs` → Firestore →
+  `src/services/coach.js`. **Both** layers validate; neither renders HTML.
+- Never write to `families/2353` (the snapshot) — only `families/2353-coach`.
+- Never connect a test browser to family code 2353 (pollutes her real data).
+- Never mention monitoring/analysis/data to Liyana — she just has a coach who
+  believes in her.
+- Parents' emails get facts; Liyana gets warmth. Don't mix the two voices.
