@@ -1,26 +1,30 @@
 // =============================================================================
 // Cross-device cloud sync via Firebase Firestore (loaded lazily from the
-// official gstatic CDN, only when configured). Both devices use the SAME
-// "family code" → they read/write one shared Firestore document, so Liyana's
-// progress follows her everywhere.
+// official gstatic CDN, only when configured). Every device uses the SAME
+// family code — 2353, the same number as the parent PIN — so they all
+// read/write one shared Firestore document (families/2353) and Liyana's
+// progress and photo follow her everywhere.
 //
 // Strategy: pull on start + live onSnapshot (remote changes) + debounced push.
 // Merging is additive (importData upserts), so answers from both devices unite.
 // If not configured, every function is a safe no-op.
+//
+// See docs/SYNC.md for the full design and troubleshooting guide.
 // =============================================================================
 import { firebaseConfig, isConfigured } from '../config/firebase.js';
 
 const FB = 'https://www.gstatic.com/firebasejs/10.12.2/';
 const CODE_KEY = 'familyCode';
 
+// One family, one code. 2353 is also the parent PIN, so there is a single
+// number to remember: it unlocks the Grown-ups area AND joins a device to sync.
+export const DEFAULT_FAMILY_CODE = '2353';
+
 let db = null, fns = null, familyCode = null, connected = false, unsub = null, pushTimer = null, lastSig = '';
 
 export function isSyncConfigured() { return isConfigured(); }
 export function getFamilyCode() { return localStorage.getItem(CODE_KEY) || ''; }
 export function isConnected() { return connected; }
-export function makeFamilyCode() {
-  return 'fam-' + Math.random().toString(36).slice(2, 8) + Math.random().toString(36).slice(2, 6);
-}
 
 async function loadFirebase() {
   if (db) return true;
@@ -49,10 +53,17 @@ async function mergeIn(profileId, data) {
 export async function pushNow(profileId) {
   if (!connected || !db) return;
   const snapshot = await snapshotFor(profileId);
-  const sig = `${(snapshot.answer_log || []).length}|${(snapshot.progress || []).length}|${(snapshot.summary && snapshot.summary.lastActive) || ''}`;
-  if (sig === lastSig) return;          // nothing new since last push
-  lastSig = sig;
+  // Skip the write when nothing has changed since the last successful push.
+  // The photo length is part of the signature so a photo-only change syncs too.
+  const sig = [
+    (snapshot.answer_log || []).length,
+    (snapshot.progress || []).length,
+    (snapshot.summary && snapshot.summary.lastActive) || '',
+    (snapshot.profile && snapshot.profile.avatarImage) ? snapshot.profile.avatarImage.length : 0
+  ].join('|');
+  if (sig === lastSig) return;
   await fns.setDoc(fns.doc(db, 'families', familyCode), { snapshot, updatedAt: Date.now() });
+  lastSig = sig;    // only after a successful write, so a failed push is retried
 }
 
 export async function pullNow(profileId) {
@@ -66,13 +77,26 @@ export async function pullNow(profileId) {
 
 export async function startSync(profileId, onRemote) {
   if (!isConfigured()) return;
-  const code = getFamilyCode();
+  let code = getFamilyCode();
   if (!code) return;
   if (!(await loadFirebase())) return;
+
+  // Migration (July 2026): older builds suggested a random 'fam-…' code per
+  // device, which split the family across different cloud documents (the iPad
+  // ended up alone on its own code). Pull this device's old document once so
+  // nothing is lost, then hop onto the single family code.
+  if (code !== DEFAULT_FAMILY_CODE && code.startsWith('fam-')) {
+    familyCode = code; connected = true;
+    try { await pullNow(profileId); } catch (e) { /* offline — migrate anyway */ }
+    localStorage.setItem(CODE_KEY, DEFAULT_FAMILY_CODE);
+    code = DEFAULT_FAMILY_CODE;
+    connected = false; lastSig = '';
+  }
+
   familyCode = code; connected = true;
 
   await pullNow(profileId);
-  await pushNow(profileId);
+  try { await pushNow(profileId); } catch (e) { /* offline — the timer retries */ }
 
   try {
     unsub = fns.onSnapshot(fns.doc(db, 'families', familyCode), (snap) => {
@@ -89,7 +113,7 @@ export async function startSync(profileId, onRemote) {
 export async function connectSync(code, profileId, onRemote) {
   if (!code || !code.trim()) return false;
   localStorage.setItem(CODE_KEY, code.trim());
-  connected = false;
+  connected = false; lastSig = '';
   if (unsub) { unsub(); unsub = null; }
   await startSync(profileId, onRemote);
   return connected;

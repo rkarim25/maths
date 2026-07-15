@@ -4,22 +4,22 @@ const DB_VERSION = 1;
 
 // Database instance
 let dbInstance = null;
+let dbPromise = null;
 
 /**
  * Initialize the database
  * @returns {Promise<IDBDatabase>} The database instance
  */
 export function initializeDatabase() {
-  return new Promise((resolve, reject) => {
-    if (dbInstance) {
-      resolve(dbInstance);
-      return;
-    }
-
+  // Cache the in-flight promise so concurrent callers during startup share one
+  // connection instead of each opening their own.
+  if (dbPromise) return dbPromise;
+  dbPromise = new Promise((resolve, reject) => {
     const request = indexedDB.open(DB_NAME, DB_VERSION);
 
     request.onerror = () => {
       console.error('Database failed to open');
+      dbPromise = null;    // allow a retry
       reject(new Error('Failed to open database'));
     };
 
@@ -78,6 +78,7 @@ export function initializeDatabase() {
       console.log('Database schema created');
     };
   });
+  return dbPromise;
 }
 
 /**

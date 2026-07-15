@@ -4,7 +4,7 @@
 import { navigateTo } from '../router.js';
 import { getCurrentProfileId } from '../services/profile-manager.js';
 import {
-  isSyncConfigured, getFamilyCode, isConnected, makeFamilyCode,
+  isSyncConfigured, getFamilyCode, isConnected, DEFAULT_FAMILY_CODE,
   connectSync, disconnectSync, pushNow, pullNow
 } from '../services/sync.js';
 
@@ -17,7 +17,7 @@ export function renderSync() {
 
   let body;
   if (!isSyncConfigured()) {
-    body = `<p class="muted">Cloud sync isn't switched on for this app yet. The one-time setup is in <strong>SYNC-SETUP.md</strong>.</p>`;
+    body = `<p class="muted">Cloud sync isn't switched on for this app yet. The one-time setup is in <strong>docs/SYNC.md</strong>.</p>`;
   } else if (connected) {
     body = `
       <div class="sync-status on">☁️ Sync is ON — saving automatically</div>
@@ -30,17 +30,16 @@ export function renderSync() {
         <button class="danger-btn" id="syncoff-btn">Turn off on this device</button>
       </div>`;
   } else {
-    const suggested = code || makeFamilyCode();
+    const suggested = code || DEFAULT_FAMILY_CODE;
     body = `
       <div class="sync-status off">Sync is off on this device</div>
       <ol class="sync-steps">
-        <li>Pick a family code (we made one for you below) and tap <strong>Turn on sync</strong>.</li>
-        <li>On every other device, open this Sync page and enter the <strong>same</strong> code.</li>
+        <li>The family code is <strong>${esc(DEFAULT_FAMILY_CODE)}</strong> — the same number as the parent PIN.</li>
+        <li>Tap <strong>Turn on sync</strong> below. Do the same on every other device.</li>
         <li>That's it — from then on it syncs automatically.</li>
       </ol>
       <div class="sync-row">
         <input id="famcode-input" class="answer-input sync-input" placeholder="family code" value="${esc(suggested)}">
-        <button class="secondary-btn" id="gencode-btn">New code</button>
       </div>
       <div class="sync-row">
         <button class="primary-btn" id="syncon-btn">Turn on sync</button>
@@ -60,9 +59,6 @@ export function renderSync() {
     </div>`;
 
   document.getElementById('back-btn').addEventListener('click', () => navigateTo('/lessons'));
-
-  const gen = document.getElementById('gencode-btn');
-  if (gen) gen.addEventListener('click', () => { document.getElementById('famcode-input').value = makeFamilyCode(); });
 
   const on = document.getElementById('syncon-btn');
   if (on) on.addEventListener('click', async () => {

@@ -3,6 +3,7 @@ import { initializeDatabase } from './services/db.js';
 import { ensureSingleProfile, setCurrentProfileId } from './services/profile-manager.js';
 import { logEvent } from './services/tracking.js';
 import { startSync } from './services/sync.js';
+import { startUpdateCheck } from './services/update-check.js';
 import { refreshRoute } from './router.js';
 
 // App state
@@ -40,6 +41,8 @@ export async function initApp() {
     // updates (e.g. the profile photo) appear without a manual refresh.
     const onSync = () => { const h = window.location.hash; if (h.includes('/lessons') || h.includes('/grownups')) refreshRoute(); };
     startSync(profile.profileId, onSync).catch(() => {});
+    // Reload stale cached builds automatically (old iPad Safari copies etc.).
+    startUpdateCheck();
 
     appState.initialized = true;
   } catch (error) {

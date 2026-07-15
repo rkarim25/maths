@@ -1,218 +1,67 @@
-# Parent Guide
+# Parent Guide — Liyana's Maths Adventure
 
-Welcome to Liyana's Maths Adventure! This guide will help you understand how to support your child's learning journey with this educational platform.
+The app lives at **https://rkarim25.github.io/maths/** and works on any phone,
+tablet or computer. It opens straight into Liyana's lessons — no login.
 
-## Getting Started
+## The one number to remember: 2353
 
-### Creating a Profile
-1. When you first open the application, you'll see the "Who's Playing?" screen
-2. Click "Create New Player" to set up your child's profile
-3. Enter your child's name and customize their avatar
-4. Optionally, set a 4-digit PIN for parent access to the dashboard
-5. Click "Create Player" to finish
+- **🔒 Grown-ups** (top right) → enter PIN **2353** → progress reports,
+  exports, paper-score entry, photo, PIN settings.
+- **☁️ Sync** (top right) → family code **2353** is prefilled → tap
+  **Turn on sync**. Do this once on each device and progress, scores and the
+  profile photo stay the same everywhere, automatically.
 
-### Switching Between Children
-- Anytime you want to switch players, click "Switch Player" from the main menu
-- Each child has their own isolated progress and rewards
+## What's on the home page
 
-## Navigating the World
+- **Stages 1–4** — Year 1 counting through 11+ prep, 89 lessons in a table.
+  Each lesson has **Story**, **Explain**, **Practice** (Set A / Set B /
+  Challenge), **Print** (worksheet with answer key) and often a **Video**.
+- **🎯 Level check** — a quick adaptive check that finds the right starting
+  lesson.
+- **🔢 Learn tables / 🧮 Tables drill** — times tables, learn then drill.
+- **🧠 Mental maths** — 32 in-your-head methods (make ten, doubling,
+  Trachtenberg/Vedic tricks…), each with a picture, steps and practice.
+- **🧩 Puzzles / 🌍 Real-world / ✨ Maths fun** — brain-teasers, applied maths,
+  enrichment reading.
+- **📝 Mock exams** — five 40-question mixed papers, freshly generated each
+  time (11+ style — expect them to be hard for younger stages).
+- **📚 Print book** — print a whole stage as a booklet / PDF.
+- **When you're ready** — 10 assessments per stage.
 
-### The Kingdom Map
-The main screen shows the "Kingdom of Numberland" with different lands representing math strands:
-- **Castle of Counting**: Number and place value
-- **Mountain of Operations**: Addition, subtraction, multiplication, division
-- **Forest of Shapes**: Geometry
-- **River of Patterns**: Algebra and sequences
-- **Tower of Puzzles**: Mixed review and 11+ preparation
+## Progress reports (Grown-ups area, PIN 2353)
 
-Each land shows your child's progress with star ratings.
+- Accuracy, lessons mastered, time practising, and a **speed score** (her pace
+  vs. typical — captured silently, never shown to her).
+- Every exercise/test result with scores and dates.
+- **Suggested next lessons** based on weak areas.
+- **Record a paper score** — did she do a worksheet on paper? Enter the score
+  and it updates progress and recommendations.
+- **Export** — Download JSON (full history, good for asking a chat session for
+  a lesson plan) or CSV of every answer. Import merges on another device.
 
-### Exploring Lands
-- Click on any land to see the episodes available
-- Episodes unlock sequentially as your child progresses
-- Each episode includes a story lesson, practice game, and assessment
+## Sync — how to check it's working
 
-## Progress Tracking
+Home page, top right: **☁️✓** means this device is syncing; plain **☁️** means
+it isn't — tap it and turn sync on (code 2353). Both devices must show ☁️✓.
+Full details and troubleshooting: [docs/SYNC.md](SYNC.md).
 
-### Parent Dashboard
-Access the parent dashboard by:
-1. Clicking "Parent Dashboard" from the main menu
-2. Entering your 4-digit PIN (if set)
+## If the app looks old / new features are missing
 
-The dashboard shows:
-- Time spent learning
-- Episodes completed
-- Accuracy trends
-- Weak areas needing attention
-- Gems and stickers collected
+The app updates itself within about 15 minutes of a new release. A device
+that hasn't been used since before mid-July 2026 needs **one manual refresh**
+(pull down to reload in Safari, or close and reopen the tab) — after that it
+keeps itself current.
 
-### Weekly Reports
-The dashboard automatically generates weekly reports showing:
-- Progress over the past week
-- Improvement in specific skills
-- Recommended focus areas for the coming week
+## Privacy
 
-### Data Export
-You can export your child's progress data in multiple formats:
-- **JSON**: Complete data dump for technical analysis
-- **CSV**: Spreadsheet-friendly format for custom analysis
-- **PDF**: Printable report for sharing with tutors
+Data is saved on the device and — once sync is on — in a private Firebase
+database owned by the family, under the family code. Nothing is shared with
+any third party. The site is public, so anyone with the exact code could in
+principle read the sync data; the code is kept simple on purpose because
+usability for one family matters more here than secrecy.
 
-## Supporting Your Child's Learning
+## Forgotten PIN?
 
-### Encouraging Regular Practice
-- Set a consistent time for math practice each day
-- Celebrate achievements like new stickers and gems
-- Encourage your child to replay episodes they enjoyed
-
-### Addressing Challenges
-- Use the weak areas section of the dashboard to identify struggles
-- Encourage your child to use hints when stuck rather than giving up
-- Consider having your child explain their thinking to reinforce understanding
-
-### Monitoring Progress
-- Check the dashboard weekly to track improvement
-- Look for patterns in the types of problems that are challenging
-- Celebrate mastery of skills with your child
-
-## Technical Information
-
-### Offline Capability
-Once loaded, the application works offline. Your child can continue learning even without internet access.
-
-### Data Privacy
-All data is stored locally on your device. No personal information is sent to any servers.
-
-### Device Compatibility
-The application works on:
-- Desktop computers (Chrome, Firefox, Safari, Edge)
-- Tablets (iPad, Android tablets)
-- Smartphones (iOS, Android)
-
-For the best experience, use a tablet in landscape mode.
-
-### Accessibility Features
-- Text-to-speech narration on all screens
-- Large touch targets suitable for young children
-- Dyslexia-friendly font option
-- Reduced motion support
-
-## Troubleshooting
-
-### Forgotten PIN
-If you forget your parent PIN:
-1. Delete the browser's local storage for this site
-2. Create a new profile with a new PIN
-3. Contact the developer if you need to preserve existing progress
-
-### Technical Issues
-- Try refreshing the page
-- Clear your browser cache
-- Try a different browser
-- Ensure JavaScript is enabled
-
-### Content Questions
-If you have questions about the curriculum or content:
-- Review the CURRICULUM.md documentation
-- Contact the developer with specific questions
-
-## Customization Options
-
-### Avatar Customization
-Children can customize their avatar at any time by:
-1. Clicking "Customize Avatar" from the main menu
-2. Selecting new hair, outfit, and pet options
-3. Saving their changes
-
-### Settings
-Access settings through the parent dashboard to:
-- Enable dyslexia-friendly font
-- Reduce motion for animations
-- Change the theme (future feature)
-
-## Curriculum Information
-
-### Alignment with Standards
-The curriculum is aligned with:
-- UK National Curriculum for Mathematics
-- 11+ exam requirements (GL Assessment and CEM boards)
-- Best practices in mathematics education
-
-### Progression
-The curriculum is designed for 4 years of study:
-- **Year 1 (Ages 6.5-7.5)**: Foundation skills
-- **Year 2 (Ages 7.5-8.5)**: Building computational fluency
-- **Year 3 (Ages 8.5-9.5)**: Developing reasoning skills
-- **Year 4 (Ages 9.5-10.5)**: 11+ exam preparation
-
-### Mastery Approach
-The program uses a mastery approach where:
-- Skills are practiced until 80% accuracy is achieved
-- Weak areas are automatically identified and addressed
-- Concepts are revisited regularly to ensure retention
-
-## Getting Help
-
-### Documentation
-- ARCHITECTURE.md: Technical details about the application
-- CURRICULUM.md: Detailed breakdown of the learning sequence
-- CONTENT-AUTHORING.md: Information about content generation
-
-### Contact
-For support, feature requests, or questions:
-- Email: [developer email]
-- GitHub: [repository link]
-
-## Frequently Asked Questions
-
-### Is this free to use?
-Yes, the application is completely free to use. All content is pre-generated and served statically.
-
-### Do I need to install anything?
-No installation is required. The application runs directly in your web browser.
-
-### Can multiple children use the same device?
-Yes! The application supports multiple isolated profiles. Each child's progress is completely separate.
-
-### How is my child's data protected?
-All data is stored locally in your browser using IndexedDB. No data is sent to any external servers.
-
-### What if we move to a new computer?
-You can export your child's progress data and import it on a new device. Use the JSON export feature in the parent dashboard.
-
-### How often is new content added?
-New content is added periodically by the developer. Updates are announced through the GitHub repository.
-
-### Can I suggest new features?
-Yes! Feature suggestions are welcome through the GitHub repository issues page.
-
-### Is there a mobile app?
-There is no dedicated mobile app, but the web application is fully responsive and works well on tablets and smartphones.
-
-## Tips for Success
-
-### Create a Routine
-Establish a consistent time for math practice each day, even if it's just 15-20 minutes.
-
-### Celebrate Progress
-Acknowledge your child's achievements, whether it's mastering a new skill or collecting a new sticker.
-
-### Stay Involved
-Check the parent dashboard regularly to monitor progress and identify areas where your child might need extra support.
-
-### Make it Fun
-Encourage your child to explore different lands and replay their favorite episodes. Learning should be enjoyable!
-
-### Be Patient
-Every child learns at their own pace. Focus on progress rather than perfection.
-
-## Future Updates
-
-The developer plans to add:
-- More episodes for Years 2-4
-- Additional avatar customization options
-- Printable worksheets and activities
-- Progress comparison between siblings
-- Enhanced reporting features
-
-Check the GitHub repository for the latest updates and release notes.
+The default PIN **2353** always works unless a custom PIN was set on that
+device. To clear a forgotten custom PIN: clear the site's browser data on that
+device (progress is safe in the cloud if sync is on), reload, and use 2353.

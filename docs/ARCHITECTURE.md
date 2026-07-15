@@ -26,6 +26,12 @@ Liyana's Maths Adventure is a client-side web application designed for children 
 - **Practice**: generated at runtime by `src/services/question-bank.js`
 - **Optional enrichment**: offline Gemini scripts in `tools/` can expand teaching text; keys stay local
 
+### Cloud sync & self-update
+- **Sync**: Firebase Firestore (`kid-s-maths`), one document `families/2353`
+  shared by every device — see `docs/SYNC.md` for the full design.
+- **Self-update**: builds embed a `__BUILD_ID__` and ship `version.json`;
+  `src/services/update-check.js` reloads stale cached builds automatically.
+
 ## Project Structure
 
 ```

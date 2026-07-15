@@ -7,7 +7,7 @@ import { analyzeProfile, buildExport, answerLogToCSV, downloadFile } from '../se
 import { getAnswerLog, clearProfileData, recordManualScore, importData } from '../services/tracking.js';
 import { STAGES, getLessonsByStage } from '../data/curriculum.js';
 import { getStageAssessments, getMockPapers } from '../data/papers.js';
-import { isSyncConfigured, getFamilyCode, isConnected, makeFamilyCode, connectSync, disconnectSync, pushNow, pullNow } from '../services/sync.js';
+import { isSyncConfigured, getFamilyCode, isConnected, DEFAULT_FAMILY_CODE, connectSync, disconnectSync, pushNow, pullNow } from '../services/sync.js';
 
 const SEVERITY_LABEL = { high: "Let's revisit", medium: 'Needs practice', low: 'Nearly there' };
 
@@ -65,9 +65,7 @@ async function showDashboard(flash) {
   const others = profiles.filter((p) => p.profileId !== viewingId);
   const dataNote = (isSyncConfigured() && isConnected())
     ? '☁️ Cloud sync is ON — progress and the profile photo sync across your devices automatically.'
-    : isSyncConfigured()
-      ? 'Cloud sync is set up. Turn it on for this device under “Sync across devices” below to share automatically — or Download here and Import on another device.'
-      : '⚠️ This site saves data on <em>this device only</em>. Set up cloud sync below to share across devices, or Download here and Import there.';
+    : `⚠️ Sync is OFF on this device, so data saves <em>here only</em>. Turn it on in the ☁️ Sync section at the top (family code ${DEFAULT_FAMILY_CODE}) — or Download here and Import on another device.`;
 
   const childPicker = profiles.length > 1
     ? `<label class="child-pick">Viewing
@@ -221,6 +219,7 @@ async function showDashboard(flash) {
       try {
         child.avatarImage = await resizeImage(file, 256);
         await updateProfile(child);
+        pushNow(viewingId).catch(() => {});   // photo straight to the cloud, not just on the next answer
         showDashboard('Photo updated!');
       } catch (e) { alert('Sorry, that image could not be used. Please try a different photo.'); }
     });
@@ -228,7 +227,9 @@ async function showDashboard(flash) {
   });
   const photoRemove = document.getElementById('photo-remove');
   if (photoRemove) photoRemove.addEventListener('click', async () => {
-    child.avatarImage = null; await updateProfile(child); showDashboard('Photo removed.');
+    child.avatarImage = null; await updateProfile(child);
+    pushNow(viewingId).catch(() => {});
+    showDashboard('Photo removed.');
   });
 
   const openSync = document.getElementById('opensync-btn');
@@ -257,24 +258,21 @@ function resizeImage(file, max) {
 
 function syncSectionHTML(child) {
   if (!isSyncConfigured()) {
-    return `<p class="muted">Cloud sync isn't switched on yet. Follow the one-time steps in <strong>SYNC-SETUP.md</strong> (about 5 minutes) and add your Firebase details — then you can connect each device here.</p>`;
+    return `<p class="muted">Cloud sync isn't switched on yet. Follow the one-time steps in <strong>docs/SYNC.md</strong> (about 5 minutes) and add your Firebase details — then you can connect each device here.</p>`;
   }
   const code = getFamilyCode();
   if (code && isConnected()) {
     return `<p class="muted">✅ Sync is ON. Every device using this family code shares ${esc(child.name)}'s progress automatically.</p>
       <div class="sync-row"><span class="sync-code">${esc(code)}</span><button class="secondary-btn" id="syncnow-btn">Sync now</button><button class="danger-btn" id="syncoff-btn">Turn off here</button></div>`;
   }
-  return `<p class="muted">Enter the SAME family code on every device to share ${esc(child.name)}'s progress. Make one up or generate one, then use it on both devices.</p>
+  return `<p class="muted">Use the family code <strong>${DEFAULT_FAMILY_CODE}</strong> (same as this PIN) on every device to share ${esc(child.name)}'s progress.</p>
     <div class="sync-row">
-      <input id="famcode-input" class="answer-input" style="width:220px;letter-spacing:1px" placeholder="family code" value="${esc(code)}">
-      <button class="secondary-btn" id="gencode-btn">Generate</button>
+      <input id="famcode-input" class="answer-input" style="width:220px;letter-spacing:1px" placeholder="family code" value="${esc(code || DEFAULT_FAMILY_CODE)}">
       <button class="primary-btn" id="syncon-btn">Turn on sync</button>
     </div>`;
 }
 
 function wireSyncSettings() {
-  const gen = document.getElementById('gencode-btn');
-  if (gen) gen.addEventListener('click', () => { document.getElementById('famcode-input').value = makeFamilyCode(); });
   const on = document.getElementById('syncon-btn');
   if (on) on.addEventListener('click', async () => {
     const code = (document.getElementById('famcode-input').value || '').trim();
