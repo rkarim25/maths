@@ -40,8 +40,12 @@ is built in: `celebrate.js` (confetti + spoken "Well done/Mashallah" on ≥50%
 finishes), `break-reminder.js` (gentle stretch nudge after 30 active minutes),
 done-fold collapsing of mastered lessons, chirpy natural TTS voice, and
 **sunshine points ☀️** (`src/services/points.js` — effort-only counter, 1/answer
-+ 5/set, derived from synced data so it only ever grows; the analyzer reports
-it as `sunshinePoints`; never add targets/levels/streaks to it).
++ 5/set + 10/first-try-of-anything-new so forward always out-sparkles easy
+replays; derived from synced data so it only ever grows; the analyzer reports
+it as `sunshinePoints`; never add targets/levels/streaks to it). The analyzer
+also reports `comfortZone` (share of the week spent replaying mastered
+lessons) — when high, Sunny's note "graduates" those lessons and points every
+task at new ground (comfort-zone rule in docs/COACH.md).
 
 ## Content model (source of truth)
 

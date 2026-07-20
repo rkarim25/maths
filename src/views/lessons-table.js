@@ -110,7 +110,7 @@ function showPointsToast() {
   if (old) old.remove();
   const el = document.createElement('div');
   el.id = 'points-toast';
-  el.textContent = 'Every single go earns a sunshine point, and they can only ever grow — Mashallah! ☀️';
+  el.textContent = 'Every go earns a sunshine point, brand-new adventures earn a big bonus, and they can only ever grow — Mashallah! ☀️';
   document.body.appendChild(el);
   setTimeout(() => el.remove(), 4000);
 }
@@ -232,7 +232,7 @@ function renderGroups(progressMap) {
     const todo = lessons.filter((l) => !done.includes(l));
     const doneFold = done.length ? `
       <details class="done-fold">
-        <summary>🏅 ${done.length} finished — hooray! <span class="done-hint">tap to peek</span></summary>
+        <summary>🏅 ${done.length} finished for keeps — nothing more needed here, hooray! <span class="done-hint">tap to peek</span></summary>
         <div class="lesson-cards">${done.map((l) => cardHTML(l, progressMap[l.id])).join('')}</div>
       </details>` : '';
     return `
@@ -301,7 +301,7 @@ function badgeHTML(progress) {
   const stars = '★'.repeat(progress.stars) + '☆'.repeat(3 - progress.stars);
   if (progress.status === 'completed') {
     return `<span class="lc-progress"><span class="stars">${stars}</span>
-      <span class="badge badge-mastered">✓ Mastered · best ${progress.bestScore}%</span></span>`;
+      <span class="badge badge-mastered">✓ Finished for keeps · best ${progress.bestScore}%</span></span>`;
   }
   return `<span class="lc-progress"><span class="stars">${stars}</span>
     <span class="badge badge-practice">Keep practising · last ${progress.lastScore}%</span></span>`;

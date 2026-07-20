@@ -25,8 +25,11 @@ Liyana is **clever and highly anxious**. Every word she sees must follow:
 4. **Normalise struggle gently.** Tricky ≠ bad: "if something feels tricky,
    that means your brain is growing". Never name a topic as a weakness to her;
    frame practice as a game she's already good at.
-5. **Small and doable.** At most 3 suggestions; one is always something she
-   already loves and succeeds at (a confidence anchor).
+5. **Small and doable.** At most 3 suggestions; one is usually something she
+   already loves and succeeds at (a confidence anchor) — but when she is
+   already replaying mastered material plenty on her own (see "Keep her
+   moving forward" below), the celebrate line carries the confidence and
+   every task points at new ground instead.
 6. **Assessments are "show what you know"**, never a test she can fail. Skip
    them entirely when she's practising plenty (see cadence below).
 7. **Short.** 2–4 sentences. She is 6; giant paragraphs are pressure too.
@@ -79,8 +82,11 @@ app (any synced device) ──> src/services/coach.js  (2nd guardrail layer: san
   mocking). Respects reduced-motion.
 - **Sunshine points ☀️** (`src/services/points.js`): a gentle effort counter
   shown as a chip in the home header (tapping it shows a one-line explainer
-  toast). Every answer earns 1 point — right or wrong — and finishing any set
-  adds 5. Points are derived from the synced answer log, so they only ever go
+  toast). Every answer earns 1 point — right or wrong — finishing any set adds
+  5, and the first TRY of anything brand-new (lesson, trick, paper) adds 10 —
+  deliberately the biggest sparkle, so moving forward always feels better than
+  farming easy replays, while staying effort-only (a try earns it, never a
+  score). Points are derived from the synced answer log, so they only ever go
   UP, never reset, and every device agrees. There are NO levels, targets,
   streaks or comparisons, and none may be added. The analyzer reports
   `sunshinePoints` (total + last7days) with the same formula; Sunny may
@@ -142,12 +148,30 @@ Working directory: `C:\Users\Reza Karim\OneDrive\Children_Maths`.
      mental-maths trick. Vary day to day; check `currentCoachNote`.
    - `planNote`: 1–2 factual sentences for the parents (they see this in the
      weekly email; she never sees it).
-4. **Assessment cadence** ("from time to time", not a drumbeat):
+4. **Keep her moving forward (comfort-zone rule).** The analyzer's
+   `comfortZone` reports what share of the week's answers were replays of
+   already-mastered lessons (best ≥ 90) and which she replays most. Easy wins
+   feel lovely and a little replaying is fine — but she learns nothing new
+   there, so when `comfortZone.share` is above ~40%, tonight's note must
+   gently **graduate** the replayed lessons and steer forward:
+   - Celebrate them as FINISHED treasure: "Counting to 10 is yours for keeps
+     now — it's done and shiny, you never need to practise it again!" That
+     sentence IS the permission she needs to let go of it.
+   - Point every `doNow` at genuinely new ground: `nextOnPath`, a story or
+     trick she hasn't seen, or a wobble dressed as a game — never at a
+     lesson in `comfortZone.mostReplayed`.
+   - Frame forward as the exciting part ("your brain is ready for a bigger
+     adventure, InshaAllah") — NEVER as the replays being wrong. No "stop",
+     no "instead of", no "that's too easy for you" (that stings too). She
+     should feel released from the old lesson, not told off for loving it.
+   - `planNote` for the parents states it factually: "X% of this week's
+     practice was replays of mastered lessons; steering her to Y."
+5. **Assessment cadence** ("from time to time", not a drumbeat):
    - Include ONE assessment task (`/assessment/{her stage}`) only if
      `last7days.answers < 60` **or** `assessment.daysSinceAssessment` is null
      or > 21 — and never two nights in a row. Frame it as
      "show off what you know — no rush, just for fun".
-5. `node tools/coach-publish.mjs <note.json>` — if it refuses, rephrase and
+6. `node tools/coach-publish.mjs <note.json>` — if it refuses, rephrase and
    retry. Never bypass it, never write `families/2353` (the snapshot doc)
    directly.
 
@@ -160,6 +184,9 @@ Contents (plain, warm, factual — this is for adults):
 - The week at a glance: answers, accuracy, minutes, days active, new lessons
   mastered, tricks learnt. Quiet weeks reported plainly, no drama.
 - What she's finding easy / where the wobbles are (skill names + accuracy).
+- If `comfortZone.share` was high, say so plainly (e.g. "60% of this week's
+  practice was replays of lessons she's already mastered") and what she's
+  being steered towards next.
 - **How you can help** (always included):
   - *Videos to record*: the analyzer's `videoGaps` lists upcoming lessons with
     no video — ask Dad to record short ones (they appear in the app as the

@@ -17,10 +17,16 @@ import { getAnswerLog, getUsageEvents } from './tracking.js';
 
 export const POINTS_PER_ANSWER = 1;   // every single go counts — right or wrong
 export const POINTS_PER_SET = 5;      // finishing any set earns a sunny bonus
+// First go at a brand-new lesson, trick or paper. This is the biggest sparkle
+// on purpose: moving forward must always feel better than replaying easy wins,
+// yet it stays effort-only — a TRY earns it, never a score.
+export const POINTS_PER_NEW_TRY = 10;
 
-/** Pure formula: answers given + sets finished → points. App and analyzer share this. */
-export function computeSunshinePoints(answerCount, setsFinished) {
-  return (answerCount * POINTS_PER_ANSWER) + (setsFinished * POINTS_PER_SET);
+/** Pure formula: answers + sets finished + new things tried → points. App and analyzer share this. */
+export function computeSunshinePoints(answerCount, setsFinished, newThingsTried = 0) {
+  return (answerCount * POINTS_PER_ANSWER)
+    + (setsFinished * POINTS_PER_SET)
+    + (newThingsTried * POINTS_PER_NEW_TRY);
 }
 
 /** Total Sunshine Points for a profile, derived from local (synced) data. */
@@ -30,5 +36,6 @@ export async function getSunshinePoints(profileId) {
     getUsageEvents(profileId)
   ]);
   const setsFinished = events.filter((e) => e.eventType === 'lesson-complete').length;
-  return computeSunshinePoints(answers.length, setsFinished);
+  const newThingsTried = new Set(answers.map((a) => a.episodeId)).size;
+  return computeSunshinePoints(answers.length, setsFinished, newThingsTried);
 }

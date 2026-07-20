@@ -135,16 +135,41 @@ const upcoming = LESSONS.filter((l) => !completedIds.has(l.id)).slice(0, 6).map(
 });
 const videoGaps = upcoming.filter((l) => !l.hasVideo && !l.hasDadVideo);
 
+// Comfort zone — how much of the week's practice was replays of lessons she
+// has already mastered (best ≥ 90)? Feeling good on easy wins is fine, but a
+// high share means tonight's note should gently "graduate" those lessons and
+// point every task at new ground. See "Keep her moving forward" in COACH.md.
+const masteredIds = new Set(progress.filter((p) => p.status === 'completed' && (p.bestScore || 0) >= 90).map((p) => p.episodeId));
+const recentOnMastered = recentAnswers.filter((a) => masteredIds.has(a.episodeId));
+const replayCounts = {};
+for (const a of recentOnMastered) replayCounts[a.episodeId] = (replayCounts[a.episodeId] || 0) + 1;
+const comfortZone = {
+  recentAnswersOnMastered: recentOnMastered.length,
+  share: recentAnswers.length ? Math.round((recentOnMastered.length / recentAnswers.length) * 100) : 0,
+  mostReplayed: Object.entries(replayCounts).sort((a, b) => b[1] - a[1]).slice(0, 5)
+    .map(([id, n]) => ({
+      id, title: titled(id), recentAnswers: n,
+      best: (progress.find((p) => p.episodeId === id) || {}).bestScore
+    }))
+};
+
 // Sunshine points ☀️ — same formula the app header shows (src/services/points.js):
-// effort only, monotonic. Sunny may celebrate the total or the week's earnings,
-// never set a points target.
+// effort only, monotonic; a first TRY of anything new earns the biggest bonus so
+// forward motion always out-sparkles replaying easy wins. Sunny may celebrate
+// the total or the week's earnings, never set a points target.
 const allEvents = snap.usage_events || [];
 const setsFinished = allEvents.filter((e) => e.eventType === 'lesson-complete');
+const firstSeen = {};
+for (const a of answers) {
+  const id = a.episodeId, t = a.timestamp || '';
+  if (!firstSeen[id] || t < firstSeen[id]) firstSeen[id] = t;
+}
 const sunshinePoints = {
-  total: computeSunshinePoints(answers.length, setsFinished.length),
+  total: computeSunshinePoints(answers.length, setsFinished.length, Object.keys(firstSeen).length),
   last7days: computeSunshinePoints(
     recentAnswers.length,
-    setsFinished.filter((e) => (e.timestamp || '') >= since7d).length
+    setsFinished.filter((e) => (e.timestamp || '') >= since7d).length,
+    Object.values(firstSeen).filter((t) => t >= since7d).length
   )
 };
 
@@ -170,6 +195,7 @@ console.log(JSON.stringify({
   sunshinePoints,
   bySkillRecent,
   wobbles,
+  comfortZone,
   progress: progressOut,
   totals: { completed: completedIds.size, started: progress.length, totalLessons: LESSONS.length },
   nextOnPath: nextOnPath ? { id: nextOnPath.id, title: nextOnPath.title || nextOnPath.objective, route: `/lesson/${nextOnPath.id}` } : null,
