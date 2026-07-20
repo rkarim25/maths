@@ -14,6 +14,7 @@
 import { LESSONS, getLesson } from '../src/data/curriculum.js';
 import { getMethod } from '../src/data/mental-maths.js';
 import { getTeaching } from '../src/data/teaching.js';
+import { computeSunshinePoints } from '../src/services/points.js';
 
 const SITE = 'https://rkarim25.github.io/maths/';
 const PROJECT = 'kid-s-maths';
@@ -134,6 +135,19 @@ const upcoming = LESSONS.filter((l) => !completedIds.has(l.id)).slice(0, 6).map(
 });
 const videoGaps = upcoming.filter((l) => !l.hasVideo && !l.hasDadVideo);
 
+// Sunshine points ☀️ — same formula the app header shows (src/services/points.js):
+// effort only, monotonic. Sunny may celebrate the total or the week's earnings,
+// never set a points target.
+const allEvents = snap.usage_events || [];
+const setsFinished = allEvents.filter((e) => e.eventType === 'lesson-complete');
+const sunshinePoints = {
+  total: computeSunshinePoints(answers.length, setsFinished.length),
+  last7days: computeSunshinePoints(
+    recentAnswers.length,
+    setsFinished.filter((e) => (e.timestamp || '') >= since7d).length
+  )
+};
+
 // Assessment cadence: suggest one when practice data is thin or none taken recently.
 const assessAnswers = answers.filter((a) => /^s[1-4]-a|assessment|mock/i.test(a.episodeId || ''));
 const assessEvents = (snap.usage_events || []).filter((e) => e.eventType === 'lesson-complete' && /assessment|mock|^s[1-4]-a/i.test((e.metadata && e.metadata.lessonId) || ''));
@@ -153,6 +167,7 @@ console.log(JSON.stringify({
     daysActive,
     minutesOnTask: minutes7d
   },
+  sunshinePoints,
   bySkillRecent,
   wobbles,
   progress: progressOut,

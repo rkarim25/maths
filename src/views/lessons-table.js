@@ -10,6 +10,7 @@ import { nextLessonId } from '../services/analysis.js';
 import { getTeaching } from '../data/teaching.js';
 import { isSyncConfigured, isConnected } from '../services/sync.js';
 import { getCoachNote, getCachedNoteSync } from '../services/coach.js';
+import { getSunshinePoints } from '../services/points.js';
 import { playB64, stopVoice } from '../services/voice.js';
 
 const TOPIC_EMOJI = {
@@ -35,7 +36,10 @@ export async function renderLessonsTable() {
   currentStage = (savedStage && STAGES[savedStage]) ? savedStage
     : (profile.currentYear && STAGES[profile.currentYear] ? profile.currentYear : 1);
 
-  const progressMap = await getProgressMap(profileId);
+  const [progressMap, sunshinePoints] = await Promise.all([
+    getProgressMap(profileId),
+    getSunshinePoints(profileId).catch(() => 0)
+  ]);
   const totalStars = Object.values(progressMap).reduce((s, p) => s + (p.stars || 0), 0);
   const initial = (profile.name || '?').charAt(0).toUpperCase();
 
@@ -50,6 +54,7 @@ export async function renderLessonsTable() {
           </div>
         </div>
         <div class="ls-header-actions">
+          <button class="ls-points" id="points-chip" title="Sunshine points — every go earns one">☀️ <span>${sunshinePoints}</span></button>
           <div class="ls-stars" title="Stars earned">⭐ <span>${totalStars}</span></div>
           <button class="icon-btn sync-btn" id="sync-btn" title="Sync across devices">${(isSyncConfigured() && isConnected()) ? '☁️✓' : '☁️'}</button>
           <button class="icon-btn grownups-btn" id="grownups-btn" title="Grown-ups">🔒</button>
@@ -77,6 +82,7 @@ export async function renderLessonsTable() {
     </div>
   `;
 
+  document.getElementById('points-chip').addEventListener('click', showPointsToast);
   document.getElementById('grownups-btn').addEventListener('click', () => navigateTo('/grownups'));
   document.getElementById('sync-btn').addEventListener('click', () => navigateTo('/sync'));
   document.getElementById('ql-level').addEventListener('click', () => navigateTo('/placement'));
@@ -94,6 +100,19 @@ export async function renderLessonsTable() {
   renderContinue(progressMap);
   renderGroups(progressMap);
   renderCoach(profile).catch(() => {});   // fills in when ready; never blocks the page
+}
+
+// Tapping the ☀️ chip explains sunshine points in one warm line. Points measure
+// effort only and can never go down (see services/points.js) — the wording must
+// never turn them into a target.
+function showPointsToast() {
+  const old = document.getElementById('points-toast');
+  if (old) old.remove();
+  const el = document.createElement('div');
+  el.id = 'points-toast';
+  el.textContent = 'Every single go earns a sunshine point, and they can only ever grow — Mashallah! ☀️';
+  document.body.appendChild(el);
+  setTimeout(() => el.remove(), 4000);
 }
 
 // The coach card — a personal note (written nightly, synced via the cloud) and

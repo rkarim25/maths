@@ -38,7 +38,10 @@ via the Zapier Gmail connector, including a "How you can help" section with
 video-recording requests from the analyzer's `videoGaps`. In-app encouragement
 is built in: `celebrate.js` (confetti + spoken "Well done/Mashallah" on ≥50%
 finishes), `break-reminder.js` (gentle stretch nudge after 30 active minutes),
-done-fold collapsing of mastered lessons, chirpy natural TTS voice.
+done-fold collapsing of mastered lessons, chirpy natural TTS voice, and
+**sunshine points ☀️** (`src/services/points.js` — effort-only counter, 1/answer
++ 5/set, derived from synced data so it only ever grows; the analyzer reports
+it as `sunshinePoints`; never add targets/levels/streaks to it).
 
 ## Content model (source of truth)
 

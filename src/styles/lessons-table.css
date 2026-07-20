@@ -19,6 +19,12 @@
   background: var(--accent); color: #7a5b00; font-family: var(--font-heading);
   font-weight: 700; padding: 0.4rem 0.9rem; border-radius: var(--border-radius-lg);
 }
+.ls-points {
+  background: #fff3c4; color: #92580a; font-family: var(--font-heading);
+  font-weight: 700; font-size: 1rem; padding: 0.4rem 0.9rem;
+  border: 2px solid #fcd34d; border-radius: var(--border-radius-lg);
+  cursor: pointer;
+}
 .icon-btn {
   background: #fff; color: var(--text-dark); font-size: 1.3rem;
   width: 48px; height: 48px; padding: 0; border-radius: 50%;

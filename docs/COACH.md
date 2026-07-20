@@ -77,6 +77,16 @@ app (any synced device) ──> src/services/coach.js  (2nd guardrail layer: san
   "You're doing so well!" — extra sparkle for 3 stars. Below 50% the views keep
   their gentle "nice try" message instead (confetti over a struggle would feel
   mocking). Respects reduced-motion.
+- **Sunshine points ☀️** (`src/services/points.js`): a gentle effort counter
+  shown as a chip in the home header (tapping it shows a one-line explainer
+  toast). Every answer earns 1 point — right or wrong — and finishing any set
+  adds 5. Points are derived from the synced answer log, so they only ever go
+  UP, never reset, and every device agrees. There are NO levels, targets,
+  streaks or comparisons, and none may be added. The analyzer reports
+  `sunshinePoints` (total + last7days) with the same formula; Sunny may
+  celebrate the total or the week's earnings ("your sunshine points grew to
+  625 — Mashallah!") but must NEVER set a points goal ("get to 700!"), tie
+  points to correctness, or mention points on a quiet week as a nudge.
 - **Break reminder** (`src/services/break-reminder.js`): after 30 minutes of
   actual visible use in a day, a soft overlay suggests a stretch and a drink
   ("the maths will wait for you"); repeats at most every 15 active minutes.
@@ -122,7 +132,9 @@ Working directory: `C:\Users\Reza Karim\OneDrive\Children_Maths`.
    last deploy break something?). Fix what you can; anything needing the user
    goes in the completion summary AND the weekly email.
 3. **Write the note** (see schema in `tools/coach-publish.mjs` header):
-   - `celebrate`: one specific, true win from the data.
+   - `celebrate`: one specific, true win from the data. The `sunshinePoints`
+     figures are good material here from time to time (see the rules under
+     "In-app encouragement" — celebrate, never target).
    - `message`: 2–4 sentences per the tone contract.
    - `doNow`: 1–3 tasks — typically (a) the next lesson on the path or a story
      she hasn't seen, (b) one confidence anchor (something she's mastered,
